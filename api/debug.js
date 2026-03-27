@@ -1,11 +1,20 @@
-// api/debug.js — diagnóstico do KV (remover em produção)
+// api/debug.js — diagnóstico do KV
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   const KV_URL   = process.env.KV_REST_API_URL;
   const KV_TOKEN = process.env.KV_REST_API_TOKEN;
 
   if (!KV_URL || !KV_TOKEN) {
-    return res.status(200).json({ ok: false, erro: 'Variáveis KV não encontradas', vars: { KV_URL: !!KV_URL, KV_TOKEN: !!KV_TOKEN } });
+    return res.status(200).json({ ok: false, erro: 'Variáveis KV não encontradas' });
+  }
+
+  function desserializar(val) {
+    let v = val;
+    for (let i = 0; i < 4; i++) {
+      if (typeof v !== 'string') break;
+      try { v = JSON.parse(v); } catch { break; }
+    }
+    return v;
   }
 
   try {
@@ -28,15 +37,18 @@ module.exports = async function handler(req, res) {
       headers: { Authorization: `Bearer ${KV_TOKEN}` },
     });
     const idxData = await idxRes.json();
+    const indexDesserializado = desserializar(idxData.result);
 
     return res.status(200).json({
       ok: true,
       kvUrl: KV_URL.substring(0, 40) + '...',
-      setResult: setData,
-      getResult: getData,
-      indexResult: idxData,
-      indexTipo: typeof idxData.result,
-      indexVazio: !idxData.result,
+      setOk: setData.result === 'OK',
+      getOk: !!getData.result,
+      index: {
+        raw: typeof idxData.result,
+        totalBriefings: Array.isArray(indexDesserializado) ? indexDesserializado.length : 0,
+        primeiros: Array.isArray(indexDesserializado) ? indexDesserializado.slice(0, 3) : indexDesserializado,
+      },
     });
   } catch (e) {
     return res.status(500).json({ ok: false, erro: e.message });

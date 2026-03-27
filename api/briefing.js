@@ -5,14 +5,15 @@ const KV_URL   = () => process.env.KV_REST_API_URL;
 const KV_TOKEN = () => process.env.KV_REST_API_TOKEN;
 
 async function kvSet(key, value) {
-  // Upstash: POST /set/ENCODED_KEY, body = JSON string do valor
+  // Upstash: body deve ser o valor diretamente, sem JSON.stringify extra
+  const body = typeof value === 'string' ? value : JSON.stringify(value);
   const res = await fetch(`${KV_URL()}/set/${encodeURIComponent(key)}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${KV_TOKEN()}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(value), // Upstash aceita qualquer JSON aqui
+    body, // envia como string JSON limpa, sem duplo encoding
   });
   const d = await res.json();
   if (d.error) throw new Error('KV set error: ' + d.error);
@@ -25,11 +26,14 @@ async function kvGet(key) {
   });
   const d = await res.json();
   if (!d.result) return null;
-  // result pode vir como string JSON ou já como objeto
-  if (typeof d.result === 'string') {
-    try { return JSON.parse(d.result); } catch { return d.result; }
+  // Desempacota double encoding gerado pela versão antiga
+  let val = d.result;
+  // Tenta desserializar até 3 vezes (caso haja múltiplos níveis)
+  for (let i = 0; i < 3; i++) {
+    if (typeof val !== 'string') break;
+    try { val = JSON.parse(val); } catch { break; }
   }
-  return d.result;
+  return val;
 }
 
 function toArray(val) {
@@ -203,7 +207,7 @@ Retorne APENAS este JSON (sem nada antes ou depois):
       }
 
       const id = Date.now().toString();
-      const entry = { ...parsed, id, timestamp: new Date().toISOString() };
+      const entry = { ...parsed, id, timestamp: new Date().toISOString(), textoOriginal: texto.substring(0, 8000) };
 
       // Salva no KV ou memória
       if (hasKV) {
