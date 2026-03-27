@@ -449,12 +449,29 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--navy2);color:var(--
       <div class="briefing-panel">
         <div class="bp-title">Publicar Briefing da Geni</div>
         <div class="bp-sub">Cole o briefing gerado pelo Gemini abaixo. O Claude vai processar, classificar por mandato e publicar automaticamente no HUB para os assessores.</div>
+
+        <!-- Seletor de data manual -->
+        <div style="display:flex;gap:16px;margin-bottom:16px;align-items:flex-end;flex-wrap:wrap">
+          <div style="flex:1;min-width:180px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Data do Briefing</div>
+            <input type="date" id="bp-data" style="width:100%;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:2px;color:var(--text);font-size:13px;font-family:'DM Mono',monospace;outline:none;transition:border-color .2s;color-scheme:dark" onchange="atualizarDataLabel()">
+          </div>
+          <div style="flex:2;min-width:220px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Título / Contexto (opcional)</div>
+            <input type="text" id="bp-titulo" placeholder="Ex: Semana de votações — Seg 23/03" style="width:100%;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:2px;color:var(--text);font-size:13px;font-family:'Space Grotesk',sans-serif;outline:none;transition:border-color .2s" />
+          </div>
+          <div style="flex-shrink:0">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Data selecionada</div>
+            <div id="bp-data-label" style="font-size:12px;color:var(--cyan);font-family:'DM Mono',monospace;padding:10px 14px;background:rgba(65,215,250,.06);border:1px solid rgba(65,215,250,.2);border-radius:2px;white-space:nowrap">—</div>
+          </div>
+        </div>
+
         <textarea class="bp-textarea" id="bp-text" placeholder="Cole aqui o briefing completo da Geni...
 
 Bom dia, comandante! 🚀 O radar DeepSearch operou em profundidade máxima..."></textarea>
         <div class="bp-actions">
           <button class="bp-submit" id="bp-btn" onclick="processarBriefing()">PROCESSAR E PUBLICAR</button>
-          <button class="bp-clear" onclick="document.getElementById('bp-text').value=''">Limpar</button>
+          <button class="bp-clear" onclick="limparBriefing()">Limpar</button>
           <span class="bp-hint" id="bp-hint">Claude vai classificar por Lincoln · Marilda · Alê</span>
         </div>
       </div>
@@ -668,6 +685,7 @@ function doLogin() {
     isAdmin = true;
     showPage('pg-admin');
     initDash();
+    initDataHoje();
   } else {
     isAdmin = false;
     showPage('pg-hub');
@@ -805,6 +823,9 @@ async function processarBriefing() {
   const texto = document.getElementById('bp-text').value.trim();
   if (texto.length < 50) { toast('Cole o briefing completo antes de processar.', 'err'); return; }
 
+  const dataSel = getDataSelecionada();
+  const titulo = document.getElementById('bp-titulo').value.trim();
+
   const btn = document.getElementById('bp-btn');
   btn.disabled = true;
   btn.textContent = 'PROCESSANDO...';
@@ -815,7 +836,7 @@ async function processarBriefing() {
     const r = await fetch('/api/briefing', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ texto })
+      body: JSON.stringify({ texto, dataManual: dataSel, titulo })
     });
     const d = await r.json();
 
@@ -825,29 +846,28 @@ async function processarBriefing() {
     renderAdminCards(d.briefing);
     renderHubCards(d.briefing);
     renderDashSummary(d.briefing);
-    lastBriefing = d.briefing;
     document.getElementById('bp-result').style.display = 'block';
     document.getElementById('bp-result').innerHTML = `
       <div style="background:rgba(0,191,165,.08);border:1px solid rgba(0,191,165,.2);border-radius:3px;padding:16px;display:flex;align-items:center;gap:12px">
         <span class="mi" style="color:var(--opal);font-size:24px">check_circle</span>
         <div>
-          <div style="font-size:13px;font-weight:700;color:#f1f5f9">Briefing publicado com sucesso!</div>
-          <div style="font-size:11px;color:var(--text-dim);margin-top:3px">${d.briefing.data || ''} · ${countCards(d.briefing)} pautas extraídas · HUB atualizado</div>
+          <div style="font-size:13px;font-weight:700;color:#f1f5f9">Briefing publicado — ${d.briefing.data || dataSel?.labelCurto || ''}</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:3px">${countCards(d.briefing)} pautas extraídas · HUB atualizado · ${d.persistido ? '✓ Salvo no banco' : 'Salvo em memória'}</div>
         </div>
       </div>`;
-    toast('✅ Briefing publicado! Abrindo Lincoln...', 'ok');
-    document.getElementById('bp-hint').textContent = `Publicado: ${countCards(d.briefing)} pautas — ${d.persistido ? 'salvo no banco ✓' : 'salvo em memória'}`;
-    // Navega para aba Lincoln automaticamente
+    toast('✅ Publicado! Abrindo Lincoln...', 'ok');
+    document.getElementById('bp-hint').textContent = `${d.briefing.data || dataSel?.labelCurto} · ${countCards(d.briefing)} pautas · ${d.persistido ? 'salvo no banco ✓' : 'memória'}`;
     setTimeout(() => showTab('lincoln'), 800);
 
   } catch (e) {
-    toast('Erro ao processar: ' + e.message, 'err');
+    toast('Erro: ' + e.message, 'err');
     document.getElementById('bp-hint').textContent = 'Erro — tente novamente.';
   }
 
   btn.disabled = false;
   btn.textContent = 'PROCESSAR E PUBLICAR';
 }
+
 
 function countCards(b) {
   let n = 0;
@@ -897,7 +917,14 @@ function renderMandatoSection(elId, mandato, color, key) {
       </div>
       <p class="pcard-desc">${c.descricao}</p>
       <div class="pcard-acao">→ ${c.acao}</div>
-      <div class="pcard-copy">${c.copy}<button class="copy-btn" onclick="copyText(this, \`${c.copy.replace(/`/g,"'")}\`)">Copiar</button></div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim);margin-bottom:6px;margin-top:12px">Copy para redes</div>
+      <div class="pcard-copy">${c.copy}<button class="copy-btn" onclick="copyText(this, \`${(c.copy||'').replace(/`/g,"'")}\`)">Copiar</button></div>
+      ${c.trend ? `
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--grok);margin-bottom:6px;margin-top:12px">📈 Trend — Como usar</div>
+      <div style="font-size:11px;color:rgba(255,45,85,.8);background:rgba(255,45,85,.05);border:1px solid rgba(255,45,85,.15);border-radius:2px;padding:10px 12px;line-height:1.6">${c.trend}</div>` : ''}
+      ${c.insight ? `
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--marilda);margin-bottom:6px;margin-top:12px">💡 Insight Criativo</div>
+      <div style="font-size:11px;color:rgba(236,72,153,.8);background:rgba(236,72,153,.05);border:1px solid rgba(236,72,153,.15);border-radius:2px;padding:10px 12px;line-height:1.6">${c.insight}</div>` : ''}
     </div>`).join('')}</div>`;
 }
 
@@ -961,6 +988,22 @@ function buildHubCard(c, mandatoKey, m) {
       <h2>${c.titulo}</h2>
       <p>${c.descricao}</p>
       <div class="hcard-acao">${c.acao}</div>
+      ${c.copy ? `
+      <div style="margin-top:14px;background:#f2f4f6;border-radius:6px;padding:12px 14px;position:relative">
+        <div style="font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#757c81;margin-bottom:6px">Copy pronta</div>
+        <div style="font-size:12px;color:#2d3338;line-height:1.6">${c.copy}</div>
+        <button onclick="navigator.clipboard.writeText(\`${(c.copy||'').replace(/`/g,"'")}\`);this.textContent='Copiado!';setTimeout(()=>this.textContent='Copiar',2000)" style="margin-top:8px;padding:5px 14px;background:#2d3338;color:#fff;border:none;border-radius:100px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif">Copiar</button>
+      </div>` : ''}
+      ${c.trend ? `
+      <div style="margin-top:10px;background:#fff7ed;border-left:3px solid #f97316;border-radius:4px;padding:10px 12px">
+        <div style="font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#ea580c;margin-bottom:4px">📈 Trend — Como usar</div>
+        <div style="font-size:12px;color:#9a3412;line-height:1.5">${c.trend}</div>
+      </div>` : ''}
+      ${c.insight ? `
+      <div style="margin-top:10px;background:#fdf4ff;border-left:3px solid #EC4899;border-radius:4px;padding:10px 12px">
+        <div style="font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#be185d;margin-bottom:4px">💡 Insight Criativo</div>
+        <div style="font-size:12px;color:#831843;line-height:1.5">${c.insight}</div>
+      </div>` : ''}
     </div>`;
 }
 
@@ -1025,8 +1068,43 @@ setInterval(() => {
 }, 5*60*1000);
 
 // ═══════════════════════════════════════════════
-//  HISTÓRICO
+//  DATA DO BRIEFING
 // ═══════════════════════════════════════════════
+function initDataHoje() {
+  const hoje = new Date();
+  const iso = hoje.toISOString().split('T')[0];
+  document.getElementById('bp-data').value = iso;
+  atualizarDataLabel();
+}
+
+function atualizarDataLabel() {
+  const val = document.getElementById('bp-data').value;
+  if (!val) { document.getElementById('bp-data-label').textContent = '—'; return; }
+  const d = new Date(val + 'T12:00:00');
+  const label = d.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
+  document.getElementById('bp-data-label').textContent = label;
+}
+
+function limparBriefing() {
+  document.getElementById('bp-text').value = '';
+  document.getElementById('bp-titulo').value = '';
+  document.getElementById('bp-result').style.display = 'none';
+  initDataHoje();
+}
+
+function getDataSelecionada() {
+  const val = document.getElementById('bp-data').value;
+  if (!val) return null;
+  const d = new Date(val + 'T12:00:00');
+  const meses = ['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const dias = ['domingo','segunda-feira','terca-feira','quarta-feira','quinta-feira','sexta-feira','sabado'];
+  return {
+    iso: val,
+    mes: val.substring(0, 7), // "2026-03"
+    label: `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`,
+    labelCurto: d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' }),
+  };
+}
 async function loadHistorico() {
   const mes = document.getElementById('filtro-mes')?.value || '';
   const list = document.getElementById('historico-list');
