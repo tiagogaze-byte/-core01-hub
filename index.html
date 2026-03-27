@@ -825,6 +825,7 @@ async function processarBriefing() {
     renderAdminCards(d.briefing);
     renderHubCards(d.briefing);
     renderDashSummary(d.briefing);
+    lastBriefing = d.briefing;
     document.getElementById('bp-result').style.display = 'block';
     document.getElementById('bp-result').innerHTML = `
       <div style="background:rgba(0,191,165,.08);border:1px solid rgba(0,191,165,.2);border-radius:3px;padding:16px;display:flex;align-items:center;gap:12px">
@@ -834,8 +835,10 @@ async function processarBriefing() {
           <div style="font-size:11px;color:var(--text-dim);margin-top:3px">${d.briefing.data || ''} · ${countCards(d.briefing)} pautas extraídas · HUB atualizado</div>
         </div>
       </div>`;
-    toast('✅ Briefing publicado! HUB atualizado.', 'ok');
-    document.getElementById('bp-hint').textContent = `Publicado: ${countCards(d.briefing)} pautas extraídas`;
+    toast('✅ Briefing publicado! Abrindo Lincoln...', 'ok');
+    document.getElementById('bp-hint').textContent = `Publicado: ${countCards(d.briefing)} pautas — ${d.persistido ? 'salvo no banco ✓' : 'salvo em memória'}`;
+    // Navega para aba Lincoln automaticamente
+    setTimeout(() => showTab('lincoln'), 800);
 
   } catch (e) {
     toast('Erro ao processar: ' + e.message, 'err');
@@ -1034,34 +1037,43 @@ async function loadHistorico() {
     const d = await r.json();
     if (!d.ok) throw new Error(d.error);
 
+    // Garante que index e briefings são sempre arrays
+    const rawIndex = d.index;
+    const index = Array.isArray(rawIndex) ? rawIndex
+      : (rawIndex && typeof rawIndex === 'object') ? Object.values(rawIndex)
+      : [];
+    const briefings = Array.isArray(d.briefings) ? d.briefings : [];
+    const meses = Array.isArray(d.meses) ? d.meses : [];
+
     // Popula filtro de meses
     const sel = document.getElementById('filtro-mes');
-    if (d.meses?.length > 0 && sel) {
+    if (meses.length > 0 && sel) {
       const current = sel.value;
       sel.innerHTML = '<option value="">Todos os meses</option>' +
-        d.meses.map(m => `<option value="${m}" ${m===current?'selected':''}>${formatMes(m)}</option>`).join('');
+        meses.map(m => `<option value="${m}" ${m===current?'selected':''}>${formatMes(m)}</option>`).join('');
     }
 
     // Stats
+    const total = d.total || briefings.length || index.length || 0;
     const stats = document.getElementById('historico-stats');
     stats.innerHTML = `
       <div style="background:var(--navy3);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:12px 20px;text-align:center">
-        <div style="font-size:24px;font-weight:800;color:var(--cyan)">${d.total || d.briefings?.length || 0}</div>
+        <div style="font-size:24px;font-weight:800;color:var(--cyan)">${total}</div>
         <div style="font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim)">Total de Briefings</div>
       </div>
       <div style="background:var(--navy3);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:12px 20px;text-align:center">
-        <div style="font-size:24px;font-weight:800;color:#7C3AED">${d.meses?.length || 1}</div>
+        <div style="font-size:24px;font-weight:800;color:#7C3AED">${meses.length || 1}</div>
         <div style="font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim)">Meses Arquivados</div>
       </div>`;
 
-    // Lista
-    const items = d.index?.length > 0 ? d.index : d.briefings?.map(b => ({
+    // Monta lista — prioriza index, fallback para briefings
+    const items = index.length > 0 ? index : briefings.map(b => ({
       id: b.id, data: b.data, mes: b.mes, resumo: b.resumo,
       timestamp: b.timestamp, totalCards: countAllCards(b)
-    })) || [];
+    }));
 
-    if (items.length === 0) {
-      list.innerHTML = '<div class="mandato-empty"><span class="mi">inbox</span><p>Nenhum briefing arquivado ainda.</p></div>';
+    if (!items || items.length === 0) {
+      list.innerHTML = '<div class="mandato-empty"><span class="mi">inbox</span><p>Nenhum briefing arquivado ainda.<br>Publique o primeiro briefing na aba Briefing.</p></div>';
       return;
     }
 
