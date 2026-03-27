@@ -183,8 +183,9 @@ JSON esperado (retorne APENAS isso):
       if (hasKV) {
         // Salva briefing completo
         await kvSet('briefing:' + id, entry);
-        // Atualiza índice
-        const index = await kvGet('briefing:index') || [];
+        // Atualiza índice — garante que é sempre array
+        const rawIndex = await kvGet('briefing:index');
+        const index = Array.isArray(rawIndex) ? rawIndex : [];
         index.unshift({
           id,
           data: parsed.data || '',
@@ -193,7 +194,7 @@ JSON esperado (retorne APENAS isso):
           timestamp: entry.timestamp,
           totalCards: countCards(parsed),
         });
-        await kvSet('briefing:index', index.slice(0, 200)); // máximo 200 no índice
+        await kvSet('briefing:index', index.slice(0, 200));
       } else {
         if (!global._briefings) global._briefings = [];
         global._briefings.unshift(entry);
