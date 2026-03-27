@@ -69,7 +69,7 @@ module.exports = async function handler(req, res) {
 
   // ── POST ───────────────────────────────────────────────
   if (req.method === 'POST') {
-    const { texto } = req.body || {};
+    const { texto, dataManual, titulo } = req.body || {};
     if (!texto || texto.trim().length < 50)
       return res.status(400).json({ error: 'Texto muito curto ou vazio.' });
     if (!ANTHROPIC_KEY)
@@ -88,7 +88,7 @@ module.exports = async function handler(req, res) {
           max_tokens: 2000,
           messages: [{
             role: 'user',
-            content: `Voce e um assistente politico. Analise o briefing abaixo.
+            content: `Voce e um assistente politico. Analise o briefing abaixo e extraia TUDO por mandato.
 
 REGRAS CRITICAS:
 - Retorne APENAS JSON valido, sem markdown, sem blocos de codigo
@@ -96,6 +96,7 @@ REGRAS CRITICAS:
 - Sem quebras de linha dentro de strings
 - Extraia a DATA REAL do briefing — ela aparece no cabecalho como "quinta-feira, 26 de marco de 2026" ou similar
 - O campo "mes" deve ser no formato "2026-03" (ano-mes)
+- Extraia TODOS os tipos de conteudo: pautas, copy pronta, trends, insights criativos, instrucoes de uso
 
 BRIEFING:
 ${texto.substring(0, 3500)}
@@ -111,10 +112,11 @@ Retorne APENAS este JSON:
       "cargo": "Deputado Federal",
       "cards": [
         {
-          "titulo": "titulo curto sem pontuacao especial",
-          "descricao": "descricao em duas frases sem apostrofos",
-          "acao": "acao recomendada em uma frase",
-          "copy": "texto para redes sem aspas internas",
+          "titulo": "titulo curto da pauta principal",
+          "descricao": "o que esta acontecendo em duas frases",
+          "acao": "o que o mandato deve fazer em uma frase",
+          "copy": "texto pronto para redes sociais sem aspas internas",
+          "trend": "instrucao de como usar nos canais ex: Poste no Status do WhatsApp...",
           "prioridade": "alta"
         }
       ]
@@ -124,10 +126,11 @@ Retorne APENAS este JSON:
       "cargo": "Vereadora",
       "cards": [
         {
-          "titulo": "titulo curto",
-          "descricao": "descricao em duas frases",
-          "acao": "acao recomendada",
-          "copy": "texto para redes",
+          "titulo": "titulo curto da pauta principal",
+          "descricao": "o que esta acontecendo em duas frases",
+          "acao": "o que o mandato deve fazer em uma frase",
+          "copy": "texto pronto para redes sociais sem aspas internas",
+          "insight": "instrucao criativa de como distribuir o conteudo ex: Mande nos grupos de...",
           "prioridade": "media"
         }
       ]
@@ -140,8 +143,8 @@ Retorne APENAS este JSON:
   },
   "insights": [
     {
-      "titulo": "titulo do insight",
-      "descricao": "descricao curta",
+      "titulo": "titulo do insight viral disruptivo",
+      "descricao": "como executar o insight em uma frase",
       "mandato": "lincoln"
     }
   ]
@@ -164,6 +167,11 @@ Retorne APENAS este JSON:
         try { parsed = fn(); if (parsed) break; } catch {}
       }
       if (!parsed) throw new Error('JSON invalido na resposta do Claude');
+
+      // Data manual tem prioridade sobre o que o Claude extraiu
+      if (dataManual?.label) parsed.data = dataManual.label;
+      if (dataManual?.mes) parsed.mes = dataManual.mes;
+      if (titulo) parsed.titulo = titulo;
 
       // Garante mes
       if (!parsed.mes) {
