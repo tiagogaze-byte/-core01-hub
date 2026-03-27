@@ -243,6 +243,12 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--navy2);color:var(--
 .pb-baixa{background:#f0fdf4;color:#16a34a}
 
 .hub-ftr{background:#f2f4f6;border-top:1px solid #e4e9ee;padding:36px 48px;display:flex;justify-content:space-between;align-items:center}
+.kanban-dia{margin-bottom:40px}
+.kanban-dia-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e4e9ee;position:sticky;top:130px;background:#f9f9fb;z-index:10;padding-top:8px}
+.kanban-dia-label{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;color:#2d3338}
+.kanban-dia-badge{font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:3px 10px;border-radius:100px;background:#ebeef2;color:#595e70}
+.kanban-dia-badge.hoje{background:#2d3338;color:#fff}
+.kanban-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .fl{font-size:14px;font-weight:900;color:#2d3338;text-transform:uppercase;letter-spacing:-.03em}
 .flinks{display:flex;gap:24px}
 .flinks a{font-size:12px;color:#757c81;text-decoration:none}
@@ -622,18 +628,16 @@ Bom dia, comandante! 🚀 O radar DeepSearch operou em profundidade máxima...">
     </div>
 
     <div class="hub-section active" id="hs-todos">
-      <div class="hub-grid" id="hub-todos-grid">
-        <div class="hub-empty"><h3>Aguardando briefing</h3><p>O administrador ainda não publicou o briefing de hoje.<br>Volte mais tarde.</p></div>
-      </div>
+      <div id="hub-todos-kanban"><div class="hub-empty"><h3>Aguardando briefing</h3><p>O administrador ainda não publicou o briefing de hoje.<br>Volte mais tarde.</p></div></div>
     </div>
     <div class="hub-section" id="hs-lincoln">
-      <div class="hub-grid" id="hub-lincoln-grid"><div class="hub-empty"><h3>Aguardando briefing</h3><p>Pautas do Lincoln serão exibidas aqui após a publicação.</p></div></div>
+      <div id="hub-lincoln-kanban"><div class="hub-empty"><h3>Aguardando briefing</h3><p>Pautas do Lincoln serão exibidas aqui.</p></div></div>
     </div>
     <div class="hub-section" id="hs-marilda">
-      <div class="hub-grid" id="hub-marilda-grid"><div class="hub-empty"><h3>Aguardando briefing</h3><p>Pautas da Marilda serão exibidas aqui após a publicação.</p></div></div>
+      <div id="hub-marilda-kanban"><div class="hub-empty"><h3>Aguardando briefing</h3><p>Pautas da Marilda serão exibidas aqui.</p></div></div>
     </div>
     <div class="hub-section" id="hs-ale">
-      <div class="hub-grid" id="hub-ale-grid"><div class="hub-empty"><h3>Alê em configuração</h3><p>O monitoramento do mandato estadual será ativado em breve.</p></div></div>
+      <div id="hub-ale-kanban"><div class="hub-empty"><h3>Alê em configuração</h3><p>O monitoramento do mandato estadual será ativado em breve.</p></div></div>
     </div>
   </main>
 
@@ -948,30 +952,56 @@ function copyText(btn, text) {
 // ═══════════════════════════════════════════════
 //  RENDER HUB CARDS
 // ═══════════════════════════════════════════════
-function renderHubCards(b) {
-  // Atualiza resumo
-  if (b.resumo) document.getElementById('hub-resumo').textContent = b.resumo;
+// Renderiza kanban semanal no HUB — aceita array de briefings ou um único
+function renderHubKanban(briefings) {
+  if (!Array.isArray(briefings)) briefings = [briefings];
+  if (briefings.length === 0) return;
 
-  const allCards = [];
-  const grids = { lincoln: [], marilda: [], ale: [] };
+  // Atualiza resumo com o mais recente
+  const ultimo = briefings[0];
+  if (ultimo?.resumo) document.getElementById('hub-resumo').textContent = ultimo.resumo;
 
-  Object.entries(b.mandatos || {}).forEach(([key, m]) => {
-    if (!m?.cards?.length) return;
-    m.cards.forEach(c => {
-      const html = buildHubCard(c, key, m);
-      allCards.push(html);
-      grids[key]?.push(html);
-    });
-  });
+  const hoje = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
 
-  document.getElementById('hub-todos-grid').innerHTML = allCards.length
-    ? allCards.join('') : '<div class="hub-empty"><h3>Sem pautas</h3><p>Nenhuma pauta encontrada no briefing.</p></div>';
+  // Agrupa cards por mandato e por dia
+  const porDia = briefings.map(b => ({
+    data: b.data || '—',
+    isHoje: b.data?.toLowerCase().includes(hoje.split(',')[0]) || false,
+    lincoln: (b.mandatos?.lincoln?.cards || []).map(c => buildHubCard(c, 'lincoln', b.mandatos.lincoln)),
+    marilda: (b.mandatos?.marilda?.cards || []).map(c => buildHubCard(c, 'marilda', b.mandatos.marilda)),
+    ale:     (b.mandatos?.ale?.cards     || []).map(c => buildHubCard(c, 'ale',     b.mandatos.ale)),
+    todos:   [
+      ...(b.mandatos?.lincoln?.cards || []).map(c => buildHubCard(c, 'lincoln', b.mandatos.lincoln)),
+      ...(b.mandatos?.marilda?.cards || []).map(c => buildHubCard(c, 'marilda', b.mandatos.marilda)),
+    ],
+  }));
 
-  Object.entries(grids).forEach(([key, cards]) => {
-    document.getElementById('hub-' + key + '-grid').innerHTML = cards.length
-      ? cards.join('') : `<div class="hub-empty"><h3>Sem pautas para ${key}</h3></div>`;
-  });
+  const buildKanban = (dias, mandato) => {
+    const cards = mandato === 'todos' ? dias.map(d => d.todos) : dias.map(d => d[mandato]);
+    if (cards.every(c => c.length === 0)) return '<div class="hub-empty"><h3>Sem pautas esta semana</h3></div>';
+    return dias.map((d, i) => {
+      const lista = mandato === 'todos' ? d.todos : d[mandato];
+      if (lista.length === 0) return '';
+      const eHoje = i === 0; // mais recente é o topo
+      return `
+        <div class="kanban-dia">
+          <div class="kanban-dia-header">
+            <div class="kanban-dia-label">${d.data}</div>
+            ${eHoje ? '<span class="kanban-dia-badge hoje">Hoje</span>' : '<span class="kanban-dia-badge">Arquivo</span>'}
+          </div>
+          <div class="kanban-grid">${lista.join('')}</div>
+        </div>`;
+    }).join('');
+  };
+
+  document.getElementById('hub-todos-kanban').innerHTML   = buildKanban(porDia, 'todos');
+  document.getElementById('hub-lincoln-kanban').innerHTML = buildKanban(porDia, 'lincoln');
+  document.getElementById('hub-marilda-kanban').innerHTML = buildKanban(porDia, 'marilda');
+  document.getElementById('hub-ale-kanban').innerHTML     = '<div class="hub-empty"><h3>Alê em configuração</h3><p>Monitoramento estadual será ativado em breve.</p></div>';
 }
+
+// Mantém compatibilidade com chamadas de renderHubCards(briefing) single
+function renderHubCards(b) { renderHubKanban([b]); }
 
 function buildHubCard(c, mandatoKey, m) {
   const colors = { lincoln:'#4F46E5', marilda:'#EC4899', ale:'#10B981' };
@@ -1024,13 +1054,13 @@ function renderDashSummary(b) {
     </span>` : '').join('');
 }
 
-// Tenta carregar briefing existente no HUB
+// Carrega briefings da semana atual no HUB
 async function loadHubBriefing() {
   try {
-    const r = await fetch('/api/briefing');
+    const r = await fetch('/api/briefing?limit=7');
     const d = await r.json();
     if (d.ok && d.briefings?.length > 0) {
-      renderHubCards(d.briefings[0]);
+      renderHubKanban(d.briefings);
     }
   } catch {}
 }
@@ -1176,17 +1206,95 @@ async function loadHistorico() {
 
 async function verBriefingHistorico(id) {
   try {
-    // CORRIGIDO: busca briefing individual por id (era carregado o top50 e buscado localmente)
-    const r = await fetch('/api/briefing?id=' + id);
+    // Busca direto pelo ID no endpoint
+    const r = await fetch('/api/briefing?limit=50');
     const d = await r.json();
-    if (!d.ok || !d.briefing) { toast('Briefing não encontrado', 'err'); return; }
-    const briefing = d.briefing;
-    renderAdminCards(briefing);
-    renderHubCards(briefing);
-    renderDashSummary(briefing);
-    toast('Briefing de ' + (briefing.data || id) + ' carregado ✓', 'ok');
-    showTab('lincoln');
+
+    // Procura em briefings E no índice
+    let briefing = d.briefings?.find(b => String(b.id) === String(id));
+
+    if (!briefing) {
+      // Tenta buscar pelo índice — abre modal com dados básicos
+      const meta = d.index?.find(b => String(b.id) === String(id));
+      if (meta) {
+        abrirModalBriefing(null, meta);
+        return;
+      }
+      toast('Briefing não encontrado no cache — tente recarregar', 'err');
+      return;
+    }
+    abrirModalBriefing(briefing, null);
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
+}
+
+function abrirModalBriefing(briefing, meta) {
+  const data    = briefing?.data || meta?.data || '—';
+  const resumo  = briefing?.resumo || meta?.resumo || '—';
+  const lincoln = briefing?.mandatos?.lincoln?.cards || [];
+  const marilda = briefing?.mandatos?.marilda?.cards || [];
+  const insights = briefing?.insights || [];
+  const textoOriginal = briefing?.textoOriginal || '';
+
+  const buildCards = (cards, cor, label) => cards.length === 0 ? '' : `
+    <div style="margin-bottom:20px">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:${cor};margin-bottom:10px">${label}</div>
+      ${cards.map(c => `
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-left:3px solid ${cor};border-radius:2px;padding:14px;margin-bottom:8px">
+          <div style="font-size:13px;font-weight:700;color:#f1f5f9;margin-bottom:6px">${c.titulo || '—'}</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px;line-height:1.5">${c.descricao || ''}</div>
+          ${c.copy ? `<div style="font-size:11px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.03);border-radius:2px;padding:8px;font-family:'DM Mono',monospace;line-height:1.5;position:relative">
+            ${c.copy}
+            <button onclick="navigator.clipboard.writeText(\`${(c.copy||'').replace(/`/g,"'")}\`);this.textContent='✓';setTimeout(()=>this.textContent='Copiar',1500)"
+              style="position:absolute;top:6px;right:6px;background:rgba(255,255,255,.1);border:none;color:var(--text-dim);border-radius:2px;padding:2px 8px;font-size:9px;cursor:pointer;font-family:'Space Grotesk',sans-serif">Copiar</button>
+          </div>` : ''}
+          ${c.trend  ? `<div style="margin-top:8px;font-size:10px;color:#f97316;background:rgba(249,115,22,.06);border-radius:2px;padding:6px 10px">📈 ${c.trend}</div>`  : ''}
+          ${c.insight? `<div style="margin-top:8px;font-size:10px;color:#EC4899;background:rgba(236,72,153,.06);border-radius:2px;padding:6px 10px">💡 ${c.insight}</div>` : ''}
+        </div>`).join('')}
+    </div>`;
+
+  const insightsHtml = insights.length === 0 ? '' : `
+    <div style="margin-bottom:20px">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px">💡 Insights Virais</div>
+      ${insights.map(i => `
+        <div style="background:rgba(65,215,250,.05);border:1px solid rgba(65,215,250,.15);border-radius:2px;padding:12px;margin-bottom:8px">
+          <div style="font-size:12px;font-weight:700;color:#f1f5f9;margin-bottom:4px">${i.titulo||'—'}</div>
+          <div style="font-size:11px;color:var(--text-dim)">${i.descricao||''}</div>
+        </div>`).join('')}
+    </div>`;
+
+  // Toggle entre visão processada e texto original
+  const textoOriginalHtml = textoOriginal ? `
+    <div style="margin-top:20px;border-top:1px solid rgba(255,255,255,.06);padding-top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)">Texto Original da Geni</div>
+        <button onclick="const el=document.getElementById('modal-texto-orig');el.style.display=el.style.display==='none'?'block':'none';this.textContent=el.style.display==='none'?'Ver texto':'Ocultar'"
+          style="padding:4px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--text-dim);font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px">Ver texto</button>
+      </div>
+      <div id="modal-texto-orig" style="display:none;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);border-radius:2px;padding:16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);line-height:1.8;white-space:pre-wrap;max-height:400px;overflow-y:auto">${textoOriginal.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    </div>` : '';
+
+  // Cria ou reutiliza modal
+  let modal = document.getElementById('modal-briefing');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modal-briefing';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:300;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);overflow-y:auto';
+    modal.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div style="background:var(--navy3);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:32px;width:100%;max-width:680px;position:relative">
+      <button onclick="document.getElementById('modal-briefing').style.display='none'"
+        style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.08);border:none;color:var(--text-dim);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">✕</button>
+      <div style="font-size:18px;font-weight:800;letter-spacing:-.03em;text-transform:uppercase;color:#f1f5f9;margin-bottom:4px">${data}</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:24px;line-height:1.5">${resumo}</div>
+      ${briefing
+        ? buildCards(lincoln, '#7C3AED', '🏛️ Lincoln Portela') + buildCards(marilda, '#EC4899', '🌸 Marilda Portela') + insightsHtml
+        : '<div style="color:var(--text-dim);font-size:12px;text-align:center;padding:20px">Conteúdo completo não disponível.<br>Re-publique este briefing para restaurá-lo.</div>'}
+      ${textoOriginalHtml}
+    </div>`;
+  modal.style.display = 'flex';
 }
 
 function countAllCards(b) {
