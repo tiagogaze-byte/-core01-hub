@@ -3,814 +3,940 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CORE-01 | Sistema</title>
+<title>CORE-01 | Portela</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy:#0A0F1E;--navy2:#0e1322;--navy3:#161b2b;--navy4:#1a1f2f;
-    --navy5:#25293a;--navy6:#2f3445;
-    --cyan:#41d7fa;--gemini:#7C3AED;--gemini2:#4F46E5;
-    --opal:#00BFA5;--perplexity:#FF6B35;--grok:#FF2D55;--claude:#F5A623;
-    --text:#dee1f7;--text-dim:#c7c6cd;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Space Grotesk',sans-serif;background:var(--navy2);color:var(--text);overflow-x:hidden}
-  .mono{font-family:'DM Mono',monospace}
-  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;font-size:20px}
+:root{
+  --navy:#0A0F1E;--navy2:#0e1322;--navy3:#161b2b;--navy4:#1a1f2f;--navy5:#25293a;--navy6:#2f3445;
+  --cyan:#41d7fa;--claude:#F5A623;--grok:#FF2D55;--opal:#00BFA5;--perplexity:#FF6B35;
+  --lincoln:#4F46E5;--lincoln2:#7C3AED;
+  --marilda:#EC4899;--marilda2:#F472B6;
+  --ale:#10B981;--ale2:#34D399;
+  --text:#dee1f7;--text-dim:#c7c6cd;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Space Grotesk',sans-serif;background:var(--navy2);color:var(--text);overflow-x:hidden}
+.mono{font-family:'DM Mono',monospace}
+.mi{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;font-size:20px;font-family:'Material Symbols Outlined'}
 
-  /* PAGES */
-  .page{display:none;min-height:100vh}
-  .page.active{display:flex}
+/* PAGES */
+.page{display:none;min-height:100vh}
+.page.active{display:flex}
 
-  /* LOGIN */
-  #page-login{align-items:center;justify-content:center;background:var(--navy);position:relative;overflow:hidden}
-  .login-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(65,215,250,.06),transparent 60%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(124,58,237,.06),transparent 60%)}
-  .login-card{position:relative;z-index:10;background:linear-gradient(135deg,rgba(22,27,43,.9),rgba(14,19,34,.95));border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(20px);border-radius:4px;padding:48px;width:100%;max-width:420px}
-  .login-logo{width:40px;height:40px;border-radius:4px;background:linear-gradient(135deg,var(--cyan),#7a3000);display:flex;align-items:center;justify-content:center;font-weight:900;color:#003641;font-size:18px;margin-bottom:24px}
-  .login-title{font-size:28px;font-weight:800;letter-spacing:-.05em;text-transform:uppercase;color:#f1f5f9;margin-bottom:4px}
-  .login-sub{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:40px}
-  .role-selector{display:flex;gap:8px;margin-bottom:32px}
-  .role-btn{flex:1;padding:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s}
-  .role-btn.active{border-color:var(--cyan);color:var(--cyan);background:rgba(65,215,250,.08)}
-  .login-input{width:100%;padding:12px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:2px;color:var(--text);font-size:14px;outline:none;margin-bottom:12px;font-family:'DM Mono',monospace;transition:border-color .2s}
-  .login-input:focus{border-color:var(--cyan)}
-  .login-input::placeholder{color:rgba(255,255,255,.2)}
-  .login-btn{width:100%;padding:13px;background:var(--cyan);color:#003641;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;margin-top:8px;transition:all .2s}
-  .login-btn:hover{filter:brightness(1.1)}
-  .login-hint{margin-top:20px;font-size:10px;color:rgba(255,255,255,.25);text-align:center;font-family:'DM Mono',monospace}
-  .login-hint span{color:var(--cyan)}
+/* ══ LOGIN ══════════════════════════════════════ */
+#pg-login{align-items:center;justify-content:center;background:var(--navy);position:relative;overflow:hidden}
+.login-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(65,215,250,.06),transparent 60%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(124,58,237,.06),transparent 60%)}
+.lcard{position:relative;z-index:10;background:linear-gradient(135deg,rgba(22,27,43,.9),rgba(14,19,34,.95));border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(20px);border-radius:4px;padding:48px;width:100%;max-width:420px}
+.llogo{width:40px;height:40px;border-radius:4px;background:linear-gradient(135deg,var(--cyan),#7a3000);display:flex;align-items:center;justify-content:center;font-weight:900;color:#003641;font-size:18px;margin-bottom:24px}
+.ltitle{font-size:28px;font-weight:800;letter-spacing:-.05em;text-transform:uppercase;color:#f1f5f9;margin-bottom:4px}
+.lsub{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:40px}
+.role-sel{display:flex;gap:8px;margin-bottom:32px}
+.rbtn{flex:1;padding:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s}
+.rbtn.active{border-color:var(--cyan);color:var(--cyan);background:rgba(65,215,250,.08)}
+.linput{width:100%;padding:12px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:2px;color:var(--text);font-size:14px;outline:none;margin-bottom:12px;font-family:'DM Mono',monospace;transition:border-color .2s}
+.linput:focus{border-color:var(--cyan)}
+.linput::placeholder{color:rgba(255,255,255,.2)}
+.lbtn{width:100%;padding:13px;background:var(--cyan);color:#003641;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;margin-top:8px;transition:all .2s}
+.lbtn:hover{filter:brightness(1.1)}
+.lhint{margin-top:20px;font-size:10px;color:rgba(255,255,255,.25);text-align:center;font-family:'DM Mono',monospace}
+.lhint span{color:var(--cyan)}
 
-  /* ADMIN */
-  #page-admin{flex-direction:row;background:var(--navy2)}
-  .sidebar{width:220px;min-width:220px;height:100vh;position:sticky;top:0;background:var(--navy2);border-right:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;padding:24px 0;z-index:50}
-  .sidebar-logo{display:flex;align-items:center;gap:10px;padding:0 16px 24px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:16px}
-  .sidebar-logo-icon{width:30px;height:30px;border-radius:3px;background:linear-gradient(135deg,var(--cyan),#7a3000);display:flex;align-items:center;justify-content:center;font-weight:900;color:#003641;font-size:14px;flex-shrink:0}
-  .s-name{font-weight:900;font-size:12px;letter-spacing:-.03em;text-transform:uppercase;color:#f1f5f9}
-  .s-status{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
-  .nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;border-right:2px solid transparent;text-decoration:none}
-  .nav-item:hover{color:rgba(103,232,249,.8);background:rgba(22,27,43,.5)}
-  .nav-item.active{color:var(--cyan);background:var(--navy3);border-right-color:var(--cyan)}
-  .sidebar-bottom{margin-top:auto;padding:0 12px;border-top:1px solid rgba(255,255,255,.05);padding-top:12px}
-  .flow-btn{width:100%;padding:10px;border:1px solid var(--cyan);background:transparent;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s;margin-bottom:12px}
-  .flow-btn:hover{background:rgba(65,215,250,.1)}
-  .flow-btn:disabled{opacity:.5;cursor:not-allowed}
+/* ══ ADMIN ══════════════════════════════════════ */
+#pg-admin{flex-direction:row}
+.sidebar{width:220px;min-width:220px;height:100vh;position:sticky;top:0;background:var(--navy2);border-right:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;padding:24px 0;z-index:50}
+.slogo{display:flex;align-items:center;gap:10px;padding:0 16px 24px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:16px}
+.sicon{width:30px;height:30px;border-radius:3px;background:linear-gradient(135deg,var(--cyan),#7a3000);display:flex;align-items:center;justify-content:center;font-weight:900;color:#003641;font-size:14px;flex-shrink:0}
+.sname{font-weight:900;font-size:12px;letter-spacing:-.03em;text-transform:uppercase;color:#f1f5f9}
+.sstatus{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
+.nitem{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;border-right:2px solid transparent;text-decoration:none}
+.nitem:hover{color:rgba(103,232,249,.8);background:rgba(22,27,43,.5)}
+.nitem.active{color:var(--cyan);background:var(--navy3);border-right-color:var(--cyan)}
+.sbot{margin-top:auto;padding:0 12px;border-top:1px solid rgba(255,255,255,.05);padding-top:12px}
+.fbtn{width:100%;padding:10px;border:1px solid var(--cyan);background:transparent;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s;margin-bottom:12px}
+.fbtn:hover{background:rgba(65,215,250,.1)}
+.pbtn{width:100%;padding:10px;border:1px solid var(--claude);background:transparent;color:var(--claude);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s;margin-bottom:8px}
+.pbtn:hover{background:rgba(245,166,35,.1)}
 
-  .admin-main{flex:1;overflow-y:auto}
-  .admin-header{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:var(--navy2);border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:0;z-index:40}
-  .admin-header h1{font-size:16px;font-weight:800;letter-spacing:-.03em;text-transform:uppercase;color:#f1f5f9}
-  .header-nav{display:flex;gap:16px}
-  .header-nav a{font-size:11px;font-weight:600;letter-spacing:.05em;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
-  .header-nav a.active{color:var(--cyan);border-bottom:2px solid var(--cyan);padding-bottom:2px}
-  .hright{display:flex;align-items:center;gap:10px}
-  .status-pill{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:100px;background:var(--navy4);border:1px solid rgba(255,255,255,.05)}
-  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
-  @keyframes pulse{50%{opacity:.4}}
-  .status-pill span{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)}
-  .icon-btn{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-dim);cursor:pointer;transition:background .2s;background:transparent;border:none;position:relative}
-  .icon-btn:hover{background:rgba(255,255,255,.06)}
-  .notif-dot{position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#ff4d4d}
-  .hub-btn{padding:6px 12px;border-radius:2px;background:rgba(65,215,250,.08);border:1px solid rgba(65,215,250,.25);color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-  .hub-btn:hover{background:rgba(65,215,250,.15)}
+.amain{flex:1;overflow-y:auto}
+.ahead{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:var(--navy2);border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:0;z-index:40}
+.ahead h1{font-size:16px;font-weight:800;letter-spacing:-.03em;text-transform:uppercase;color:#f1f5f9}
+.hnav{display:flex;gap:16px}
+.hnav a{font-size:11px;font-weight:600;letter-spacing:.05em;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
+.hnav a.active{color:var(--cyan);border-bottom:2px solid var(--cyan);padding-bottom:2px}
+.hright{display:flex;align-items:center;gap:10px}
+.spill{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:100px;background:var(--navy4);border:1px solid rgba(255,255,255,.05)}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.spill span{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)}
+.ibtn{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-dim);cursor:pointer;transition:background .2s;background:transparent;border:none;position:relative}
+.ibtn:hover{background:rgba(255,255,255,.06)}
+.ndot{position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#ff4d4d}
+.hubbtn{padding:6px 12px;border-radius:2px;background:rgba(65,215,250,.08);border:1px solid rgba(65,215,250,.25);color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.hubbtn:hover{background:rgba(65,215,250,.15)}
 
-  .dashboard{padding:24px 28px;display:grid;grid-template-columns:1fr 300px;gap:24px}
-  .dash-main{display:flex;flex-direction:column;gap:24px}
-  .dash-hero{display:flex;justify-content:space-between;align-items:flex-end}
-  .dash-hero h2{font-size:28px;font-weight:800;letter-spacing:-.04em;text-transform:uppercase;color:#f1f5f9}
-  .dash-hero p{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
-  .nodes-count{font-size:36px;font-weight:300;letter-spacing:-.05em;color:var(--cyan);text-align:right}
-  .nodes-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)}
+/* TABS */
+.tabs{display:flex;gap:4px;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.05);background:var(--navy2);position:sticky;top:53px;z-index:39}
+.tab{padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab:hover{color:rgba(255,255,255,.6)}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.tab-lincoln.active{color:#7C3AED;border-bottom-color:#7C3AED}
+.tab-marilda.active{color:var(--marilda);border-bottom-color:var(--marilda)}
+.tab-ale.active{color:var(--ale);border-bottom-color:var(--ale)}
 
-  /* Loading state */
-  .loading-bar{height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:100px}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* SECTIONS */
+.section{display:none;padding:24px 28px}
+.section.active{display:block}
 
-  .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .tool-card{background:linear-gradient(135deg,rgba(22,27,43,.7),rgba(14,19,34,.8));border:1px solid rgba(255,255,255,.05);border-radius:3px;padding:20px;position:relative;overflow:hidden;transition:all .25s}
-  .tool-card:hover{border-color:rgba(255,255,255,.1)}
-  .tool-card::before{content:'';position:absolute;top:-40px;right:-40px;width:80px;height:80px;border-radius:50%;filter:blur(35px);transition:opacity .3s;opacity:.5}
-  .tool-card:hover::before{opacity:.9}
-  .c-gemini{border-left:3px solid var(--gemini2)}.c-gemini::before{background:var(--gemini2)}
-  .c-opal{border-left:3px solid var(--opal)}.c-opal::before{background:var(--opal)}
-  .c-perplexity{border-left:3px solid var(--perplexity)}.c-perplexity::before{background:var(--perplexity)}
-  .c-grok{border-left:3px solid var(--grok)}.c-grok::before{background:var(--grok)}
-  .c-claude{border-left:3px solid var(--claude)}.c-claude::before{background:var(--claude)}
-  .c-add{border:1px dashed rgba(255,255,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;min-height:160px}
-  .c-add:hover{background:rgba(255,255,255,.02)}
+/* DASHBOARD */
+.dhero{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px}
+.dhero h2{font-size:28px;font-weight:800;letter-spacing:-.04em;text-transform:uppercase;color:#f1f5f9}
+.dhero p{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+.ncnt{font-size:36px;font-weight:300;letter-spacing:-.05em;color:var(--cyan);text-align:right}
+.nlbl{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)}
 
-  .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-  .card-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#f1f5f9}
-  .card-last{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-top:3px;font-family:'DM Mono',monospace}
-  .card-next{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.2);margin-top:1px;font-family:'DM Mono',monospace}
-  .badge{padding:3px 9px;border-radius:100px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
-  .b-scheduled{background:rgba(79,70,229,.2);color:var(--gemini);border:1px solid rgba(124,58,237,.2)}
-  .b-active{background:rgba(0,191,165,.1);color:var(--opal);border:1px solid rgba(0,191,165,.2)}
-  .b-idle{background:rgba(47,52,69,.3);color:var(--text-dim);border:1px solid rgba(255,255,255,.08)}
-  .b-grok{background:rgba(255,45,85,.1);color:var(--grok);border:1px solid rgba(255,45,85,.2)}
-  .b-session{background:var(--claude);color:#0e1322;border:1px solid rgba(245,166,35,.3);font-weight:900;animation:pulse 2s infinite}
-  .b-error{background:rgba(255,77,77,.1);color:#ff4d4d;border:1px solid rgba(255,77,77,.2)}
-  .b-manual{background:rgba(255,182,147,.1);color:#ffb693;border:1px solid rgba(255,182,147,.2)}
-  .card-desc{font-size:11px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;min-height:40px}
-  .prog-wrap{margin-bottom:12px}
-  .prog-label{display:flex;justify-content:space-between;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:4px}
-  .prog-bar{height:2px;width:100%;background:rgba(255,255,255,.05);border-radius:100px;overflow:hidden}
-  .prog-fill{height:100%;border-radius:100px;transition:width .8s ease}
-  .f-gemini{background:linear-gradient(90deg,var(--gemini2),var(--gemini))}
-  .f-opal{background:var(--opal)}
-  .f-grok{background:var(--grok)}
-  .f-claude{background:var(--claude)}
-  .card-btn{width:100%;padding:7px;background:transparent;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+/* TOOLS GRID */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.tcard{background:linear-gradient(135deg,rgba(22,27,43,.7),rgba(14,19,34,.8));border:1px solid rgba(255,255,255,.05);border-radius:3px;padding:20px;position:relative;overflow:hidden;transition:all .25s}
+.tcard::before{content:'';position:absolute;top:-40px;right:-40px;width:80px;height:80px;border-radius:50%;filter:blur(35px);opacity:.5;transition:opacity .3s}
+.tcard:hover::before{opacity:.9}
+.tc-gemini{border-left:3px solid #4F46E5}.tc-gemini::before{background:#4F46E5}
+.tc-opal{border-left:3px solid var(--opal)}.tc-opal::before{background:var(--opal)}
+.tc-perp{border-left:3px solid var(--perplexity)}.tc-perp::before{background:var(--perplexity)}
+.tc-grok{border-left:3px solid var(--grok)}.tc-grok::before{background:var(--grok)}
+.tc-claude{border-left:3px solid var(--claude)}.tc-claude::before{background:var(--claude)}
+.tc-add{border:1px dashed rgba(255,255,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;min-height:160px}
+.tc-add:hover{background:rgba(255,255,255,.02)}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.ctitle{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#f1f5f9}
+.clast{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-top:3px;font-family:'DM Mono',monospace}
+.cnext{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.2);margin-top:1px;font-family:'DM Mono',monospace}
+.badge{padding:3px 9px;border-radius:100px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.b-active{background:rgba(0,191,165,.1);color:var(--opal);border:1px solid rgba(0,191,165,.2)}
+.b-idle{background:rgba(47,52,69,.3);color:var(--text-dim);border:1px solid rgba(255,255,255,.08)}
+.b-session{background:var(--claude);color:#0e1322;border:1px solid rgba(245,166,35,.3);font-weight:900;animation:pulse 2s infinite}
+.b-manual{background:rgba(255,182,147,.1);color:#ffb693;border:1px solid rgba(255,182,147,.2)}
+.b-sched{background:rgba(79,70,229,.2);color:#7C3AED;border:1px solid rgba(124,58,237,.2)}
+.b-grok{background:rgba(255,45,85,.1);color:var(--grok);border:1px solid rgba(255,45,85,.2)}
+.cdesc{font-size:11px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;min-height:40px}
+.pbar-wrap{margin-bottom:12px}
+.pbar-lbl{display:flex;justify-content:space-between;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:4px}
+.pbar{height:2px;width:100%;background:rgba(255,255,255,.05);border-radius:100px;overflow:hidden}
+.pfill{height:100%;border-radius:100px;transition:width .8s ease}
+.f-gem{background:linear-gradient(90deg,#4F46E5,#7C3AED)}
+.f-opal{background:var(--opal)}
+.f-grok{background:var(--grok)}
+.f-claude{background:var(--claude)}
+.cbtn{width:100%;padding:7px;background:transparent;border-radius:2px;font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.ldot{width:6px;height:6px;border-radius:50%;background:var(--opal);display:inline-block;animation:pulse 1.5s infinite;margin-right:4px}
 
-  /* Insights */
-  .sec-title{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:-.02em;color:#f1f5f9}
-  .insights-list{border:1px solid rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
-  .insight-row{display:flex;align-items:center;gap:14px;padding:12px 14px;cursor:pointer;transition:background .15s}
-  .insight-row:nth-child(odd){background:var(--navy3)}
-  .insight-row:nth-child(even){background:var(--navy4)}
-  .insight-row:hover{background:var(--navy5)}
-  .i-icon{font-size:16px;flex-shrink:0}
-  .i-text{flex:1}
-  .i-text h4{font-size:12px;font-weight:500;color:#f1f5f9}
-  .i-text p{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-top:2px;font-family:'DM Mono',monospace}
+/* BRIEFING PANEL */
+.briefing-panel{background:var(--navy3);border:1px solid rgba(255,255,255,.05);border-radius:4px;padding:28px}
+.bp-title{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;color:#f1f5f9;margin-bottom:6px}
+.bp-sub{font-size:11px;color:var(--text-dim);margin-bottom:20px;line-height:1.5}
+.bp-textarea{width:100%;height:280px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--text);font-size:12px;padding:16px;font-family:'DM Mono',monospace;resize:vertical;outline:none;line-height:1.6;transition:border-color .2s}
+.bp-textarea:focus{border-color:var(--claude)}
+.bp-textarea::placeholder{color:rgba(255,255,255,.2)}
+.bp-actions{display:flex;gap:12px;margin-top:14px;align-items:center}
+.bp-submit{padding:11px 28px;background:var(--claude);color:#003641;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:800;letter-spacing:.25em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all .2s}
+.bp-submit:hover{filter:brightness(1.1)}
+.bp-submit:disabled{opacity:.5;cursor:not-allowed}
+.bp-clear{padding:11px 20px;background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text-dim);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:all .2s}
+.bp-clear:hover{background:rgba(255,255,255,.05)}
+.bp-hint{font-size:10px;color:rgba(255,255,255,.25);font-family:'DM Mono',monospace}
 
-  /* Timeline */
-  .tl-panel{background:var(--navy3);border:1px solid rgba(255,255,255,.05);border-radius:3px;padding:24px;height:fit-content;position:sticky;top:70px}
-  .tl-header{display:flex;align-items:center;gap:10px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:24px}
-  .tl-header h3{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;color:#f1f5f9}
-  .tl-header p{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
-  .timeline{position:relative;display:flex;flex-direction:column;gap:22px}
-  .tl-spine{position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(to bottom,var(--cyan),rgba(47,52,69,.3))}
-  .tl-item{position:relative;padding-left:32px}
-  .tl-dot{position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;z-index:10;outline:4px solid var(--navy3)}
-  .tl-time{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--cyan);margin-bottom:3px}
-  .tl-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:2px;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-  .tl-desc{font-size:12px;font-weight:500;color:#f1f5f9;line-height:1.4}
-  .tl-item.pending{opacity:.45}
-  .tl-item.pending .tl-time{color:var(--text-dim)}
-  .net-card{margin-top:20px;background:rgba(37,41,58,.5);border:1px solid rgba(255,255,255,.05);border-radius:2px;padding:14px}
-  .net-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-  .net-row span{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim)}
-  .net-row strong{font-size:12px;font-weight:700;color:var(--cyan);font-family:'DM Mono',monospace}
-  .net-bar{width:100%;height:4px;border-radius:100px;background:var(--navy6);overflow:hidden}
-  .net-fill{height:100%;background:var(--cyan);border-radius:100px;box-shadow:0 0 8px rgba(65,215,250,.4);transition:width .8s ease}
-  .net-label{font-size:9px;color:rgba(199,198,205,.4);text-transform:uppercase;letter-spacing:.08em;margin-top:6px;text-align:center;font-family:'DM Mono',monospace}
+/* MANDATO CARDS */
+.mandato-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.05)}
+.mandato-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0}
+.mandato-name{font-size:20px;font-weight:800;letter-spacing:-.03em;text-transform:uppercase;color:#f1f5f9}
+.mandato-cargo{font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-top:2px}
+.mandato-empty{text-align:center;padding:60px 20px;color:var(--text-dim)}
+.mandato-empty .mi{font-size:48px;margin-bottom:16px;display:block;color:var(--navy6)}
+.mandato-empty p{font-size:13px;line-height:1.7}
+.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.pcard{background:linear-gradient(135deg,rgba(22,27,43,.8),rgba(14,19,34,.9));border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:20px;position:relative;overflow:hidden}
+.pcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.pcard-title{font-size:13px;font-weight:800;color:#f1f5f9;line-height:1.3}
+.prio{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:2px 8px;border-radius:100px}
+.prio-alta{background:rgba(255,45,85,.15);color:var(--grok);border:1px solid rgba(255,45,85,.2)}
+.prio-media{background:rgba(245,166,35,.1);color:var(--claude);border:1px solid rgba(245,166,35,.2)}
+.prio-baixa{background:rgba(47,52,69,.3);color:var(--text-dim);border:1px solid rgba(255,255,255,.08)}
+.pcard-desc{font-size:11px;color:var(--text-dim);line-height:1.6;margin-bottom:14px}
+.pcard-acao{font-size:11px;color:var(--cyan);font-weight:600;margin-bottom:14px;padding:8px 12px;background:rgba(65,215,250,.05);border-left:2px solid var(--cyan);border-radius:1px}
+.pcard-copy{font-size:11px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:2px;padding:10px 12px;line-height:1.6;font-family:'DM Mono',monospace;position:relative}
+.copy-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.08);border:none;color:var(--text-dim);border-radius:2px;padding:3px 8px;font-size:9px;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:.1em;text-transform:uppercase;transition:all .2s}
+.copy-btn:hover{background:rgba(255,255,255,.15);color:#f1f5f9}
+.insights-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:24px}
+.insight-chip{background:var(--navy4);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:14px}
+.insight-chip h4{font-size:12px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
+.insight-chip p{font-size:11px;color:var(--text-dim);line-height:1.5}
+.insight-chip .mandato-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:2px 7px;border-radius:100px;display:inline-block;margin-top:8px}
 
-  /* Toast */
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy3);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 20px;font-size:12px;color:#f1f5f9;z-index:999;transition:transform .3s;white-space:nowrap}
-  .toast.show{transform:translateX(-50%) translateY(0)}
-  .toast.success{border-color:rgba(0,191,165,.4);color:var(--opal)}
-  .toast.error{border-color:rgba(255,77,77,.4);color:#ff6b6b}
+/* TIMELINE SIDEBAR */
+.tl-panel{background:var(--navy3);border:1px solid rgba(255,255,255,.05);border-radius:3px;padding:24px;height:fit-content;position:sticky;top:110px}
+.tl-head{display:flex;align-items:center;gap:10px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:24px}
+.tl-head h3{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;color:#f1f5f9}
+.tl-head p{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
+.timeline{position:relative;display:flex;flex-direction:column;gap:22px}
+.tspine{position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(to bottom,var(--cyan),rgba(47,52,69,.3))}
+.titem{position:relative;padding-left:32px}
+.tdot{position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;z-index:10;outline:4px solid var(--navy3)}
+.ttime{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--cyan);margin-bottom:3px}
+.ttag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:2px;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.tdesc{font-size:12px;font-weight:500;color:#f1f5f9;line-height:1.4}
+.titem.pend{opacity:.4}
+.titem.pend .ttime{color:var(--text-dim)}
+.netcard{margin-top:20px;background:rgba(37,41,58,.5);border:1px solid rgba(255,255,255,.05);border-radius:2px;padding:14px}
+.netrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.netrow span{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim)}
+.netrow strong{font-size:12px;font-weight:700;color:var(--cyan);font-family:'DM Mono',monospace}
+.netbar{width:100%;height:4px;border-radius:100px;background:var(--navy6);overflow:hidden}
+.netfill{height:100%;background:var(--cyan);border-radius:100px;box-shadow:0 0 8px rgba(65,215,250,.4);transition:width .8s ease}
+.netlbl{font-size:9px;color:rgba(199,198,205,.4);text-transform:uppercase;letter-spacing:.08em;margin-top:6px;text-align:center;font-family:'DM Mono',monospace}
 
-  /* MODAL */
-  .modal-overlay{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.8);backdrop-filter:blur(10px)}
-  .modal-overlay.active{display:flex}
-  .modal-card{background:linear-gradient(135deg,rgba(22,27,43,.95),rgba(14,19,34,.98));border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:36px;max-width:400px;width:100%;text-align:center}
-  .m-icon{width:56px;height:56px;border-radius:50%;background:rgba(255,182,147,.1);border:1px solid rgba(255,182,147,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
-  .m-icon .material-symbols-outlined{font-size:28px;color:#ffb693}
-  .m-title{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;color:#f1f5f9;margin-bottom:10px}
-  .m-desc{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:28px}
-  .m-actions{display:flex;gap:10px}
-  .m-cancel{flex:1;padding:11px;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--text-dim);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s}
-  .m-cancel:hover{background:rgba(255,255,255,.05)}
-  .m-confirm{flex:1;padding:11px;background:#ffb693;color:#351000;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border:none;border-radius:2px;transition:all .2s}
-  .m-confirm:hover{filter:brightness(1.1)}
+/* ══ HUB ════════════════════════════════════════ */
+#pg-hub{flex-direction:column;background:#f9f9fb;color:#2d3338}
+.hub-hdr{background:#f9f9fb;border-bottom:1px solid #e4e9ee;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.hub-logo{font-size:20px;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#2d3338}
+.hub-nav{display:flex;gap:36px}
+.hub-nav a{font-size:13px;font-weight:600;color:#595e70;text-decoration:none;transition:color .2s}
+.hub-nav a.active{color:#2d3338;border-bottom:2px solid #2d3338;padding-bottom:2px}
+.hub-abtn{padding:8px 20px;border:1.5px solid #acb3b8;background:transparent;color:#2d3338;font-size:13px;font-weight:600;border-radius:100px;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.hub-abtn:hover{background:#e4e9ee}
+.hub-main{max-width:1100px;margin:0 auto;padding:52px 48px 80px;width:100%}
+.hub-hero{margin-bottom:40px}
+.hub-hero h1{font-size:clamp(40px,7vw,72px);font-weight:900;letter-spacing:-.05em;color:#2d3338;margin-bottom:16px;line-height:1}
+.hub-hero p{font-size:16px;color:#596065;max-width:500px;line-height:1.7}
 
-  /* HUB */
-  #page-hub{flex-direction:column;background:#f9f9fb;color:#2d3338}
-  .hub-header{background:#f9f9fb;border-bottom:1px solid #e4e9ee;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
-  .hub-logo{font-size:20px;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#2d3338}
-  .hub-nav{display:flex;gap:36px}
-  .hub-nav a{font-size:13px;font-weight:600;color:#595e70;text-decoration:none;transition:color .2s}
-  .hub-nav a.active{color:#2d3338;border-bottom:2px solid #2d3338;padding-bottom:2px}
-  .hub-access-btn{padding:8px 20px;border:1.5px solid #acb3b8;background:transparent;color:#2d3338;font-size:13px;font-weight:600;border-radius:100px;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',sans-serif}
-  .hub-access-btn:hover{background:#e4e9ee}
-  .hub-main{max-width:1100px;margin:0 auto;padding:52px 48px 80px;width:100%}
-  .hub-hero{margin-bottom:52px}
-  .hub-hero h1{font-size:clamp(40px,7vw,72px);font-weight:900;letter-spacing:-.05em;color:#2d3338;margin-bottom:16px;line-height:1}
-  .hub-hero p{font-size:16px;color:#596065;max-width:500px;line-height:1.7}
-  .hub-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;position:sticky;top:68px;z-index:40;background:#f9f9fb;padding:10px 0}
-  .fpill{padding:7px 18px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:none;font-family:'Space Grotesk',sans-serif}
-  .fpill.active{background:#2d3338;color:#fff}
-  .fpill:not(.active){background:#ebeef2;color:#596065}
-  .fpill:not(.active):hover{background:#e4e9ee}
-  .hub-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px;margin-bottom:72px}
-  .hub-card{display:flex;flex-direction:column;gap:18px;cursor:pointer}
-  .hub-img{aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#e4e9ee}
-  .hub-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:all .6s;display:block}
-  .hub-card:hover .hub-img img{filter:grayscale(0%);transform:scale(1.04)}
-  .hub-meta{display:flex;align-items:center;gap:10px}
-  .cat-tag{font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#595e70;border:1.5px solid #acb3b8;padding:3px 7px;border-radius:3px}
-  .pub-date{font-size:11px;font-weight:500;color:#757c81}
-  .hub-card h2{font-size:clamp(20px,2.2vw,26px);font-weight:800;letter-spacing:-.03em;color:#2d3338;line-height:1.2;transition:color .2s}
-  .hub-card:hover h2{color:#595e70}
-  .hub-card p{font-size:13px;color:#596065;line-height:1.7}
-  .hub-link{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#2d3338;transition:gap .2s}
-  .hub-card:hover .hub-link{gap:12px}
-  .locked-section{border:1px solid rgba(44,51,56,.15);border-radius:8px;overflow:hidden}
-  .locked-bg{padding:72px 48px;background:#ebeef2;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
-  .locked-blur{filter:blur(3px);pointer-events:none;max-width:500px;margin-bottom:-50px}
-  .locked-blur h3{font-size:24px;font-weight:800;color:#2d3338;margin-bottom:10px;letter-spacing:-.03em}
-  .locked-blur p{font-size:13px;color:#596065;line-height:1.7}
-  .locked-cta{position:relative;z-index:10;background:rgba(249,249,251,.92);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:8px;padding:32px;max-width:360px;width:100%;box-shadow:0 20px 40px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;text-align:center}
-  .locked-cta h4{font-size:16px;font-weight:800;color:#2d3338;margin-bottom:8px;margin-top:10px}
-  .locked-cta p{font-size:12px;color:#596065;margin-bottom:20px;line-height:1.6}
-  .locked-cta-btn{width:100%;padding:13px;background:#2d3338;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:100px;cursor:pointer;transition:all .2s}
-  .locked-cta-btn:hover{background:#1a2026}
-  .hub-footer{background:#f2f4f6;border-top:1px solid #e4e9ee;padding:36px 48px;display:flex;justify-content:space-between;align-items:center}
-  .f-logo{font-size:14px;font-weight:900;color:#2d3338;text-transform:uppercase;letter-spacing:-.03em}
-  .f-links{display:flex;gap:24px}
-  .f-links a{font-size:12px;color:#757c81;text-decoration:none;transition:color .2s}
-  .f-links a:hover{color:#2d3338}
-  .f-copy{font-size:11px;color:#757c81}
+/* HUB mandato tabs */
+.hub-tabs{display:flex;gap:8px;margin-bottom:36px;border-bottom:2px solid #e4e9ee;padding-bottom:0}
+.htab{padding:10px 20px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Space Grotesk',sans-serif;color:#757c81}
+.htab:hover{color:#2d3338}
+.htab.active{color:#2d3338;border-bottom-color:#2d3338}
+.htab-lincoln.active{color:#4F46E5;border-bottom-color:#4F46E5}
+.htab-marilda.active{color:#EC4899;border-bottom-color:#EC4899}
+.htab-ale.active{color:#10B981;border-bottom-color:#10B981}
 
-  /* Live indicator */
-  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--opal);display:inline-block;animation:pulse 1.5s infinite;margin-right:4px}
+.hub-section{display:none}
+.hub-section.active{display:block}
+.hub-empty{text-align:center;padding:80px 20px;color:#757c81}
+.hub-empty h3{font-size:20px;font-weight:800;color:#2d3338;margin-bottom:8px}
+.hub-empty p{font-size:14px;line-height:1.7}
 
-  .bg-grad{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
-  .bg-grad .g1{position:absolute;top:-10%;right:-10%;width:50%;height:50%;background:radial-gradient(ellipse,rgba(65,215,250,.04),transparent 70%)}
-  .bg-grad .g2{position:absolute;bottom:-10%;left:-10%;width:40%;height:40%;background:radial-gradient(ellipse,rgba(255,182,147,.04),transparent 70%)}
+/* HUB cards */
+.hub-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-bottom:48px}
+.hcard{background:#fff;border:1px solid #e4e9ee;border-radius:8px;padding:24px;transition:all .2s;cursor:pointer}
+.hcard:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
+.hcard-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.hcat{font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#595e70;border:1.5px solid #acb3b8;padding:3px 7px;border-radius:3px}
+.hdate{font-size:11px;font-weight:500;color:#757c81}
+.hcard h2{font-size:18px;font-weight:800;letter-spacing:-.03em;color:#2d3338;line-height:1.3;margin-bottom:10px}
+.hcard p{font-size:13px;color:#596065;line-height:1.7;margin-bottom:14px}
+.hcard-acao{font-size:12px;font-weight:600;color:#595e70;background:#f2f4f6;padding:8px 12px;border-radius:4px;border-left:3px solid #acb3b8}
+.hcard-lincoln{border-top:3px solid #4F46E5}
+.hcard-marilda{border-top:3px solid #EC4899}
+.hcard-ale{border-top:3px solid #10B981}
+.prio-badge{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:2px 8px;border-radius:100px;margin-left:6px}
+.pb-alta{background:#fee2e2;color:#dc2626}
+.pb-media{background:#fef3c7;color:#d97706}
+.pb-baixa{background:#f0fdf4;color:#16a34a}
 
-  @media(max-width:1024px){.dashboard{grid-template-columns:1fr}.tools-grid{grid-template-columns:repeat(2,1fr)}.tl-panel{position:static}}
-  @media(max-width:768px){.sidebar{display:none}#page-admin{flex-direction:column}.dashboard{padding:16px}.tools-grid{grid-template-columns:1fr}.hub-main{padding:32px 24px}.hub-grid{grid-template-columns:1fr;gap:28px}.hub-header{padding:14px 24px}.hub-nav{display:none}}
+.hub-ftr{background:#f2f4f6;border-top:1px solid #e4e9ee;padding:36px 48px;display:flex;justify-content:space-between;align-items:center}
+.fl{font-size:14px;font-weight:900;color:#2d3338;text-transform:uppercase;letter-spacing:-.03em}
+.flinks{display:flex;gap:24px}
+.flinks a{font-size:12px;color:#757c81;text-decoration:none}
+.fcopy{font-size:11px;color:#757c81}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.8);backdrop-filter:blur(10px)}
+.modal.active{display:flex}
+.mcard{background:linear-gradient(135deg,rgba(22,27,43,.95),rgba(14,19,34,.98));border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:36px;max-width:400px;width:100%;text-align:center}
+.micon{width:56px;height:56px;border-radius:50%;background:rgba(255,182,147,.1);border:1px solid rgba(255,182,147,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.micon .mi{font-size:28px;color:#ffb693}
+.mtitle{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;color:#f1f5f9;margin-bottom:10px}
+.mdesc{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:28px}
+.mbtns{display:flex;gap:10px}
+.mcancel{flex:1;padding:11px;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--text-dim);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border-radius:2px}
+.mconfirm{flex:1;padding:11px;background:#ffb693;color:#351000;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border:none;border-radius:2px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy3);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:12px 20px;font-size:12px;color:#f1f5f9;z-index:999;transition:transform .3s;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:rgba(0,191,165,.4);color:var(--opal)}
+.toast.err{border-color:rgba(255,77,77,.4);color:#ff6b6b}
+
+.bg-grad{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.bg-grad .g1{position:absolute;top:-10%;right:-10%;width:50%;height:50%;background:radial-gradient(ellipse,rgba(65,215,250,.04),transparent 70%)}
+.bg-grad .g2{position:absolute;bottom:-10%;left:-10%;width:40%;height:40%;background:radial-gradient(ellipse,rgba(255,182,147,.04),transparent 70%)}
+
+@media(max-width:1024px){.tgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.sidebar{display:none}#pg-admin{flex-direction:column}.section{padding:16px}.tgrid{grid-template-columns:1fr}.hub-main{padding:32px 20px}.hub-grid{grid-template-columns:1fr}.hub-hdr{padding:14px 20px}.hub-nav{display:none}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="page-login" class="page active">
+<!-- ═══ LOGIN ═══════════════════════════════════════ -->
+<div id="pg-login" class="page active">
   <div class="login-bg"></div>
-  <div class="login-card">
-    <div class="login-logo">C</div>
-    <div class="login-title">CORE-01</div>
-    <div class="login-sub">Sistema de Acesso</div>
-    <div class="role-selector">
-      <button class="role-btn active" id="role-admin" onclick="selectRole('admin')">Admin</button>
-      <button class="role-btn" id="role-visitor" onclick="selectRole('visitor')">Visitante</button>
+  <div class="lcard">
+    <div class="llogo">C</div>
+    <div class="ltitle">CORE-01</div>
+    <div class="lsub">Portela Intelligence Hub</div>
+    <div class="role-sel">
+      <button class="rbtn active" id="r-admin" onclick="selRole('admin')">Admin</button>
+      <button class="rbtn" id="r-visitor" onclick="selRole('visitor')">Assessor</button>
     </div>
-    <input class="login-input" type="text" placeholder="usuário" id="login-user">
-    <input class="login-input" type="password" placeholder="senha" id="login-pass">
-    <button class="login-btn" onclick="doLogin()">ACESSAR SISTEMA</button>
-    <div class="login-hint">admin: <span>admin</span> · visitante: <span>hub</span></div>
+    <input class="linput" type="text" placeholder="usuário" id="l-user">
+    <input class="linput" type="password" placeholder="senha" id="l-pass">
+    <button class="lbtn" onclick="doLogin()">ACESSAR SISTEMA</button>
+    <div class="lhint">admin: <span>admin</span> · assessor: <span>hub</span></div>
   </div>
 </div>
 
-<!-- ADMIN -->
-<div id="page-admin" class="page">
+<!-- ═══ ADMIN ════════════════════════════════════════ -->
+<div id="pg-admin" class="page">
   <div class="bg-grad"><div class="g1"></div><div class="g2"></div></div>
+
   <nav class="sidebar">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-icon">C</div>
-      <div><div class="s-name">CORE-01</div><div class="s-status">Sistema Ativo</div></div>
+    <div class="slogo">
+      <div class="sicon">C</div>
+      <div><div class="sname">CORE-01</div><div class="sstatus">Sistema Ativo</div></div>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:2px;padding:0 6px">
-      <a class="nav-item active" href="#"><span class="material-symbols-outlined">grid_view</span>Painel</a>
-      <a class="nav-item" href="#"><span class="material-symbols-outlined">deployed_code</span>Ferramentas</a>
-      <a class="nav-item" href="#"><span class="material-symbols-outlined">account_tree</span>Cronograma</a>
-      <a class="nav-item" href="#"><span class="material-symbols-outlined">mail</span>Insights</a>
-      <a class="nav-item" href="#"><span class="material-symbols-outlined">terminal</span>Sistema</a>
+      <a class="nitem active" onclick="showTab('dashboard')" href="#"><span class="mi">grid_view</span>Painel</a>
+      <a class="nitem" onclick="showTab('briefing')" href="#"><span class="mi">edit_note</span>Publicar Briefing</a>
+      <a class="nitem" onclick="showTab('lincoln')" href="#"><span class="mi">account_balance</span>Lincoln</a>
+      <a class="nitem" onclick="showTab('marilda')" href="#"><span class="mi">location_city</span>Marilda</a>
+      <a class="nitem" onclick="showTab('ale')" href="#"><span class="mi">gavel</span>Alê</a>
+      <a class="nitem" href="#"><span class="mi">terminal</span>Sistema</a>
     </div>
-    <div class="sidebar-bottom">
-      <button class="flow-btn" id="flow-btn" onclick="openModal()">INICIALIZAR FLUXO</button>
-      <a class="nav-item" href="#" style="border-right:none"><span class="material-symbols-outlined">help</span>Suporte</a>
-      <a class="nav-item" href="#" style="border-right:none"><span class="material-symbols-outlined">list_alt</span>Logs</a>
+    <div class="sbot">
+      <button class="pbtn" onclick="showTab('briefing')">+ PUBLICAR BRIEFING</button>
+      <button class="fbtn" onclick="openModal()">INICIALIZAR FLUXO</button>
+      <a class="nitem" href="#" style="border-right:none"><span class="mi">help</span>Suporte</a>
     </div>
   </nav>
 
-  <main class="admin-main">
-    <header class="admin-header">
+  <main class="amain">
+    <header class="ahead">
       <div style="display:flex;align-items:center;gap:20px">
-        <h1>Controle de Missão</h1>
-        <nav class="header-nav">
-          <a href="#" class="active">Comando</a>
-          <a href="#">Canais</a>
-          <a href="#">Análise</a>
-        </nav>
+        <h1 id="page-title">Controle de Missão</h1>
       </div>
       <div class="hright">
-        <div class="status-pill"><div class="status-dot"></div><span id="sys-status">Verificando...</span></div>
-        <button class="icon-btn"><span class="material-symbols-outlined">settings</span></button>
-        <button class="icon-btn"><span class="material-symbols-outlined">notifications_active</span><div class="notif-dot"></div></button>
-        <button class="hub-btn" onclick="goToHub()"><span class="material-symbols-outlined" style="font-size:13px">visibility</span> Ver HUB</button>
-        <button class="icon-btn" onclick="logout()" title="Sair"><span class="material-symbols-outlined">logout</span></button>
+        <div class="spill"><div class="sdot"></div><span id="sys-status">Verificando...</span></div>
+        <button class="ibtn"><span class="mi">settings</span></button>
+        <button class="ibtn"><span class="mi">notifications_active</span><div class="ndot"></div></button>
+        <button class="hubbtn" onclick="goHub()"><span class="mi" style="font-size:13px">visibility</span> Ver HUB</button>
+        <button class="ibtn" onclick="logout()" title="Sair"><span class="mi">logout</span></button>
       </div>
     </header>
 
-    <div class="dashboard">
-      <div class="dash-main">
-        <div class="dash-hero">
-          <div>
-            <h2>Central de IA</h2>
-            <p id="dash-date">Carregando...</p>
-          </div>
-          <div style="text-align:right">
-            <div class="nodes-count" id="nodes-count">—/5</div>
-            <div class="nodes-label">Nós Ativos</div>
-          </div>
-        </div>
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab active" id="tab-dashboard" onclick="showTab('dashboard')">Painel</div>
+      <div class="tab" id="tab-briefing" onclick="showTab('briefing')">Briefing</div>
+      <div class="tab tab-lincoln" id="tab-lincoln" onclick="showTab('lincoln')">🏛️ Lincoln</div>
+      <div class="tab tab-marilda" id="tab-marilda" onclick="showTab('marilda')">🌸 Marilda</div>
+      <div class="tab tab-ale" id="tab-ale" onclick="showTab('ale')">⚖️ Alê</div>
+    </div>
 
-        <!-- Tools Grid -->
-        <div class="tools-grid" id="tools-grid">
-          <!-- Gemini -->
-          <div class="tool-card c-gemini" id="card-gemini">
-            <div class="card-top">
-              <div>
-                <div class="card-title">Gemini</div>
-                <div class="card-last" id="gemini-last">Verificando...</div>
-                <div class="card-next">Próxima: em 1h</div>
-              </div>
-              <span class="badge b-scheduled" id="gemini-badge">Verificando</span>
-            </div>
-            <p class="card-desc" id="gemini-desc"><span class="loading-bar" style="display:block;width:80%;margin-bottom:6px"></span><span class="loading-bar" style="display:block;width:60%"></span></p>
-            <div class="prog-wrap">
-              <div class="prog-label"><span>Processando</span><span id="gemini-pct">—</span></div>
-              <div class="prog-bar"><div class="prog-fill f-gemini" id="gemini-bar" style="width:0%"></div></div>
-            </div>
-            <button class="card-btn" style="border:1px solid var(--gemini);color:var(--gemini)" onmouseover="this.style.background='rgba(124,58,237,.1)'" onmouseout="this.style.background='transparent'">Revisar</button>
-          </div>
-
-          <!-- Opal -->
-          <div class="tool-card c-opal">
-            <div class="card-top">
-              <div>
-                <div class="card-title">Google Opal</div>
-                <div class="card-last">Entrada manual ativa</div>
-                <div class="card-next">API pública em breve</div>
-              </div>
-              <span class="badge b-manual">Manual</span>
-            </div>
-            <p class="card-desc">Motor de geração visual sem API pública. Outputs integrados manualmente ao HUB.</p>
-            <button class="card-btn" style="border:1px solid var(--opal);color:var(--opal);margin-top:8px" onmouseover="this.style.background='rgba(0,191,165,.1)'" onmouseout="this.style.background='transparent'">Abrir Opal</button>
-          </div>
-
-          <!-- Perplexity -->
-          <div class="tool-card c-perplexity">
-            <div class="card-top">
-              <div>
-                <div class="card-title">Perplexity</div>
-                <div class="card-last">API pendente</div>
-                <div class="card-next">Configurar em breve</div>
-              </div>
-              <span class="badge b-idle">Pendente</span>
-            </div>
-            <p class="card-desc">Clusters de busca aguardando configuração da API key. Acesso manual via app disponível.</p>
-            <button class="card-btn" style="border:1px solid var(--perplexity);color:var(--perplexity);margin-top:8px" onmouseover="this.style.background='rgba(255,107,53,.1)'" onmouseout="this.style.background='transparent'">Abrir App</button>
-          </div>
-
-          <!-- Grok -->
-          <div class="tool-card c-grok" id="card-grok">
-            <div class="card-top">
-              <div>
-                <div class="card-title">Grok</div>
-                <div class="card-last" id="grok-last">Verificando...</div>
-                <div class="card-next">Próxima: em 30min</div>
-              </div>
-              <span class="badge b-grok" id="grok-badge">Verificando</span>
-            </div>
-            <p class="card-desc" id="grok-desc"><span class="loading-bar" style="display:block;width:90%;margin-bottom:6px"></span><span class="loading-bar" style="display:block;width:55%"></span></p>
-            <div class="prog-wrap">
-              <div class="prog-label"><span>Trends</span><span id="grok-pct">—</span></div>
-              <div class="prog-bar"><div class="prog-fill f-grok" id="grok-bar" style="width:0%"></div></div>
-            </div>
-            <button class="card-btn" style="border:1px solid var(--grok);color:var(--grok)" onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">Ver Trends</button>
-          </div>
-
-          <!-- Claude -->
-          <div class="tool-card c-claude">
-            <div class="card-top">
-              <div>
-                <div class="card-title">Claude</div>
-                <div class="card-last"><span class="live-dot"></span>Agora</div>
-                <div class="card-next">Sempre disponível</div>
-              </div>
-              <span class="badge b-session">Em Sessão</span>
-            </div>
-            <p class="card-desc">Motor de raciocínio ativo. Estruturando outputs e gerando conteúdo para o HUB em tempo real.</p>
-            <div class="prog-wrap">
-              <div class="prog-label"><span>Contexto</span><span>100%</span></div>
-              <div class="prog-bar"><div class="prog-fill f-claude" style="width:100%"></div></div>
-            </div>
-            <button class="card-btn" style="border:1px solid var(--claude);color:var(--claude)" onmouseover="this.style.background='rgba(245,166,35,.1)'" onmouseout="this.style.background='transparent'">Abrir Claude</button>
-          </div>
-
-          <!-- Add -->
-          <div class="tool-card c-add">
-            <span class="material-symbols-outlined" style="font-size:28px;color:var(--navy6);margin-bottom:6px">add</span>
-            <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim)">Integrar Modelo</div>
-          </div>
-        </div>
-
-        <!-- Insights -->
+    <!-- DASHBOARD -->
+    <div class="section active" id="sec-dashboard">
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:24px">
         <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-            <div class="sec-title">Insights do Fluxo</div>
-            <button style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);background:none;border:none;cursor:pointer">Ver todos</button>
-          </div>
-          <div class="insights-list" id="insights-list">
-            <div class="insight-row">
-              <span class="material-symbols-outlined i-icon" style="color:var(--cyan)">auto_awesome</span>
-              <div class="i-text"><h4>Aguardando primeiro ciclo do fluxo...</h4><p>Execute "Inicializar Fluxo" para popular os insights</p></div>
-              <span class="material-symbols-outlined" style="font-size:16px;color:var(--text-dim)">chevron_right</span>
+          <div class="dhero">
+            <div>
+              <h2>Central de IA</h2>
+              <p id="dash-date">Carregando...</p>
+            </div>
+            <div style="text-align:right">
+              <div class="ncnt" id="nodes-count">—/5</div>
+              <div class="nlbl">Nós Ativos</div>
             </div>
           </div>
+          <div class="tgrid">
+            <!-- Gemini -->
+            <div class="tcard tc-gemini">
+              <div class="ctop">
+                <div><div class="ctitle">Gemini</div><div class="clast" id="g-last">Verificando...</div><div class="cnext">Próxima: em 1h</div></div>
+                <span class="badge b-sched" id="g-badge">...</span>
+              </div>
+              <p class="cdesc" id="g-desc">Conectando...</p>
+              <div class="pbar-wrap"><div class="pbar-lbl"><span>Processando</span><span id="g-pct">—</span></div><div class="pbar"><div class="pfill f-gem" id="g-bar" style="width:0%"></div></div></div>
+              <button class="cbtn" style="border:1px solid #7C3AED;color:#7C3AED" onmouseover="this.style.background='rgba(124,58,237,.1)'" onmouseout="this.style.background='transparent'">Revisar</button>
+            </div>
+            <!-- Opal -->
+            <div class="tcard tc-opal">
+              <div class="ctop">
+                <div><div class="ctitle">Google Opal</div><div class="clast">Entrada manual</div><div class="cnext">API pública em breve</div></div>
+                <span class="badge b-manual">Manual</span>
+              </div>
+              <p class="cdesc">Motor de geração visual. Outputs integrados manualmente ao HUB.</p>
+              <button class="cbtn" style="border:1px solid var(--opal);color:var(--opal);margin-top:8px" onmouseover="this.style.background='rgba(0,191,165,.1)'" onmouseout="this.style.background='transparent'">Abrir Opal</button>
+            </div>
+            <!-- Perplexity -->
+            <div class="tcard tc-perp">
+              <div class="ctop">
+                <div><div class="ctitle">Perplexity</div><div class="clast">API pendente</div><div class="cnext">Configurar em breve</div></div>
+                <span class="badge b-idle">Pendente</span>
+              </div>
+              <p class="cdesc">Validação de fontes aguardando API key. Acesso manual disponível.</p>
+              <button class="cbtn" style="border:1px solid var(--perplexity);color:var(--perplexity);margin-top:8px" onmouseover="this.style.background='rgba(255,107,53,.1)'" onmouseout="this.style.background='transparent'">Abrir App</button>
+            </div>
+            <!-- Grok -->
+            <div class="tcard tc-grok">
+              <div class="ctop">
+                <div><div class="ctitle">Grok</div><div class="clast" id="gk-last">Verificando...</div><div class="cnext">Próxima: em 30min</div></div>
+                <span class="badge b-grok" id="gk-badge">...</span>
+              </div>
+              <p class="cdesc" id="gk-desc">Conectando...</p>
+              <div class="pbar-wrap"><div class="pbar-lbl"><span>Trends</span><span id="gk-pct">—</span></div><div class="pbar"><div class="pfill f-grok" id="gk-bar" style="width:0%"></div></div></div>
+              <button class="cbtn" style="border:1px solid var(--grok);color:var(--grok)" onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">Ver Trends</button>
+            </div>
+            <!-- Claude -->
+            <div class="tcard tc-claude">
+              <div class="ctop">
+                <div><div class="ctitle">Claude</div><div class="clast"><span class="ldot"></span>Agora</div><div class="cnext">Sempre disponível</div></div>
+                <span class="badge b-session">Em Sessão</span>
+              </div>
+              <p class="cdesc">Motor de raciocínio ativo. Processando briefings e gerando conteúdo.</p>
+              <div class="pbar-wrap"><div class="pbar-lbl"><span>Contexto</span><span>100%</span></div><div class="pbar"><div class="pfill f-claude" style="width:100%"></div></div></div>
+              <button class="cbtn" style="border:1px solid var(--claude);color:var(--claude)" onmouseover="this.style.background='rgba(245,166,35,.1)'" onmouseout="this.style.background='transparent'">Abrir Claude</button>
+            </div>
+            <!-- Add -->
+            <div class="tcard tc-add">
+              <span class="mi" style="font-size:28px;color:var(--navy6);margin-bottom:6px">add</span>
+              <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim)">Integrar Modelo</div>
+            </div>
+          </div>
+          <!-- Resumo do último briefing -->
+          <div id="dash-briefing-summary" style="display:none;background:var(--navy3);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:20px;margin-top:4px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:-.02em;color:#f1f5f9">Último Briefing Publicado</div>
+              <span id="dash-briefing-date" style="font-size:9px;font-family:'DM Mono',monospace;color:var(--text-dim)"></span>
+            </div>
+            <p id="dash-briefing-resumo" style="font-size:12px;color:var(--text-dim);line-height:1.6"></p>
+            <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap" id="dash-mandato-tags"></div>
+          </div>
         </div>
-      </div>
-
-      <!-- Timeline -->
-      <div class="tl-panel">
-        <div class="tl-header">
-          <span class="material-symbols-outlined" style="color:var(--cyan);font-size:24px">schedule</span>
-          <div><h3>Fluxo de Hoje</h3><p>Pipeline do Sistema</p></div>
-        </div>
-        <div class="timeline" id="timeline">
-          <div class="tl-spine"></div>
-          <div class="tl-item tl-gemini">
-            <div class="tl-dot" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)"></div>
-            <div class="tl-time">— <span class="tl-tag" style="background:linear-gradient(90deg,#4F46E5,#7C3AED);color:#fff">Gemini</span></div>
-            <div class="tl-desc" id="tl-gemini-desc">Aguardando ciclo...</div>
+        <!-- Timeline -->
+        <div class="tl-panel">
+          <div class="tl-head"><span class="mi" style="color:var(--cyan);font-size:24px">schedule</span><div><h3>Fluxo de Hoje</h3><p>Pipeline do Sistema</p></div></div>
+          <div class="timeline">
+            <div class="tspine"></div>
+            <div class="titem"><div class="tdot" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)"></div><div class="ttime">— <span class="ttag" style="background:linear-gradient(90deg,#4F46E5,#7C3AED);color:#fff">Gemini</span></div><div class="tdesc" id="tl-gem">Aguardando ciclo...</div></div>
+            <div class="titem pend"><div class="tdot" style="background:var(--opal)"></div><div class="ttime">— <span class="ttag" style="border:1px solid var(--opal);color:var(--opal);background:rgba(0,191,165,.1)">Opal</span></div><div class="tdesc">Entrada manual</div></div>
+            <div class="titem pend"><div class="tdot" style="background:var(--perplexity)"></div><div class="ttime">— <span class="ttag" style="border:1px solid var(--perplexity);color:var(--perplexity);background:rgba(255,107,53,.1)">Perplexity</span></div><div class="tdesc">API pendente</div></div>
+            <div class="titem"><div class="tdot" style="background:var(--grok)"></div><div class="ttime">— <span class="ttag" style="border:1px solid var(--grok);color:var(--grok);background:rgba(255,45,85,.1)">Grok</span></div><div class="tdesc" id="tl-grok">Aguardando ciclo...</div></div>
+            <div class="titem"><div class="tdot" style="background:var(--claude)"></div><div class="ttime" style="color:var(--cyan)">Agora <span class="ttag" style="border:1px solid var(--claude);color:var(--claude);background:rgba(245,166,35,.1)">Claude</span></div><div class="tdesc">Em sessão ativa</div></div>
           </div>
-          <div class="tl-item tl-opal pending">
-            <div class="tl-dot" style="background:var(--opal)"></div>
-            <div class="tl-time">— <span class="tl-tag" style="border:1px solid var(--opal);color:var(--opal);background:rgba(0,191,165,.1)">Opal</span></div>
-            <div class="tl-desc">Entrada manual</div>
+          <div class="netcard">
+            <div class="netrow"><span>Nós Ativos</span><strong id="net-nodes">—/5</strong></div>
+            <div class="netbar"><div class="netfill" id="net-fill" style="width:0%"></div></div>
+            <div class="netlbl" id="net-lbl">Verificando...</div>
           </div>
-          <div class="tl-item tl-perplexity pending">
-            <div class="tl-dot" style="background:var(--perplexity)"></div>
-            <div class="tl-time">— <span class="tl-tag" style="border:1px solid var(--perplexity);color:var(--perplexity);background:rgba(255,107,53,.1)">Perplexity</span></div>
-            <div class="tl-desc">API pendente</div>
-          </div>
-          <div class="tl-item tl-grok">
-            <div class="tl-dot" style="background:var(--grok)"></div>
-            <div class="tl-time">— <span class="tl-tag" style="border:1px solid var(--grok);color:var(--grok);background:rgba(255,45,85,.1)">Grok</span></div>
-            <div class="tl-desc" id="tl-grok-desc">Aguardando ciclo...</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot" style="background:var(--claude)"></div>
-            <div class="tl-time" style="color:var(--cyan)">Agora <span class="tl-tag" style="border:1px solid var(--claude);color:var(--claude);background:rgba(245,166,35,.1)">Claude</span></div>
-            <div class="tl-desc">Em sessão ativa</div>
-          </div>
-        </div>
-        <div class="net-card">
-          <div class="net-row"><span>Nós Ativos</span><strong id="net-nodes">—/5</strong></div>
-          <div class="net-bar"><div class="net-fill" id="net-fill" style="width:0%"></div></div>
-          <div class="net-label" id="net-label">Verificando sistema...</div>
         </div>
       </div>
     </div>
+
+    <!-- BRIEFING -->
+    <div class="section" id="sec-briefing">
+      <div class="briefing-panel">
+        <div class="bp-title">Publicar Briefing da Geni</div>
+        <div class="bp-sub">Cole o briefing gerado pelo Gemini abaixo. O Claude vai processar, classificar por mandato e publicar automaticamente no HUB para os assessores.</div>
+        <textarea class="bp-textarea" id="bp-text" placeholder="Cole aqui o briefing completo da Geni...
+
+Bom dia, comandante! 🚀 O radar DeepSearch operou em profundidade máxima..."></textarea>
+        <div class="bp-actions">
+          <button class="bp-submit" id="bp-btn" onclick="processarBriefing()">PROCESSAR E PUBLICAR</button>
+          <button class="bp-clear" onclick="document.getElementById('bp-text').value=''">Limpar</button>
+          <span class="bp-hint" id="bp-hint">Claude vai classificar por Lincoln · Marilda · Alê</span>
+        </div>
+      </div>
+      <!-- Preview do último processado -->
+      <div id="bp-result" style="display:none;margin-top:24px"></div>
+    </div>
+
+    <!-- LINCOLN -->
+    <div class="section" id="sec-lincoln">
+      <div class="mandato-header">
+        <div class="mandato-avatar" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)">L</div>
+        <div>
+          <div class="mandato-name">Lincoln Portela</div>
+          <div class="mandato-cargo" style="color:#7C3AED">Deputado Federal · Câmara dos Deputados</div>
+        </div>
+      </div>
+      <div id="lincoln-cards"><div class="mandato-empty"><span class="mi">edit_note</span><p>Nenhum briefing publicado ainda.<br>Use <strong>"Publicar Briefing"</strong> para importar as pautas do Lincoln.</p></div></div>
+    </div>
+
+    <!-- MARILDA -->
+    <div class="section" id="sec-marilda">
+      <div class="mandato-header">
+        <div class="mandato-avatar" style="background:linear-gradient(135deg,#EC4899,#F472B6)">M</div>
+        <div>
+          <div class="mandato-name">Marilda Portela</div>
+          <div class="mandato-cargo" style="color:#EC4899">Vereadora · Câmara Municipal de BH</div>
+        </div>
+      </div>
+      <div id="marilda-cards"><div class="mandato-empty"><span class="mi">edit_note</span><p>Nenhum briefing publicado ainda.<br>Use <strong>"Publicar Briefing"</strong> para importar as pautas da Marilda.</p></div></div>
+    </div>
+
+    <!-- ALÊ -->
+    <div class="section" id="sec-ale">
+      <div class="mandato-header">
+        <div class="mandato-avatar" style="background:linear-gradient(135deg,#10B981,#34D399)">A</div>
+        <div>
+          <div class="mandato-name">Alê Portela</div>
+          <div class="mandato-cargo" style="color:#10B981">Deputada Estadual · Assembleia Legislativa MG</div>
+        </div>
+      </div>
+      <div id="ale-cards"><div class="mandato-empty"><span class="mi">pending</span><p>Alê Portela em configuração.<br>O monitoramento da Geni para o mandato estadual será ativado em breve.</p></div></div>
+    </div>
+
   </main>
 </div>
 
-<!-- HUB -->
-<div id="page-hub" class="page">
-  <header class="hub-header">
-    <div class="hub-logo">CENTRAL</div>
+<!-- ═══ HUB (ASSESSORES) ═════════════════════════════ -->
+<div id="pg-hub" class="page">
+  <header class="hub-hdr">
+    <div class="hub-logo">Portela Hub</div>
     <nav class="hub-nav">
-      <a href="#" class="active">Home</a>
-      <a href="#">Insights</a>
+      <a href="#" class="active">Pautas</a>
       <a href="#">Arquivo</a>
+      <a href="#">Munição</a>
     </nav>
-    <button class="hub-access-btn">Solicitar Acesso</button>
+    <button class="hub-abtn">Solicitar Acesso</button>
   </header>
+
   <main class="hub-main">
     <section class="hub-hero">
-      <h1>Painel de Info</h1>
-      <p>Análises, tendências e relatórios especiais para quem valoriza a qualidade da informação.</p>
+      <h1>Pautas do Dia</h1>
+      <p id="hub-resumo">Inteligência estratégica para os mandatos Portela. Atualizado diariamente.</p>
     </section>
-    <div class="hub-filters">
-      <button class="fpill active" onclick="setFilter(this)">Todos</button>
-      <button class="fpill" onclick="setFilter(this)">Tendências</button>
-      <button class="fpill" onclick="setFilter(this)">Análise</button>
-      <button class="fpill" onclick="setFilter(this)">Relatório</button>
-      <button class="fpill" onclick="setFilter(this)">Especiais</button>
+
+    <div class="hub-tabs">
+      <button class="htab htab-todos active" onclick="setHubTab('todos')">Todos</button>
+      <button class="htab htab-lincoln" onclick="setHubTab('lincoln')">🏛️ Lincoln</button>
+      <button class="htab htab-marilda" onclick="setHubTab('marilda')">🌸 Marilda</button>
+      <button class="htab htab-ale" onclick="setHubTab('ale')">⚖️ Alê</button>
     </div>
-    <div class="hub-grid" id="hub-grid">
-      <article class="hub-card">
-        <div class="hub-img"><img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80" alt=""></div>
-        <div class="hub-meta"><span class="cat-tag">Especiais</span><span class="pub-date">12 Mar 2026</span></div>
-        <h2>A Nova Ordem dos Espaços Urbanos Modernos</h2>
-        <p>Uma exploração sobre como a arquitetura modular está redefinindo o conceito de escritórios corporativos nas metrópoles globais.</p>
-        <div class="hub-link">Ver mais <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></div>
-      </article>
-      <article class="hub-card">
-        <div class="hub-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt=""></div>
-        <div class="hub-meta"><span class="cat-tag">Análise</span><span class="pub-date">10 Mar 2026</span></div>
-        <h2>Mapeamento de Dados e a Economia do Silício</h2>
-        <p>Fluxos de investimento em infraestrutura de semicondutores e o impacto geopolítico na cadeia de suprimentos global.</p>
-        <div class="hub-link">Ver mais <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></div>
-      </article>
-      <article class="hub-card">
-        <div class="hub-img"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80" alt=""></div>
-        <div class="hub-meta"><span class="cat-tag">Relatório</span><span class="pub-date">08 Mar 2026</span></div>
-        <h2>O Renascimento do Foco: Editorial Minimalista</h2>
-        <p>Como a redução de ruído visual nas plataformas está gerando aumento de retenção de informações.</p>
-        <div class="hub-link">Ver mais <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></div>
-      </article>
-      <article class="hub-card">
-        <div class="hub-img"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80" alt=""></div>
-        <div class="hub-meta"><span class="cat-tag">Tendências</span><span class="pub-date">05 Mar 2026</span></div>
-        <h2>Conectividade Global e o Fim das Fronteiras Digitais</h2>
-        <p>Expansão das redes de baixa latência e como isso criará novas economias em regiões isoladas.</p>
-        <div class="hub-link">Ver mais <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></div>
-      </article>
-    </div>
-    <div class="locked-section">
-      <div class="locked-bg">
-        <div class="locked-blur">
-          <h3>Relatório Trimestral: Macroeconomia e Estratégia Digital</h3>
-          <p>Conteúdo exclusivo para membros convidados com dados proprietários e previsões para os próximos 12 meses.</p>
-        </div>
-        <div class="locked-cta">
-          <span class="material-symbols-outlined" style="font-size:32px;color:#595e70;font-variation-settings:'FILL' 1">verified_user</span>
-          <h4>Acesso Restrito</h4>
-          <p>Solicite credenciais para visualizar este conteúdo exclusivo.</p>
-          <button class="locked-cta-btn">Solicitar Acesso</button>
-        </div>
+
+    <div class="hub-section active" id="hs-todos">
+      <div class="hub-grid" id="hub-todos-grid">
+        <div class="hub-empty"><h3>Aguardando briefing</h3><p>O administrador ainda não publicou o briefing de hoje.<br>Volte mais tarde.</p></div>
       </div>
     </div>
+    <div class="hub-section" id="hs-lincoln">
+      <div class="hub-grid" id="hub-lincoln-grid"><div class="hub-empty"><h3>Aguardando briefing</h3><p>Pautas do Lincoln serão exibidas aqui após a publicação.</p></div></div>
+    </div>
+    <div class="hub-section" id="hs-marilda">
+      <div class="hub-grid" id="hub-marilda-grid"><div class="hub-empty"><h3>Aguardando briefing</h3><p>Pautas da Marilda serão exibidas aqui após a publicação.</p></div></div>
+    </div>
+    <div class="hub-section" id="hs-ale">
+      <div class="hub-grid" id="hub-ale-grid"><div class="hub-empty"><h3>Alê em configuração</h3><p>O monitoramento do mandato estadual será ativado em breve.</p></div></div>
+    </div>
   </main>
-  <footer class="hub-footer">
-    <div class="f-logo">Central</div>
-    <div class="f-links"><a href="#">Privacidade</a><a href="#">Termos</a><a href="#">Contato</a></div>
-    <div class="f-copy">© 2026 CENTRAL Editorial</div>
+
+  <footer class="hub-ftr">
+    <div class="fl">Portela Hub</div>
+    <div class="flinks"><a href="#">Privacidade</a><a href="#">Termos</a><a href="#">Contato</a></div>
+    <div class="fcopy">© 2026 Portela Intelligence</div>
   </footer>
+
   <div id="admin-back" style="display:none;position:fixed;bottom:24px;right:24px;z-index:100">
     <button onclick="showAdmin()" style="padding:9px 18px;border-radius:100px;background:var(--navy2);color:var(--cyan);border:1px solid rgba(65,215,250,.3);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4)">← Admin</button>
   </div>
 </div>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modal">
-  <div class="modal-card">
-    <div class="m-icon"><span class="material-symbols-outlined">warning</span></div>
-    <div class="m-title">Inicializar Fluxo</div>
-    <p class="m-desc">Isso vai disparar Gemini + Grok + Claude em sequência. Os resultados aparecerão nos cards e na timeline em tempo real.</p>
-    <div class="m-actions">
-      <button class="m-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="m-confirm" onclick="runFlow()">Confirmar</button>
+<div class="modal" id="modal">
+  <div class="mcard">
+    <div class="micon"><span class="mi">warning</span></div>
+    <div class="mtitle">Inicializar Fluxo</div>
+    <p class="mdesc">Dispara Gemini → Grok → Claude em sequência. Os resultados aparecem nos cards em tempo real.</p>
+    <div class="mbtns">
+      <button class="mcancel" onclick="closeModal()">Cancelar</button>
+      <button class="mconfirm" onclick="runFlow()">Confirmar</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  let currentRole = 'admin';
-  let isAdmin = false;
-  const BASE = ''; // Vercel functions em /api/*
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let isAdmin = false;
+let currentRole = 'admin';
+let lastBriefing = null;
 
-  // ── AUTH ───────────────────────────────────────
-  function selectRole(role) {
-    currentRole = role;
-    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('role-' + role).classList.add('active');
-    document.getElementById('login-user').placeholder = role === 'admin' ? 'admin' : 'visitante';
+// ═══════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════
+function selRole(r) {
+  currentRole = r;
+  document.querySelectorAll('.rbtn').forEach(b => b.classList.remove('active'));
+  document.getElementById('r-' + r).classList.add('active');
+}
+
+function doLogin() {
+  if (currentRole === 'admin') {
+    isAdmin = true;
+    showPage('pg-admin');
+    initDash();
+  } else {
+    isAdmin = false;
+    showPage('pg-hub');
+    loadHubBriefing();
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('pg-login').classList.contains('active')) doLogin();
+});
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHub() {
+  showPage('pg-hub');
+  document.getElementById('admin-back').style.display = 'block';
+  loadHubBriefing();
+}
+
+function showAdmin() {
+  showPage('pg-admin');
+  document.getElementById('admin-back').style.display = 'none';
+}
+
+function logout() {
+  isAdmin = false;
+  showPage('pg-login');
+}
+
+// ═══════════════════════════════════════════════
+//  TABS ADMIN
+// ═══════════════════════════════════════════════
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nitem').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  document.getElementById('tab-' + name)?.classList.add('active');
+
+  const titles = { dashboard:'Controle de Missão', briefing:'Publicar Briefing', lincoln:'Lincoln Portela', marilda:'Marilda Portela', ale:'Alê Portela' };
+  document.getElementById('page-title').textContent = titles[name] || 'CORE-01';
+}
+
+// HUB tabs
+function setHubTab(name) {
+  document.querySelectorAll('.hub-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
+  document.getElementById('hs-' + name).classList.add('active');
+  document.querySelector('.htab-' + name).classList.add('active');
+}
+
+// ═══════════════════════════════════════════════
+//  DASHBOARD STATUS
+// ═══════════════════════════════════════════════
+function initDash() {
+  const now = new Date();
+  document.getElementById('dash-date').textContent =
+    'Visão Geral — ' + now.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+  fetchStatus();
+  if (lastBriefing) renderDashSummary(lastBriefing);
+}
+
+async function fetchStatus() {
+  try {
+    const r = await fetch('/api/status');
+    const d = await r.json();
+    if (d.ok) applyStatus(d.tools);
+  } catch { applyDemoStatus(); }
+}
+
+function applyStatus(t) {
+  const nt = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+  let active = 1; // claude sempre ativo
+
+  if (t.gemini?.status === 'active') {
+    active++;
+    document.getElementById('g-badge').textContent = 'Ativo';
+    document.getElementById('g-badge').className = 'badge b-active';
+    document.getElementById('g-last').textContent = 'Última: agora';
+    document.getElementById('g-desc').textContent = t.gemini.summary || 'Captura concluída.';
+    document.getElementById('g-pct').textContent = '100%';
+    document.getElementById('g-bar').style.width = '100%';
+    document.getElementById('tl-gem').textContent = (t.gemini.summary || 'Captura concluída').substring(0,45);
+  } else {
+    document.getElementById('g-badge').textContent = t.gemini?.status || 'Idle';
+    document.getElementById('g-badge').className = 'badge b-idle';
+    document.getElementById('g-desc').textContent = t.gemini?.summary || 'Verificando...';
   }
 
-  function doLogin() {
-    const user = document.getElementById('login-user').value.trim().toLowerCase() || currentRole;
-    if (currentRole === 'admin') {
-      isAdmin = true;
-      showPage('page-admin');
-      initDashboard();
-    } else {
-      isAdmin = false;
-      showPage('page-hub');
-    }
+  if (t.grok?.status === 'active') {
+    active++;
+    document.getElementById('gk-badge').textContent = 'Ativo';
+    document.getElementById('gk-badge').className = 'badge b-grok';
+    document.getElementById('gk-last').textContent = 'Última: agora';
+    document.getElementById('gk-desc').textContent = t.grok.summary || 'Trends capturados.';
+    document.getElementById('gk-pct').textContent = '85%';
+    document.getElementById('gk-bar').style.width = '85%';
+    document.getElementById('tl-grok').textContent = (t.grok.summary || 'Trends capturados').substring(0,45);
+  } else {
+    document.getElementById('gk-badge').textContent = t.grok?.status || 'Idle';
+    document.getElementById('gk-badge').className = 'badge b-idle';
+    document.getElementById('gk-desc').textContent = t.grok?.summary || 'Verificando...';
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && document.getElementById('page-login').classList.contains('active')) doLogin();
+  active += 2; // opal + perplexity como "configurados"
+  document.getElementById('nodes-count').textContent = active + '/5';
+  document.getElementById('net-nodes').textContent = active + '/5';
+  document.getElementById('net-fill').style.width = (active/5*100) + '%';
+  document.getElementById('net-lbl').textContent = active >= 4 ? 'Sistema operante — banda estável' : 'Sistema parcial';
+  document.getElementById('sys-status').textContent = active >= 4 ? 'Sistemas Operantes' : 'Sistema Parcial';
+}
+
+function applyDemoStatus() {
+  document.getElementById('g-badge').textContent = 'Demo';
+  document.getElementById('g-badge').className = 'badge b-idle';
+  document.getElementById('g-desc').textContent = 'Configure GEMINI_API_KEY no Vercel.';
+  document.getElementById('gk-badge').textContent = 'Demo';
+  document.getElementById('gk-badge').className = 'badge b-idle';
+  document.getElementById('gk-desc').textContent = 'Configure GROK_API_KEY no Vercel.';
+  document.getElementById('nodes-count').textContent = '1/5';
+  document.getElementById('net-nodes').textContent = '1/5';
+  document.getElementById('net-fill').style.width = '20%';
+  document.getElementById('sys-status').textContent = 'Modo Demo';
+}
+
+// ═══════════════════════════════════════════════
+//  PROCESSAR BRIEFING
+// ═══════════════════════════════════════════════
+async function processarBriefing() {
+  const texto = document.getElementById('bp-text').value.trim();
+  if (texto.length < 50) { toast('Cole o briefing completo antes de processar.', 'err'); return; }
+
+  const btn = document.getElementById('bp-btn');
+  btn.disabled = true;
+  btn.textContent = 'PROCESSANDO...';
+  document.getElementById('bp-hint').textContent = 'Claude está analisando o briefing...';
+  toast('🤖 Claude processando o briefing...');
+
+  try {
+    const r = await fetch('/api/briefing', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto })
+    });
+    const d = await r.json();
+
+    if (!d.ok) throw new Error(d.error || 'Erro desconhecido');
+
+    lastBriefing = d.briefing;
+    renderAdminCards(d.briefing);
+    renderHubCards(d.briefing);
+    renderDashSummary(d.briefing);
+    document.getElementById('bp-result').style.display = 'block';
+    document.getElementById('bp-result').innerHTML = `
+      <div style="background:rgba(0,191,165,.08);border:1px solid rgba(0,191,165,.2);border-radius:3px;padding:16px;display:flex;align-items:center;gap:12px">
+        <span class="mi" style="color:var(--opal);font-size:24px">check_circle</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#f1f5f9">Briefing publicado com sucesso!</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:3px">${d.briefing.data || ''} · ${countCards(d.briefing)} pautas extraídas · HUB atualizado</div>
+        </div>
+      </div>`;
+    toast('✅ Briefing publicado! HUB atualizado.', 'ok');
+    document.getElementById('bp-hint').textContent = `Publicado: ${countCards(d.briefing)} pautas extraídas`;
+
+  } catch (e) {
+    toast('Erro ao processar: ' + e.message, 'err');
+    document.getElementById('bp-hint').textContent = 'Erro — tente novamente.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'PROCESSAR E PUBLICAR';
+}
+
+function countCards(b) {
+  let n = 0;
+  if (b.mandatos?.lincoln?.cards) n += b.mandatos.lincoln.cards.length;
+  if (b.mandatos?.marilda?.cards) n += b.mandatos.marilda.cards.length;
+  if (b.mandatos?.ale?.cards) n += b.mandatos.ale.cards.length;
+  return n;
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER ADMIN CARDS
+// ═══════════════════════════════════════════════
+function renderAdminCards(b) {
+  renderMandatoSection('lincoln-cards', b.mandatos?.lincoln, '#7C3AED', 'lincoln');
+  renderMandatoSection('marilda-cards', b.mandatos?.marilda, '#EC4899', 'marilda');
+  renderMandatoSection('ale-cards', b.mandatos?.ale, '#10B981', 'ale');
+
+  // Insights
+  if (b.insights?.length > 0) {
+    const insHtml = `
+      <div style="margin-top:24px">
+        <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:-.02em;color:#f1f5f9;margin-bottom:14px">💡 Insights Estratégicos</div>
+        <div class="insights-row">
+          ${b.insights.map(i => `
+            <div class="insight-chip">
+              <h4>${i.titulo}</h4>
+              <p>${i.descricao}</p>
+              <span class="mandato-tag" style="${mandatoStyle(i.mandato)}">${i.mandato?.toUpperCase() || 'GERAL'}</span>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    document.getElementById('lincoln-cards').insertAdjacentHTML('afterend', insHtml);
+  }
+}
+
+function renderMandatoSection(elId, mandato, color, key) {
+  const el = document.getElementById(elId);
+  if (!mandato || !mandato.cards || mandato.cards.length === 0) {
+    el.innerHTML = `<div class="mandato-empty"><span class="mi">inbox</span><p>Nenhuma pauta encontrada para este mandato neste briefing.</p></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="pcards">${mandato.cards.map(c => `
+    <div class="pcard" style="border-left:3px solid ${color}">
+      <div class="pcard-top">
+        <div class="pcard-title">${c.titulo}</div>
+        <span class="prio prio-${c.prioridade || 'media'}">${c.prioridade?.toUpperCase() || 'MÉDIA'}</span>
+      </div>
+      <p class="pcard-desc">${c.descricao}</p>
+      <div class="pcard-acao">→ ${c.acao}</div>
+      <div class="pcard-copy">${c.copy}<button class="copy-btn" onclick="copyText(this, \`${c.copy.replace(/`/g,"'")}\`)">Copiar</button></div>
+    </div>`).join('')}</div>`;
+}
+
+function mandatoStyle(m) {
+  const styles = {
+    lincoln: 'background:rgba(79,70,229,.15);color:#7C3AED',
+    marilda: 'background:rgba(236,72,153,.1);color:#EC4899',
+    ale: 'background:rgba(16,185,129,.1);color:#10B981',
+    geral: 'background:rgba(65,215,250,.1);color:var(--cyan)',
+  };
+  return styles[m] || styles.geral;
+}
+
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copiado!';
+    setTimeout(() => btn.textContent = 'Copiar', 2000);
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER HUB CARDS
+// ═══════════════════════════════════════════════
+function renderHubCards(b) {
+  // Atualiza resumo
+  if (b.resumo) document.getElementById('hub-resumo').textContent = b.resumo;
+
+  const allCards = [];
+  const grids = { lincoln: [], marilda: [], ale: [] };
+
+  Object.entries(b.mandatos || {}).forEach(([key, m]) => {
+    if (!m?.cards?.length) return;
+    m.cards.forEach(c => {
+      const html = buildHubCard(c, key, m);
+      allCards.push(html);
+      grids[key]?.push(html);
+    });
   });
 
-  function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0, 0);
-  }
+  document.getElementById('hub-todos-grid').innerHTML = allCards.length
+    ? allCards.join('') : '<div class="hub-empty"><h3>Sem pautas</h3><p>Nenhuma pauta encontrada no briefing.</p></div>';
 
-  function goToHub() {
-    showPage('page-hub');
-    document.getElementById('admin-back').style.display = 'block';
-  }
+  Object.entries(grids).forEach(([key, cards]) => {
+    document.getElementById('hub-' + key + '-grid').innerHTML = cards.length
+      ? cards.join('') : `<div class="hub-empty"><h3>Sem pautas para ${key}</h3></div>`;
+  });
+}
 
-  function showAdmin() {
-    showPage('page-admin');
-    document.getElementById('admin-back').style.display = 'none';
-  }
-
-  function logout() {
-    isAdmin = false;
-    document.getElementById('login-user').value = '';
-    showPage('page-login');
-  }
-
-  // ── MODAL ──────────────────────────────────────
-  function openModal() { document.getElementById('modal').classList.add('active'); }
-  function closeModal() { document.getElementById('modal').classList.remove('active'); }
-
-  // ── TOAST ──────────────────────────────────────
-  function showToast(msg, type = '') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast' + (type ? ' ' + type : '');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3500);
-  }
-
-  // ── DASHBOARD INIT ─────────────────────────────
-  function initDashboard() {
-    // Data/hora
-    const now = new Date();
-    document.getElementById('dash-date').textContent =
-      'Visão Geral — ' + now.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
-
-    // Busca status das ferramentas
-    fetchStatus();
-  }
-
-  // ── FETCH STATUS ───────────────────────────────
-  async function fetchStatus() {
-    try {
-      const r = await fetch(BASE + '/api/status');
-      const data = await r.json();
-      if (!data.ok) throw new Error('API error');
-      applyStatus(data.tools);
-    } catch (e) {
-      console.warn('Status API indisponível — modo demo ativo');
-      applyDemoStatus();
-    }
-  }
-
-  function applyStatus(tools) {
-    const now = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    let activeCount = 0;
-
-    // Gemini
-    const g = tools.gemini;
-    if (g.status === 'active') {
-      activeCount++;
-      document.getElementById('gemini-badge').textContent = 'Ativo';
-      document.getElementById('gemini-badge').className = 'badge b-active';
-      document.getElementById('gemini-last').textContent = 'Última: agora';
-      document.getElementById('gemini-desc').textContent = g.summary || 'Captura concluída.';
-      document.getElementById('gemini-pct').textContent = '100%';
-      document.getElementById('gemini-bar').style.width = '100%';
-      document.getElementById('tl-gemini-desc').textContent = g.summary?.substring(0, 40) || 'Captura concluída';
-      document.querySelector('.tl-gemini .tl-time').innerHTML =
-        now + ' <span class="tl-tag" style="background:linear-gradient(90deg,#4F46E5,#7C3AED);color:#fff">Gemini</span>';
-      document.querySelector('.tl-gemini').classList.remove('pending');
-    } else if (g.status === 'error') {
-      document.getElementById('gemini-badge').textContent = 'Erro';
-      document.getElementById('gemini-badge').className = 'badge b-error';
-      document.getElementById('gemini-desc').textContent = g.summary || 'Falha na conexão.';
-    }
-
-    // Grok
-    const gk = tools.grok;
-    if (gk.status === 'active') {
-      activeCount++;
-      document.getElementById('grok-badge').textContent = 'Ativo';
-      document.getElementById('grok-badge').className = 'badge b-grok';
-      document.getElementById('grok-last').textContent = 'Última: agora';
-      document.getElementById('grok-desc').textContent = gk.summary || 'Trends capturados.';
-      document.getElementById('grok-pct').textContent = '85%';
-      document.getElementById('grok-bar').style.width = '85%';
-      document.getElementById('tl-grok-desc').textContent = gk.summary?.substring(0, 40) || 'Trends capturados';
-      document.querySelector('.tl-grok .tl-time').innerHTML =
-        now + ' <span class="tl-tag" style="border:1px solid var(--grok);color:var(--grok);background:rgba(255,45,85,.1)">Grok</span>';
-      document.querySelector('.tl-grok').classList.remove('pending');
-    } else if (gk.status === 'error') {
-      document.getElementById('grok-badge').textContent = 'Erro';
-      document.getElementById('grok-badge').className = 'badge b-error';
-      document.getElementById('grok-desc').textContent = gk.summary || 'Falha na conexão.';
-    }
-
-    // Claude sempre ativo
-    activeCount++;
-    // Opal + Perplexity = manual/pending mas contam como "configurados"
-    activeCount += 2;
-
-    // Nodes counter
-    document.getElementById('nodes-count').textContent = activeCount + '/5';
-    document.getElementById('net-nodes').textContent = activeCount + '/5';
-    const pct = (activeCount / 5) * 100;
-    document.getElementById('net-fill').style.width = pct + '%';
-    document.getElementById('net-label').textContent =
-      activeCount >= 4 ? 'Sistema operante — banda estável' : 'Sistema parcial — ' + (5 - activeCount) + ' nó(s) pendente(s)';
-    document.getElementById('sys-status').textContent =
-      activeCount >= 4 ? 'Sistemas Operantes' : 'Sistema Parcial';
-
-    // Insights
-    updateInsights(tools);
-  }
-
-  function applyDemoStatus() {
-    // Fallback visual quando API não está disponível
-    document.getElementById('gemini-badge').textContent = 'Demo';
-    document.getElementById('gemini-badge').className = 'badge b-idle';
-    document.getElementById('gemini-desc').textContent = 'API em verificação. Configure GEMINI_API_KEY no Vercel.';
-    document.getElementById('grok-badge').textContent = 'Demo';
-    document.getElementById('grok-badge').className = 'badge b-idle';
-    document.getElementById('grok-desc').textContent = 'API em verificação. Configure GROK_API_KEY no Vercel.';
-    document.getElementById('nodes-count').textContent = '1/5';
-    document.getElementById('net-nodes').textContent = '1/5';
-    document.getElementById('net-fill').style.width = '20%';
-    document.getElementById('net-label').textContent = 'Modo demo — configure as API keys';
-    document.getElementById('sys-status').textContent = 'Modo Demo';
-  }
-
-  function updateInsights(tools) {
-    const list = document.getElementById('insights-list');
-    const items = [];
-
-    if (tools.gemini?.status === 'active' && tools.gemini.summary) {
-      items.push({ icon: 'auto_awesome', color: 'var(--cyan)', title: tools.gemini.summary, source: 'GEMINI' });
-    }
-    if (tools.grok?.status === 'active' && tools.grok.summary) {
-      items.push({ icon: 'bolt', color: 'var(--grok)', title: 'Trends: ' + tools.grok.summary, source: 'GROK' });
-    }
-    items.push({ icon: 'psychology', color: 'var(--claude)', title: 'Claude em sessão — raciocínio ativo', source: 'CLAUDE' });
-
-    if (items.length === 0) return;
-
-    list.innerHTML = items.map(i => `
-      <div class="insight-row">
-        <span class="material-symbols-outlined i-icon" style="color:${i.color}">${i.icon}</span>
-        <div class="i-text">
-          <h4>${i.title}</h4>
-          <p>${i.source} · ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
-        </div>
-        <span class="material-symbols-outlined" style="font-size:16px;color:var(--text-dim)">chevron_right</span>
+function buildHubCard(c, mandatoKey, m) {
+  const colors = { lincoln:'#4F46E5', marilda:'#EC4899', ale:'#10B981' };
+  const color = colors[mandatoKey] || '#595e70';
+  const pLabels = { alta:'Alta', media:'Média', baixa:'Baixa' };
+  const pColors = { alta:'pb-alta', media:'pb-media', baixa:'pb-baixa' };
+  return `
+    <div class="hcard hcard-${mandatoKey}">
+      <div class="hcard-meta">
+        <span class="hcat" style="border-color:${color};color:${color}">${m?.cargo || mandatoKey}</span>
+        <span class="hdate">${new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'})}</span>
+        <span class="prio-badge ${pColors[c.prioridade] || 'pb-media'}">${pLabels[c.prioridade] || 'Média'}</span>
       </div>
-    `).join('');
-  }
+      <h2>${c.titulo}</h2>
+      <p>${c.descricao}</p>
+      <div class="hcard-acao">${c.acao}</div>
+    </div>`;
+}
 
-  // ── RUN FLOW ───────────────────────────────────
-  async function runFlow() {
-    closeModal();
-    const btn = document.getElementById('flow-btn');
-    btn.disabled = true;
-    btn.textContent = 'EXECUTANDO...';
-    showToast('🚀 Fluxo iniciado — Gemini → Grok → Claude');
+function renderDashSummary(b) {
+  const el = document.getElementById('dash-briefing-summary');
+  el.style.display = 'block';
+  document.getElementById('dash-briefing-resumo').textContent = b.resumo || '';
+  document.getElementById('dash-briefing-date').textContent = b.data || new Date().toLocaleDateString('pt-BR');
+  const tags = document.getElementById('dash-mandato-tags');
+  const counts = {
+    lincoln: b.mandatos?.lincoln?.cards?.length || 0,
+    marilda: b.mandatos?.marilda?.cards?.length || 0,
+    ale: b.mandatos?.ale?.cards?.length || 0,
+  };
+  tags.innerHTML = Object.entries(counts).map(([k,n]) => n > 0 ? `
+    <span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:100px;${mandatoStyle(k)}">
+      ${k.charAt(0).toUpperCase()+k.slice(1)}: ${n} pauta${n>1?'s':''}
+    </span>` : '').join('');
+}
 
-    try {
-      const r = await fetch(BASE + '/api/flow', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
-      const data = await r.json();
-
-      if (data.ok) {
-        // Atualiza timeline com dados reais
-        if (data.timeline) {
-          data.timeline.forEach(item => {
-            const key = item.tool.toLowerCase();
-            const el = document.getElementById('tl-' + key + '-desc');
-            if (el) el.textContent = item.action;
-          });
-        }
-
-        // Publica cards gerados pelo Claude no HUB
-        if (data.claudeReport?.cards) {
-          const grid = document.getElementById('hub-grid');
-          const existingCards = grid.querySelectorAll('.hub-card');
-          const imgs = [
-            'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=80',
-            'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80',
-          ];
-          data.claudeReport.cards.forEach((card, i) => {
-            if (existingCards[i]) {
-              existingCards[i].querySelector('h2').textContent = card.title;
-              existingCards[i].querySelector('p').textContent = card.summary;
-              existingCards[i].querySelector('.cat-tag').textContent = card.category;
-              existingCards[i].querySelector('.pub-date').textContent =
-                new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-              if (imgs[i]) existingCards[i].querySelector('img').src = imgs[i];
-            }
-          });
-        }
-
-        // Atualiza status geral
-        await fetchStatus();
-        showToast('✅ Fluxo concluído — HUB atualizado!', 'success');
-      }
-    } catch (e) {
-      showToast('⚠️ API indisponível em desenvolvimento local', 'error');
-      console.error(e);
+// Tenta carregar briefing existente no HUB
+async function loadHubBriefing() {
+  try {
+    const r = await fetch('/api/briefing');
+    const d = await r.json();
+    if (d.ok && d.briefings?.length > 0) {
+      renderHubCards(d.briefings[0]);
     }
+  } catch {}
+}
 
-    btn.disabled = false;
-    btn.textContent = 'INICIALIZAR FLUXO';
-  }
+// ═══════════════════════════════════════════════
+//  FLOW + MODAL
+// ═══════════════════════════════════════════════
+function openModal() { document.getElementById('modal').classList.add('active'); }
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
 
-  // ── HUB FILTER ─────────────────────────────────
-  function setFilter(btn) {
-    document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-  }
+async function runFlow() {
+  closeModal();
+  toast('🚀 Fluxo iniciado — Gemini → Grok → Claude');
+  try {
+    const r = await fetch('/api/flow', { method:'POST', headers:{'Content-Type':'application/json'} });
+    const d = await r.json();
+    if (d.ok) { await fetchStatus(); toast('✅ Fluxo concluído!', 'ok'); }
+  } catch { toast('⚠️ Erro no fluxo', 'err'); }
+}
 
-  // Auto-refresh a cada 5 minutos quando admin estiver na tela
-  setInterval(() => {
-    if (document.getElementById('page-admin').classList.contains('active')) fetchStatus();
-  }, 5 * 60 * 1000);
+// ═══════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (type ? ' '+type : '');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Auto-refresh status a cada 5 min
+setInterval(() => {
+  if (document.getElementById('pg-admin').classList.contains('active')) fetchStatus();
+}, 5*60*1000);
 </script>
 </body>
 </html>
