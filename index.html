@@ -1176,14 +1176,15 @@ async function loadHistorico() {
 
 async function verBriefingHistorico(id) {
   try {
-    const r = await fetch('/api/briefing?limit=50');
+    // CORRIGIDO: busca briefing individual por id (era carregado o top50 e buscado localmente)
+    const r = await fetch('/api/briefing?id=' + id);
     const d = await r.json();
-    const briefing = d.briefings?.find(b => b.id == id);
-    if (!briefing) { toast('Briefing não encontrado', 'err'); return; }
-    // Renderiza nas abas dos mandatos
+    if (!d.ok || !d.briefing) { toast('Briefing não encontrado', 'err'); return; }
+    const briefing = d.briefing;
     renderAdminCards(briefing);
     renderHubCards(briefing);
-    toast('Briefing de ' + (briefing.data || id) + ' carregado', 'ok');
+    renderDashSummary(briefing);
+    toast('Briefing de ' + (briefing.data || id) + ' carregado ✓', 'ok');
     showTab('lincoln');
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
