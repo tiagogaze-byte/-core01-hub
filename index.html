@@ -701,7 +701,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
             <div class="qa-label">Ações Rápidas</div>
             <button class="qa-btn qa-primary" onclick="showTab('briefing')"><span class="mi" style="font-size:14px">add</span> Novo Briefing</button>
             <button class="qa-btn qa-secondary" onclick="window.open('/hub.html','_blank')"><span class="mi" style="font-size:14px">open_in_new</span> Abrir HUB</button>
-            <button class="qa-btn qa-secondary" onclick="carregarNoticias(true)"><span class="mi" style="font-size:14px">refresh</span> Atualizar Feed</button>
+            <button class="qa-btn qa-secondary" onclick="carregarPainel()"><span class="mi" style="font-size:14px">refresh</span> Atualizar Feed</button>
           </div>
         </div>
 
@@ -1328,8 +1328,7 @@ function initDash() {
   document.getElementById('dash-date').textContent =
     now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
   fetchStatus();
-  carregarNoticias();
-  renderFerramentasExtras();
+  renderFerramentasCustom();
 }
 
 async function fetchStatus() {
@@ -1972,8 +1971,52 @@ function removerFerramenta(id) {
 // ─── ANALYTICS — modal detalhe assessor ──
 async function verDetalheAssessor(email, nome) {
   document.getElementById('modal-assessor').classList.add('active');
-  const c = document.getElementById('modal-assessor-content');
-  c.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text3)">Carregando...</div>`;
+  document.getElementById('modal-assessor-nome').textContent = nome;
+  const body = document.getElementById('modal-assessor-body');
+  body.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text3)">Carregando...</div>`;
+  try {
+    const r = await fetch('/api/analytics?email=' + encodeURIComponent(email), {
+      headers: { Authorization: 'Bearer ' + adminToken }
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+    const s = d.summary;
+    if (!s) { body.innerHTML = `<div style="color:var(--text3);padding:20px;font-size:12px">Sem dados desta semana.</div>`; return; }
+
+    const accessTimes = s.accessTimes || [];
+    const horasPico = accessTimes.length
+      ? Object.entries(accessTimes.reduce((acc, h) => { acc[h] = (acc[h]||0)+1; return acc; }, {}))
+          .sort((a,b)=>b[1]-a[1]).slice(0,3).map(([h]) => h+'h').join(', ')
+      : '—';
+
+    body.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        ${[
+          {l:'Sessões',v:s.sessions||0,c:'var(--cyan)'},
+          {l:'Tempo',v:(Math.round((s.totalTime||0)/60))+'min',c:'var(--lincoln)'},
+          {l:'Cards vistos',v:s.cardsViewed?.length||0,c:'var(--ale)'},
+          {l:'Copies',v:s.copiesMade?.length||0,c:'var(--marilda)'},
+        ].map(x=>`<div style="background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:${x.c};font-family:'IBM Plex Mono',monospace">${x.v}</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-top:2px">${x.l}</div></div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Cards Acessados</div>
+          ${(s.cardsViewed||[]).slice(-6).reverse().map(c=>`<div style="padding:6px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:2px;margin-bottom:4px"><div style="font-size:11px;color:#fff">${c.title||c}</div><div style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${c.mandato||''} · ${c.ts?new Date(c.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):''}</div></div>`).join('')||'<div style="font-size:11px;color:var(--text3)">Nenhum card ainda</div>'}
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Copies Realizadas</div>
+          ${(s.copiesMade||[]).slice(-5).reverse().map(c=>`<div style="padding:6px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:2px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:var(--text2);font-family:'IBM Plex Mono',monospace">${c.preview||c}...</div>`).join('')||'<div style="font-size:11px;color:var(--text3)">Nenhuma copy ainda</div>'}
+        </div>
+      </div>
+      <div style="padding:10px 12px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--text3)">
+        <span>Dispositivo: <strong style="color:#fff">${Object.entries(s.devices||{}).map(([k,v])=>k+'('+v+')').join(' ')||'—'}</strong></span>
+        <span>Pico: <strong style="color:#fff">${horasPico}</strong></span>
+        <span>Último acesso: <strong style="color:#fff">${s.lastSeen?new Date(s.lastSeen).toLocaleString('pt-BR'):'—'}</strong></span>
+      </div>`;
+  } catch (e) {
+    body.innerHTML = `<div style="color:var(--text3);padding:20px;font-size:12px">Erro: ${e.message}</div>`;
+  }
+}
   try {
     const r = await fetch('/api/analytics?email=' + encodeURIComponent(email), {
       headers: { Authorization: 'Bearer ' + adminToken }
@@ -2185,81 +2228,6 @@ async function loadAnalytics() {
       return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);width:26px;text-align:right">${h.toString().padStart(2,'0')}h</div><div style="flex:1;height:5px;background:var(--bg5);border-radius:100px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--cyan);border-radius:100px"></div></div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);width:18px">${count||''}</div></div>`;
     }).join('');
   }catch(e){toast('Erro: '+e.message,'err');}
-}
-
-// ═══════════════════════════════════════
-//  FEED DE NOTÍCIAS
-// ═══════════════════════════════════════
-async function carregarNoticias(refresh = false) {
-  const url = '/api/noticias?tipo=todos' + (refresh ? '&refresh=1' : '');
-  try {
-    const r = await fetch(url, { headers: { Authorization: 'Bearer ' + adminToken } });
-    const d = await r.json();
-    if (!d.ok) return;
-    renderFeedParlamentares(d.parlamentares || [], d.alertas || []);
-    renderFeedCamaras(d.camaras || []);
-  } catch (e) {
-    document.getElementById('feed-parlamentares').innerHTML = `<div style="font-size:11px;color:var(--text3);padding:12px">Erro: ${e.message}</div>`;
-    document.getElementById('feed-camaras').innerHTML = `<div style="font-size:11px;color:var(--text3);padding:12px">Erro: ${e.message}</div>`;
-  }
-}
-
-function renderFeedParlamentares(noticias, alertas) {
-  const el = document.getElementById('feed-parlamentares');
-  const cores = { lincoln:'var(--lincoln)', marilda:'var(--marilda)', ale:'var(--ale)' };
-  const nomes = { lincoln:'Lincoln', marilda:'Marilda', ale:'Alê' };
-
-  const itens = [
-    ...alertas.filter(a => a.subject).map(a => ({
-      titulo: a.subject.replace(/Google Alert.*?-/,'').trim(),
-      resumo: 'Google Alert',
-      parlamentar: 'geral',
-      fonte: 'Google Alerts'
-    })),
-    ...noticias
-  ];
-
-  if (!itens.length) {
-    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Nenhuma notícia encontrada.<br>Configure os Google Alerts para os parlamentares.</div>';
-    return;
-  }
-
-  el.innerHTML = itens.map(n => `
-    <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start">
-      <div style="width:4px;height:36px;border-radius:100px;background:${cores[n.parlamentar]||'var(--text3)'};flex-shrink:0;margin-top:2px"></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:3px">${n.titulo||'—'}</div>
-        <div style="font-size:10px;color:var(--text3);line-height:1.4">${n.resumo||''}</div>
-        <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
-          ${n.parlamentar && n.parlamentar !== 'geral' ? `<span style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:100px;background:${cores[n.parlamentar]}22;color:${cores[n.parlamentar]}">${nomes[n.parlamentar]||n.parlamentar}</span>` : ''}
-          <span style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${n.fonte||n.url||''}</span>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function renderFeedCamaras(noticias) {
-  const el = document.getElementById('feed-camaras');
-  const cores = { federal:'var(--lincoln)', municipal:'var(--marilda)', almg:'var(--ale)' };
-  const labels = { federal:'Federal', municipal:'BH', almg:'ALMG' };
-
-  if (!noticias.length) {
-    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Buscando pautas das casas legislativas...</div>';
-    return;
-  }
-
-  el.innerHTML = noticias.map(n => `
-    <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start">
-      <div style="width:4px;height:36px;border-radius:100px;background:${cores[n.casa]||'var(--cyan)'};flex-shrink:0;margin-top:2px"></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:3px">${n.titulo||'—'}</div>
-        <div style="font-size:10px;color:var(--text3);line-height:1.4">${n.resumo||''}</div>
-        <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
-          ${n.casa ? `<span style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:100px;background:${(cores[n.casa]||'var(--cyan)')+'22'};color:${cores[n.casa]||'var(--cyan)'}">${labels[n.casa]||n.casa}</span>` : ''}
-          ${n.url ? `<a href="${n.url}" target="_blank" style="font-size:9px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;text-decoration:none">${n.url.replace(/^https?:\/\//,'').split('/')[0]}</a>` : ''}
-        </div>
-      </div>
-    </div>`).join('');
 }
 
 // ═══════════════════════════════════════
