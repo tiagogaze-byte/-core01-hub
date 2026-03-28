@@ -1161,12 +1161,16 @@ async function doLogin() {
     initDash();
     initDataHoje();
 
-    // Mostra abas exclusivas
+    // Ativa abas e nav do master/admin imediatamente
     if (['master', 'admin'].includes(adminRole)) {
-      document.getElementById('nav-usuarios').style.display = 'flex';
-      document.getElementById('nav-analytics').style.display = 'flex';
-      document.getElementById('tab-usuarios').style.display = 'block';
-      document.getElementById('tab-analytics').style.display = 'block';
+      ['nav-usuarios','nav-analytics'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'flex';
+      });
+      ['tab-usuarios','tab-analytics'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+      });
     }
   } catch (e) {
     alert('Erro de conexão: ' + e.message);
@@ -1204,10 +1208,13 @@ function showTab(name) {
   const titles = {
     dashboard:'Painel de Controle', briefing:'Publicar Briefing',
     lincoln:'Lincoln Portela', marilda:'Marilda Portela', ale:'Alê Portela',
-    historico:'Arquivo de Briefings', ferramentas:'Ferramentas'
+    historico:'Arquivo de Briefings', ferramentas:'Ferramentas',
+    usuarios:'Gerenciar Usuários', analytics:'Dashboard Analytics'
   };
   document.getElementById('page-title').textContent = titles[name] || 'CORE-01';
   if (name === 'historico') loadHistorico();
+  if (name === 'usuarios')  loadUsuarios();
+  if (name === 'analytics') loadAnalytics();
 }
 
 // ═══════════════════════════════════════
@@ -1650,13 +1657,6 @@ async function verificarAdmin() {
   } catch {}
 }
 
-// Override showTab para carregar dados nas abas certas
-const _origShowTab = showTab;
-function showTab(name) {
-  _origShowTab(name);
-  if (name === 'usuarios') loadUsuarios();
-  if (name === 'analytics') loadAnalytics();
-}
 
 async function loadUsuarios() {
   const list = document.getElementById('users-list');
