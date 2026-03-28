@@ -2279,9 +2279,13 @@ function abrirModalAssessor(assessor) {
 
 // Init admin auth
 window.addEventListener('load', async () => {
+  // Mostra login imediatamente — nunca trava na tela branca
+  showPage('pg-login');
+
+  // Seed em background — não bloqueia nada
   fetch('/api/auth?action=seed').catch(() => {});
 
-  // Sessão persistente — verifica token salvo
+  // Se tem token salvo, verifica em background e entra direto
   if (adminToken) {
     try {
       const r = await fetch('/api/auth?action=verify', {
@@ -2306,17 +2310,17 @@ window.addEventListener('load', async () => {
           });
         }
         carregarPainel();
-        return;
+      } else {
+        // Token inválido — limpa e fica no login
+        adminToken = '';
+        adminRole = '';
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('admin_role');
       }
-    } catch {}
-    // Token inválido — limpa
-    adminToken = '';
-    adminRole = '';
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin_role');
+    } catch {
+      // Erro de rede — fica no login
+    }
   }
-  // Sem sessão — mostra login
-  showPage('pg-login');
 });
 </script>
 </body>
