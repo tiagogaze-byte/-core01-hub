@@ -602,7 +602,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
       <button class="rbtn active" id="r-admin" onclick="selRole('admin')">Gestor</button>
       <button class="rbtn" id="r-visitor" onclick="selRole('visitor')">Assessor →</button>
     </div>
-    <input class="linput" type="text" placeholder="usuário" id="l-user">
+    <input class="linput" type="text" placeholder="email ou usuário" id="l-user" autocomplete="email">
     <input class="linput" type="password" placeholder="senha" id="l-pass">
     <button class="lbtn" onclick="doLogin()">ENTRAR NO SISTEMA</button>
     <div class="lhint">gestor: <span>admin</span> · assessor: <span>hub</span></div>
@@ -1120,15 +1120,57 @@ function selRole(r) {
   }
 }
 
-function doLogin() {
+async function doLogin() {
   if (currentRole === 'visitor') {
     window.location.href = '/hub.html';
     return;
   }
-  isAdmin = true;
-  showPage('pg-admin');
-  initDash();
-  initDataHoje();
+
+  const email = document.getElementById('l-user').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+
+  // Se não preencheu email/senha, entra em modo demo (sem auth)
+  if (!email && !pass) {
+    isAdmin = true;
+    showPage('pg-admin');
+    initDash();
+    initDataHoje();
+    return;
+  }
+
+  // Login real via API
+  try {
+    const r = await fetch('/api/auth?action=login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass }),
+    });
+    const d = await r.json();
+    if (!d.ok) {
+      alert('Erro: ' + (d.error || 'Credenciais inválidas'));
+      return;
+    }
+    // Salva token do admin
+    adminToken = d.token;
+    adminRole  = d.user.role;
+    localStorage.setItem('admin_token', adminToken);
+    localStorage.setItem('admin_role', adminRole);
+
+    isAdmin = true;
+    showPage('pg-admin');
+    initDash();
+    initDataHoje();
+
+    // Mostra abas exclusivas
+    if (['master', 'admin'].includes(adminRole)) {
+      document.getElementById('nav-usuarios').style.display = 'flex';
+      document.getElementById('nav-analytics').style.display = 'flex';
+      document.getElementById('tab-usuarios').style.display = 'block';
+      document.getElementById('tab-analytics').style.display = 'block';
+    }
+  } catch (e) {
+    alert('Erro de conexão: ' + e.message);
+  }
 }
 
 document.addEventListener('keydown', e => {
@@ -1143,6 +1185,10 @@ function showPage(id) {
 
 function logout() {
   isAdmin = false;
+  adminToken = '';
+  adminRole = '';
+  localStorage.removeItem('admin_token');
+  localStorage.removeItem('admin_role');
   showPage('pg-login');
 }
 
