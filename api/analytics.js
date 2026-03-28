@@ -116,13 +116,20 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true });
   }
 
-  // ── GET: dashboard do master ──────────────────────────
+  // ── GET: dashboard ou detalhe por email ─────────────
   if (req.method === 'GET') {
     const session = await getSession(req);
     if (!session || session.role !== 'master')
       return res.status(403).json({ error: 'Apenas o Master pode ver analytics' });
 
+    const emailParam = req.query.email || '';
     const week = req.query.week || getWeekKey();
+
+    // Detalhe de um assessor específico
+    if (emailParam) {
+      const summary = await kvGet(`analytics:user:${emailParam}:${week}`);
+      return res.status(200).json({ ok: true, summary: summary || null });
+    }
     const weekEmails = (await kvGet('analytics:week:' + week)) || [];
 
     const summaries = await Promise.all(
