@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portela Hub | Pautas da Semana</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1a;
+  --ink-2: #3d3d3d;
+  --ink-3: #6b6b6b;
+  --paper: #f7f5f0;
+  --paper-2: #eeebe4;
+  --paper-3: #e4e0d8;
+  --rule: rgba(26,26,26,.12);
+  --lincoln: #2B3A8F;
+  --marilda: #9B2257;
+  --ale: #1A6B3A;
+  --accent: #C8502A;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+.mi { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; font-size: 18px; font-family: 'Material Symbols Outlined'; }
+
+/* ── HEADER ── */
+.hub-header {
+  background: var(--ink);
+  padding: 0 48px;
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.hub-wordmark {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--paper); letter-spacing: -.02em;
+  display: flex; align-items: center; gap: 10px;
+}
+.hub-wordmark .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.hub-nav-links { display: flex; gap: 28px; }
+.hub-nav-links a {
+  font-size: 12px; font-weight: 500; letter-spacing: .04em;
+  color: rgba(247,245,240,.5); text-decoration: none;
+  text-transform: uppercase; transition: color .2s;
+}
+.hub-nav-links a:hover, .hub-nav-links a.active { color: var(--paper); }
+.hub-badge {
+  font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px;
+  border: 1px solid rgba(247,245,240,.2); color: rgba(247,245,240,.5);
+  cursor: pointer; transition: all .2s; background: transparent;
+  font-family: 'DM Sans', sans-serif;
+}
+.hub-badge:hover { border-color: var(--paper); color: var(--paper); }
+
+/* ── MARQUEE ── */
+.marquee-bar {
+  background: var(--accent); padding: 8px 0;
+  overflow: hidden; white-space: nowrap;
+}
+.marquee-inner {
+  display: inline-flex; gap: 48px;
+  animation: marquee 30s linear infinite;
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(247,245,240,.9);
+}
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-sep { opacity: .4; }
+
+/* ── HERO ── */
+.hub-hero {
+  padding: 64px 48px 48px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 32px;
+}
+.hub-hero-left h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 900; line-height: .95;
+  letter-spacing: -.04em; color: var(--ink);
+  margin-bottom: 16px;
+}
+.hub-hero-left h1 em { font-style: italic; color: var(--accent); }
+.hub-hero-desc {
+  font-size: 16px; color: var(--ink-3); max-width: 440px;
+  line-height: 1.6; font-weight: 400;
+}
+.hub-hero-right { text-align: right; flex-shrink: 0; }
+.hub-hero-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-3);
+  margin-bottom: 8px;
+}
+.hub-hero-count {
+  font-family: 'Fraunces', serif;
+  font-size: 56px; font-weight: 900; line-height: 1;
+  color: var(--ink); letter-spacing: -.04em;
+}
+.hub-hero-count-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); margin-top: 4px;
+}
+
+/* ── FILTROS ── */
+.hub-filters {
+  padding: 16px 48px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; gap: 4px; align-items: center;
+  position: sticky; top: 56px; z-index: 90;
+  background: var(--paper);
+}
+.fpill {
+  padding: 7px 18px; border-radius: 100px;
+  font-size: 12px; font-weight: 600; letter-spacing: .02em;
+  cursor: pointer; border: 1.5px solid transparent;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s; background: transparent;
+}
+.fpill.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.fpill:not(.active) { color: var(--ink-3); border-color: var(--rule); }
+.fpill:not(.active):hover { border-color: var(--ink-3); color: var(--ink); }
+.fpill-lincoln.active { background: var(--lincoln); border-color: var(--lincoln); }
+.fpill-marilda.active { background: var(--marilda); border-color: var(--marilda); }
+.fpill-ale.active { background: var(--ale); border-color: var(--ale); }
+.filter-sep { width: 1px; height: 20px; background: var(--rule); margin: 0 8px; }
+
+/* ── MAIN ── */
+.hub-main { max-width: 1200px; margin: 0 auto; padding: 0 48px 80px; }
+
+/* ── KANBAN ── */
+.kanban-day { padding: 40px 0; border-bottom: 1px solid var(--rule); }
+.kanban-day:last-child { border-bottom: none; }
+.day-header {
+  display: flex; align-items: baseline; gap: 16px;
+  margin-bottom: 28px;
+}
+.day-label {
+  font-family: 'Fraunces', serif;
+  font-size: 28px; font-weight: 700; letter-spacing: -.03em;
+  color: var(--ink);
+}
+.day-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; padding: 3px 10px;
+  border-radius: 100px; border: 1.5px solid;
+}
+.day-tag.hoje { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.day-tag.semana { color: var(--ink-3); border-color: var(--rule); }
+.day-count { font-size: 12px; color: var(--ink-3); font-weight: 500; margin-left: auto; }
+
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+/* ── CARDS ── */
+.pauta-card {
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: 3px;
+  padding: 24px;
+  transition: all .2s;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.pauta-card:hover { border-color: var(--ink-3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,26,26,.08); }
+.pauta-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+}
+.pauta-card.lincoln::before { background: var(--lincoln); }
+.pauta-card.marilda::before { background: var(--marilda); }
+.pauta-card.ale::before { background: var(--ale); }
+
+.card-mandato-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.card-mandato-tag.lincoln { color: var(--lincoln); }
+.card-mandato-tag.marilda { color: var(--marilda); }
+.card-mandato-tag.ale { color: var(--ale); }
+
+.card-prio {
+  font-size: 8px; font-weight: 800; letter-spacing: .15em;
+  text-transform: uppercase; padding: 2px 8px;
+  border-radius: 100px; margin-left: auto;
+}
+.prio-alta { background: #fee2e2; color: #dc2626; }
+.prio-media { background: #fef3c7; color: #d97706; }
+.prio-baixa { background: #f0fdf4; color: #16a34a; }
+
+.card-titulo {
+  font-family: 'Fraunces', serif;
+  font-size: 18px; font-weight: 600;
+  letter-spacing: -.02em; line-height: 1.25;
+  color: var(--ink);
+}
+.card-desc {
+  font-size: 13px; color: var(--ink-3);
+  line-height: 1.65; flex: 1;
+}
+.card-acao {
+  font-size: 12px; font-weight: 600; color: var(--ink-2);
+  padding: 8px 12px;
+  background: var(--paper-2);
+  border-radius: 3px;
+  border-left: 2px solid var(--ink-3);
+  line-height: 1.4;
+}
+.card-copy-wrap {
+  background: var(--paper-3);
+  border-radius: 3px;
+  padding: 12px 14px;
+  position: relative;
+}
+.card-copy-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px;
+}
+.card-copy-text {
+  font-size: 12px; color: var(--ink-2); line-height: 1.6;
+  font-family: 'DM Mono', monospace;
+}
+.card-copy-btn {
+  margin-top: 8px; padding: 5px 14px;
+  background: var(--ink); color: var(--paper);
+  border: none; border-radius: 100px;
+  font-size: 10px; font-weight: 600; letter-spacing: .06em;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
+}
+.card-copy-btn:hover { background: var(--ink-2); }
+
+.card-extra {
+  font-size: 11px; line-height: 1.5;
+  padding: 8px 12px; border-radius: 3px;
+}
+.card-trend { background: #fff7ed; color: #9a3412; border-left: 2px solid #f97316; }
+.card-insight { background: #fdf4ff; color: #86198f; border-left: 2px solid #d946ef; }
+.card-extra-label {
+  font-size: 9px; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; margin-bottom: 4px; display: block;
+}
+
+/* ── EMPTY ── */
+.hub-empty {
+  text-align: center; padding: 80px 20px;
+  color: var(--ink-3);
+}
+.hub-empty h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px; font-weight: 600;
+  color: var(--ink-2); margin-bottom: 8px;
+}
+.hub-empty p { font-size: 14px; line-height: 1.7; }
+
+/* ── ACESSO ── */
+.acesso-section {
+  margin: 48px 0; padding: 48px;
+  background: var(--ink); border-radius: 4px;
+  display: flex; justify-content: space-between; align-items: center; gap: 32px;
+}
+.acesso-section h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px; font-weight: 700; color: var(--paper);
+  letter-spacing: -.03em; margin-bottom: 8px;
+}
+.acesso-section p { font-size: 14px; color: rgba(247,245,240,.6); line-height: 1.6; }
+.acesso-btn {
+  flex-shrink: 0; padding: 14px 32px;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: .04em;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.acesso-btn:hover { filter: brightness(1.1); }
+
+/* ── FOOTER ── */
+.hub-footer {
+  background: var(--ink); padding: 32px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-wm {
+  font-family: 'Fraunces', serif;
+  font-size: 16px; font-weight: 700; color: var(--paper);
+  letter-spacing: -.02em;
+}
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 12px; color: rgba(247,245,240,.4); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--paper); }
+.footer-copy { font-size: 11px; color: rgba(247,245,240,.3); font-family: 'DM Mono', monospace; }
+
+/* ── LOADER ── */
+.loader {
+  text-align: center; padding: 80px 20px; color: var(--ink-3);
+}
+.loader-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; }
+.loader-dots span {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3);
+  animation: bounce .8s infinite;
+}
+.loader-dots span:nth-child(2) { animation-delay: .15s; }
+.loader-dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} }
+
+@media (max-width: 900px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .hub-hero { flex-direction: column; align-items: flex-start; }
+  .hub-hero-right { text-align: left; }
+}
+@media (max-width: 600px) {
+  .hub-header { padding: 0 20px; }
+  .hub-hero { padding: 40px 20px 32px; }
+  .hub-filters { padding: 12px 20px; overflow-x: auto; flex-wrap: nowrap; }
+  .hub-main { padding: 0 20px 60px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .acesso-section { flex-direction: column; padding: 32px 24px; }
+  .hub-footer { padding: 24px 20px; flex-direction: column; gap: 16px; text-align: center; }
+  .hub-nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="hub-header">
+  <div class="hub-wordmark">
+    <span class="dot"></span>
+    Portela Hub
+  </div>
+  <nav class="hub-nav-links">
+    <a href="#" class="active" onclick="setFiltro('todos');return false">Todas as Pautas</a>
+    <a href="#" onclick="setFiltro('lincoln');return false">Lincoln</a>
+    <a href="#" onclick="setFiltro('marilda');return false">Marilda</a>
+    <a href="#" onclick="setFiltro('ale');return false">Alê</a>
+  </nav>
+  <button class="hub-badge" onclick="document.getElementById('acesso').scrollIntoView({behavior:'smooth'})">Solicitar Acesso</button>
+</header>
+
+<!-- Marquee de status -->
+<div class="marquee-bar" id="marquee-bar">
+  <div class="marquee-inner" id="marquee-inner">
+    <span>Portela Hub</span><span class="marquee-sep">·</span>
+    <span>Inteligência Política</span><span class="marquee-sep">·</span>
+    <span>Lincoln Portela — Federal</span><span class="marquee-sep">·</span>
+    <span>Marilda Portela — BH</span><span class="marquee-sep">·</span>
+    <span>Alê Portela — MG</span><span class="marquee-sep">·</span>
+    <span>Portela Hub</span><span class="marquee-sep">·</span>
+    <span>Inteligência Política</span><span class="marquee-sep">·</span>
+    <span>Lincoln Portela — Federal</span><span class="marquee-sep">·</span>
+    <span>Marilda Portela — BH</span><span class="marquee-sep">·</span>
+    <span>Alê Portela — MG</span><span class="marquee-sep">·</span>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hub-hero">
+  <div class="hub-hero-left">
+    <h1>Pautas<br>da <em>Semana</em></h1>
+    <p class="hub-hero-desc" id="hub-resumo">Inteligência estratégica para os mandatos Portela. Atualizado diariamente pela equipe de análise.</p>
+  </div>
+  <div class="hub-hero-right">
+    <div class="hub-hero-date" id="hub-data-hoje"></div>
+    <div class="hub-hero-count" id="hub-total-pautas">—</div>
+    <div class="hub-hero-count-label">Pautas esta semana</div>
+  </div>
+</div>
+
+<!-- Filtros -->
+<div class="hub-filters">
+  <button class="fpill active" data-filtro="todos" onclick="setFiltro('todos')">Todos</button>
+  <div class="filter-sep"></div>
+  <button class="fpill fpill-lincoln" data-filtro="lincoln" onclick="setFiltro('lincoln')">🏛️ Lincoln</button>
+  <button class="fpill fpill-marilda" data-filtro="marilda" onclick="setFiltro('marilda')">🌸 Marilda</button>
+  <button class="fpill fpill-ale" data-filtro="ale" onclick="setFiltro('ale')">⚖️ Alê</button>
+</div>
+
+<!-- Conteúdo principal -->
+<div class="hub-main">
+  <div id="hub-content">
+    <div class="loader">
+      <div class="loader-dots"><span></span><span></span><span></span></div>
+      <p>Carregando pautas da semana...</p>
+    </div>
+  </div>
+
+  <!-- Solicitar acesso -->
+  <div class="acesso-section" id="acesso">
+    <div>
+      <h3>Acesso completo ao Hub</h3>
+      <p>Solicite credenciais para acessar relatórios completos,<br>análises estratégicas e conteúdo exclusivo dos mandatos.</p>
+    </div>
+    <button class="acesso-btn">Solicitar Acesso</button>
+  </div>
+</div>
+
+<footer class="hub-footer">
+  <div class="footer-wm">Portela Hub</div>
+  <div class="footer-links">
+    <a href="#">Privacidade</a>
+    <a href="#">Termos</a>
+    <a href="#">Contato</a>
+  </div>
+  <div class="footer-copy">© 2026 Portela Intelligence</div>
+</footer>
+
+<script>
+let todosOsDias = [];
+let filtroAtivo = 'todos';
+
+// Data de hoje formatada
+const hoje = new Date();
+document.getElementById('hub-data-hoje').textContent =
+  hoje.toLocaleDateString('pt-BR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+
+// Carrega briefings da semana
+async function carregarHub() {
+  try {
+    const r = await fetch('/api/briefing?limit=7');
+    const d = await r.json();
+    if (!d.ok || !d.briefings?.length) {
+      document.getElementById('hub-content').innerHTML = `
+        <div class="hub-empty">
+          <h3>Sem pautas publicadas</h3>
+          <p>O briefing desta semana ainda não foi publicado.<br>Volte em breve.</p>
+        </div>`;
+      return;
+    }
+
+    // Atualiza marquee com resumo do dia mais recente
+    const ultimo = d.briefings[0];
+    if (ultimo?.resumo) {
+      document.getElementById('hub-resumo').textContent = ultimo.resumo;
+      atualizarMarquee(d.briefings);
+    }
+
+    // Conta total de pautas
+    let total = 0;
+    d.briefings.forEach(b => {
+      Object.values(b.mandatos || {}).forEach(m => { total += m?.cards?.length || 0; });
+    });
+    document.getElementById('hub-total-pautas').textContent = total;
+
+    todosOsDias = d.briefings;
+    renderKanban();
+  } catch (e) {
+    document.getElementById('hub-content').innerHTML = `
+      <div class="hub-empty"><h3>Erro ao carregar</h3><p>${e.message}</p></div>`;
+  }
+}
+
+function atualizarMarquee(briefings) {
+  const mandatos = { lincoln: 0, marilda: 0, ale: 0 };
+  briefings.forEach(b => {
+    Object.entries(b.mandatos || {}).forEach(([k, m]) => {
+      if (mandatos[k] !== undefined) mandatos[k] += m?.cards?.length || 0;
+    });
+  });
+  const parts = [
+    'Portela Hub',
+    `Lincoln: ${mandatos.lincoln} pautas`,
+    `Marilda: ${mandatos.marilda} pautas`,
+    briefings.length > 1 ? `${briefings.length} dias publicados` : '1 dia publicado',
+    'Inteligência Política',
+    'Portela Hub',
+    `Lincoln: ${mandatos.lincoln} pautas`,
+    `Marilda: ${mandatos.marilda} pautas`,
+    briefings.length > 1 ? `${briefings.length} dias publicados` : '1 dia publicado',
+    'Inteligência Política',
+  ];
+  document.getElementById('marquee-inner').innerHTML =
+    parts.map((p, i) => i % 2 === 0 ? `<span>${p}</span>` : `<span class="marquee-sep">·</span><span>${p}</span><span class="marquee-sep">·</span>`).join('');
+}
+
+function setFiltro(f) {
+  filtroAtivo = f;
+  document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-filtro="${f}"]`)?.classList.add('active');
+  document.querySelectorAll('.hub-nav-links a').forEach((a, i) => {
+    a.classList.remove('active');
+    if (['todos','lincoln','marilda','ale'][i] === f) a.classList.add('active');
+  });
+  renderKanban();
+}
+
+function renderKanban() {
+  const content = document.getElementById('hub-content');
+  if (!todosOsDias.length) return;
+
+  // Identifica qual é o dia mais recente (pelo timestamp)
+  const maisRecente = todosOsDias.reduce((a, b) =>
+    new Date(a.timestamp) > new Date(b.timestamp) ? a : b);
+
+  const diasHtml = todosOsDias.map(briefing => {
+    const isHoje = briefing.id === maisRecente.id;
+
+    // Filtra cards por mandato
+    const cards = [];
+    Object.entries(briefing.mandatos || {}).forEach(([key, m]) => {
+      if (!m?.cards?.length) return;
+      if (filtroAtivo !== 'todos' && filtroAtivo !== key) return;
+      m.cards.forEach(c => cards.push({ ...c, mandatoKey: key, cargo: m.cargo }));
+    });
+
+    if (cards.length === 0) return '';
+
+    return `
+      <div class="kanban-day">
+        <div class="day-header">
+          <div class="day-label">${briefing.data || '—'}</div>
+          <span class="day-tag ${isHoje ? 'hoje' : 'semana'}">${isHoje ? 'Mais recente' : 'Arquivo'}</span>
+          <div class="day-count">${cards.length} pauta${cards.length > 1 ? 's' : ''}</div>
+        </div>
+        <div class="cards-grid">
+          ${cards.map(c => buildCard(c)).join('')}
+        </div>
+      </div>`;
+  }).filter(Boolean).join('');
+
+  content.innerHTML = diasHtml || `<div class="hub-empty"><h3>Sem pautas para este filtro</h3><p>Tente selecionar outro mandato.</p></div>`;
+}
+
+function buildCard(c) {
+  const mandato = c.mandatoKey;
+  const prio = c.prioridade || 'media';
+  const prioLabel = { alta: 'Alta', media: 'Média', baixa: 'Baixa' };
+  const mandatoLabel = { lincoln: '🏛️ Lincoln', marilda: '🌸 Marilda', ale: '⚖️ Alê' };
+
+  return `
+    <div class="pauta-card ${mandato}">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="card-mandato-tag ${mandato}">${mandatoLabel[mandato] || mandato}</span>
+        <span class="card-prio prio-${prio}">${prioLabel[prio] || 'Média'}</span>
+      </div>
+      <div class="card-titulo">${c.titulo || '—'}</div>
+      <div class="card-desc">${c.descricao || ''}</div>
+      ${c.acao ? `<div class="card-acao">→ ${c.acao}</div>` : ''}
+      ${c.copy ? `
+        <div class="card-copy-wrap">
+          <div class="card-copy-label">Copy para redes</div>
+          <div class="card-copy-text">${c.copy}</div>
+          <button class="card-copy-btn" onclick="copiar(this, \`${(c.copy||'').replace(/`/g,"'").replace(/\\/g,'\\\\')}\`)">Copiar texto</button>
+        </div>` : ''}
+      ${c.trend ? `<div class="card-extra card-trend"><span class="card-extra-label">📈 Como usar — Trend</span>${c.trend}</div>` : ''}
+      ${c.insight ? `<div class="card-extra card-insight"><span class="card-extra-label">💡 Insight Criativo</span>${c.insight}</div>` : ''}
+    </div>`;
+}
+
+function copiar(btn, texto) {
+  navigator.clipboard.writeText(texto).then(() => {
+    btn.textContent = '✓ Copiado!';
+    setTimeout(() => btn.textContent = 'Copiar texto', 2000);
+  });
+}
+
+carregarHub();
+</script>
+</body>
+</html>
