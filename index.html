@@ -630,6 +630,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
     <div class="s-section" style="margin-top:8px">Arquivo</div>
     <a class="nitem" onclick="showTab('historico')" href="#"><span class="mi">history</span> Histórico</a>
     <a class="nitem" onclick="showTab('ferramentas')" href="#"><span class="mi">build</span> Ferramentas</a>
+    <a class="nitem" onclick="showTab('usuarios')" href="#" id="nav-usuarios" style="display:none"><span class="mi">group</span> Usuários</a>
+    <a class="nitem" onclick="showTab('analytics')" href="#" id="nav-analytics" style="display:none"><span class="mi">bar_chart</span> Analytics</a>
 
     <div class="s-divider"></div>
     <div class="s-bot">
@@ -660,6 +662,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
       <div class="tab t-ale" id="tab-ale" onclick="showTab('ale')">⚖️ Alê</div>
       <div class="tab" id="tab-historico" onclick="showTab('historico')">Histórico</div>
       <div class="tab" id="tab-ferramentas" onclick="showTab('ferramentas')">Ferramentas</div>
+      <div class="tab" id="tab-usuarios" onclick="showTab('usuarios')" style="display:none">👥 Usuários</div>
+      <div class="tab" id="tab-analytics" onclick="showTab('analytics')" style="display:none">📊 Analytics</div>
     </div>
 
     <!-- ── DASHBOARD ── -->
@@ -984,10 +988,104 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
       </div>
     </div>
 
+    <!-- ── USUÁRIOS (master only) ── -->
+    <div class="section" id="sec-usuarios">
+      <div class="sec-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em">Gerenciar Usuários</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase">Apenas o Master pode criar e deletar perfis</div>
+          </div>
+          <button onclick="abrirModalNovoUsuario()" style="padding:9px 18px;background:var(--cyan);color:#fff;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;display:flex;align-items:center;gap:6px"><span class="mi" style="font-size:14px">add</span>Novo Usuário</button>
+        </div>
+        <div id="users-list"><div class="mandato-empty"><span class="mi">hourglass_empty</span><p>Carregando...</p></div></div>
+      </div>
+    </div>
+
+    <!-- ── ANALYTICS (master only) ── -->
+    <div class="section" id="sec-analytics">
+      <div class="sec-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em">Dashboard Analytics</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase">Comportamento dos assessores no HUB</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select id="analytics-week" onchange="loadAnalytics()" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:7px 12px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;outline:none">
+              <option value="">Esta semana</option>
+            </select>
+            <button onclick="loadAnalytics()" style="padding:7px 14px;border:1px solid rgba(61,217,245,.3);background:rgba(61,217,245,.08);color:var(--cyan);font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:3px">Atualizar</button>
+          </div>
+        </div>
+        <!-- Stats gerais -->
+        <div id="analytics-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px"></div>
+        <!-- Assessores -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Assessores Ativos</div>
+            <div id="analytics-assessores"></div>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Top Pautas Acessadas</div>
+            <div id="analytics-cards"></div>
+          </div>
+        </div>
+        <!-- Copies e horários -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Copies Mais Copiadas</div>
+            <div id="analytics-copies"></div>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Horários de Pico</div>
+            <div id="analytics-hours"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL NOVO USUÁRIO -->
+<div class="modal-ov" id="modal-usuario">
+  <div class="modal-card" style="max-width:460px;text-align:left">
+    <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:4px" id="modal-user-title">Novo Usuário</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:20px">Preencha os dados do novo membro da equipe.</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Nome</div>
+        <input id="u-name" type="text" placeholder="Nome completo" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'DM Sans',sans-serif">
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Email</div>
+        <input id="u-email" type="email" placeholder="email@dominio.com" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'JetBrains Mono',monospace">
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Telefone (opcional)</div>
+        <input id="u-phone" type="tel" placeholder="(31) 9 9999-9999" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'JetBrains Mono',monospace">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Perfil</div>
+          <select id="u-role" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'DM Sans',sans-serif">
+            <option value="assessor">Assessor (HUB)</option>
+            <option value="admin">Admin (sem gerenciar usuários)</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Senha inicial</div>
+          <input id="u-pass" type="password" placeholder="Min. 8 caracteres" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'JetBrains Mono',monospace">
+        </div>
+      </div>
+    </div>
+    <div id="u-err" style="font-size:11px;color:var(--grok);margin-top:10px;font-family:'JetBrains Mono',monospace;display:none"></div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="m-cancel" onclick="fecharModalUsuario()">Cancelar</button>
+      <button class="m-confirm" onclick="criarUsuario()">CRIAR USUÁRIO</button>
+    </div>
+  </div>
+</div>
 <div class="modal-ov" id="modal">
   <div class="modal-card">
     <div class="m-icon-w"><span class="mi">electric_bolt</span></div>
@@ -1479,6 +1577,159 @@ function toast(msg, type='') {
 setInterval(() => {
   if (document.getElementById('pg-admin').classList.contains('active')) fetchStatus();
 }, 5*60*1000);
+
+// ═══════════════════════════════════════
+//  MASTER: USUÁRIOS
+// ═══════════════════════════════════════
+let adminToken = localStorage.getItem('admin_token') || '';
+let adminRole = localStorage.getItem('admin_role') || '';
+
+function isMaster() { return adminRole === 'master'; }
+
+async function verificarAdmin() {
+  if (!adminToken) return;
+  try {
+    const r = await fetch('/api/auth?action=verify', { headers: { Authorization: 'Bearer ' + adminToken } });
+    const d = await r.json();
+    if (d.ok) {
+      adminRole = d.user.role;
+      localStorage.setItem('admin_role', adminRole);
+      if (['master','admin'].includes(adminRole)) {
+        document.getElementById('nav-usuarios').style.display = 'flex';
+        document.getElementById('nav-analytics').style.display = 'flex';
+        document.getElementById('tab-usuarios').style.display = 'block';
+        document.getElementById('tab-analytics').style.display = 'block';
+      }
+    }
+  } catch {}
+}
+
+// Override showTab para carregar dados nas abas certas
+const _origShowTab = showTab;
+function showTab(name) {
+  _origShowTab(name);
+  if (name === 'usuarios') loadUsuarios();
+  if (name === 'analytics') loadAnalytics();
+}
+
+async function loadUsuarios() {
+  const list = document.getElementById('users-list');
+  if (!list) return;
+  list.innerHTML = '<div class="mandato-empty"><span class="mi">hourglass_empty</span><p>Carregando...</p></div>';
+  try {
+    const r = await fetch('/api/users', { headers: { Authorization: 'Bearer ' + adminToken } });
+    const d = await r.json();
+    if (!d.ok) { list.innerHTML = `<div class="mandato-empty"><span class="mi">error</span><p>${d.error}</p></div>`; return; }
+    const roles = { master:'Master', admin:'Admin', assessor:'Assessor' };
+    const roleColors = { master:'var(--cyan)', admin:'var(--lincoln)', assessor:'var(--ale)' };
+    list.innerHTML = d.users.map(u => `
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg5);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;flex-shrink:0">${u.name.charAt(0).toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:600;color:#fff">${u.name}</div>
+          <div style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:1px">${u.email}${u.phone?' · '+u.phone:''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:100px;border:1px solid;color:${roleColors[u.role]||'var(--text3)'};border-color:${roleColors[u.role]||'var(--border)'}">${roles[u.role]||u.role}</span>
+          <span style="font-size:9px;font-weight:700;padding:2px 9px;border-radius:100px;background:${u.active?'rgba(16,185,129,.1)':'rgba(244,63,94,.1)'};color:${u.active?'var(--ale)':'var(--grok)'}">${u.active?'Ativo':'Inativo'}</span>
+          <span style="font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace">${u.lastLogin?new Date(u.lastLogin).toLocaleDateString('pt-BR'):'Nunca acessou'}</span>
+          ${isMaster()&&u.role!=='master'?`
+            <button onclick="toggleUsuario('${u.email}',${!u.active})" style="padding:4px 10px;background:var(--bg5);border:1px solid var(--border2);color:var(--text2);font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px">${u.active?'Desativar':'Ativar'}</button>
+            <button onclick="deletarUsuario('${u.email}','${u.name}')" style="padding:4px 10px;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.2);color:var(--grok);font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px">Deletar</button>
+          `:''}
+        </div>
+      </div>`).join('')||'<div class="mandato-empty"><span class="mi">inbox</span><p>Nenhum usuário cadastrado.</p></div>';
+  } catch(e){ list.innerHTML=`<div class="mandato-empty"><span class="mi">error</span><p>Erro: ${e.message}</p></div>`; }
+}
+
+function abrirModalNovoUsuario() {
+  ['u-name','u-email','u-phone','u-pass'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('u-err').style.display='none';
+  document.getElementById('modal-usuario').classList.add('active');
+}
+function fecharModalUsuario() { document.getElementById('modal-usuario').classList.remove('active'); }
+
+async function criarUsuario() {
+  const name=document.getElementById('u-name').value.trim();
+  const email=document.getElementById('u-email').value.trim();
+  const phone=document.getElementById('u-phone').value.trim();
+  const role=document.getElementById('u-role').value;
+  const password=document.getElementById('u-pass').value;
+  const err=document.getElementById('u-err');
+  err.style.display='none';
+  if(!name||!email||!password){err.textContent='Nome, email e senha obrigatórios';err.style.display='block';return;}
+  if(password.length<6){err.textContent='Senha mínima: 6 caracteres';err.style.display='block';return;}
+  try{
+    const r=await fetch('/api/users?action=create',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},body:JSON.stringify({name,email,phone,role,password})});
+    const d=await r.json();
+    if(!d.ok){err.textContent=d.error;err.style.display='block';return;}
+    fecharModalUsuario();toast('✅ Usuário criado: '+name,'ok');loadUsuarios();
+  }catch(e){err.textContent='Erro: '+e.message;err.style.display='block';}
+}
+
+async function toggleUsuario(email,active){
+  await fetch('/api/users?action=update',{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},body:JSON.stringify({email,active})}).catch(()=>{});
+  toast(active?'✅ Ativado':'⚠️ Desativado',active?'ok':'');loadUsuarios();
+}
+async function deletarUsuario(email,name){
+  if(!confirm(`Deletar ${name}? Ação irreversível.`))return;
+  const r=await fetch('/api/users?action=delete',{method:'DELETE',headers:{'Content-Type':'application/json','Authorization':'Bearer '+adminToken},body:JSON.stringify({email})}).catch(()=>({json:()=>({ok:false,error:'Erro'})}));
+  const d=await r.json();
+  if(d.ok){toast('✅ Deletado','ok');loadUsuarios();}else toast('Erro: '+d.error,'err');
+}
+
+// ═══════════════════════════════════════
+//  MASTER: ANALYTICS
+// ═══════════════════════════════════════
+async function loadAnalytics() {
+  const week=document.getElementById('analytics-week')?.value||'';
+  try{
+    const r=await fetch('/api/analytics'+(week?'?week='+week:''),{headers:{Authorization:'Bearer '+adminToken}});
+    const d=await r.json();
+    if(!d.ok){toast('Erro analytics: '+d.error,'err');return;}
+    document.getElementById('analytics-stats').innerHTML=[
+      {label:'Assessores',value:d.totalAssessores,color:'var(--cyan)'},
+      {label:'Sessões',value:d.totalSessions,color:'var(--lincoln)'},
+      {label:'Tempo (min)',value:d.totalTimeMin,color:'var(--ale)'},
+      {label:'Semana',value:d.week,color:'var(--text3)',small:true},
+    ].map(s=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center"><div style="font-family:'Syne',sans-serif;font-size:${s.small?'14px':'28px'};font-weight:800;color:${s.color};line-height:1">${s.value||0}</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-top:4px;font-family:'JetBrains Mono',monospace">${s.label}</div></div>`).join('');
+
+    document.getElementById('analytics-assessores').innerHTML=(d.assessores||[]).map(a=>`
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--bg5);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff">${a.name.charAt(0)}</div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#fff">${a.name}</div><div style="font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace">${a.sessions} sess · ${a.totalTimeMin}min · ${a.copiesMade} copies</div></div>
+        <div style="font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace;text-align:right">${a.lastSeen?new Date(a.lastSeen).toLocaleDateString('pt-BR'):'—'}</div>
+      </div>`).join('')||'<div style="font-size:12px;color:var(--text3);padding:12px">Sem acessos esta semana.</div>';
+
+    document.getElementById('analytics-cards').innerHTML=(d.topCards||[]).slice(0,8).map((c,i)=>`
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:6px;display:flex;gap:10px;align-items:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--cyan);width:20px;text-align:center">${i+1}</div>
+        <div style="flex:1;font-size:12px;color:var(--text2)">${c.title}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff">${c.count}×</div>
+      </div>`).join('')||'<div style="font-size:12px;color:var(--text3);padding:12px">Sem dados.</div>';
+
+    document.getElementById('analytics-copies').innerHTML=(d.topCopies||[]).slice(0,6).map((c,i)=>`
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:6px;display:flex;gap:10px;align-items:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--marilda);width:20px;text-align:center">${i+1}</div>
+        <div style="flex:1;font-size:11px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'JetBrains Mono',monospace">${c.preview}...</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${c.count}×</div>
+      </div>`).join('')||'<div style="font-size:12px;color:var(--text3);padding:12px">Nenhuma copy ainda.</div>';
+
+    const hours=d.hours||{};
+    const maxH=Math.max(...Object.values(hours),1);
+    document.getElementById('analytics-hours').innerHTML=Array.from({length:24},(_,h)=>{
+      const count=hours[h]||0;const pct=Math.round((count/maxH)*100);
+      return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);width:26px;text-align:right">${h.toString().padStart(2,'0')}h</div><div style="flex:1;height:5px;background:var(--bg5);border-radius:100px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--cyan);border-radius:100px"></div></div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);width:18px">${count||''}</div></div>`;
+    }).join('');
+  }catch(e){toast('Erro: '+e.message,'err');}
+}
+
+// Init admin auth
+window.addEventListener('load', () => {
+  // Cria seed do master se necessário
+  fetch('/api/auth?action=seed').catch(() => {});
+  verificarAdmin();
+});
 </script>
 </body>
 </html>
