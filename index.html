@@ -670,9 +670,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
     <div class="section active" id="sec-dashboard">
       <div class="sec-body">
 
-        <!-- ZONA 1: MANDATOS -->
-        <div class="zona-title">Mandatos</div>
+        <!-- ZONA 1: COMANDO DO DIA -->
+        <div class="zona-title">Comando do Dia</div>
         <div class="comando-grid">
+
+          <!-- Lincoln -->
           <div class="mandato-card mc-lincoln" onclick="showTab('lincoln')">
             <div class="mc-tag lincoln"><span class="mi" style="font-size:12px">account_balance</span> Lincoln Portela</div>
             <div class="mc-name">Deputado Federal</div>
@@ -681,6 +683,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
             <div class="mc-count-label">pautas hoje</div>
             <div class="mc-prio prio-sem" id="mc-lincoln-prio">Sem briefing</div>
           </div>
+
+          <!-- Marilda -->
           <div class="mandato-card mc-marilda" onclick="showTab('marilda')">
             <div class="mc-tag marilda"><span class="mi" style="font-size:12px">location_city</span> Marilda Portela</div>
             <div class="mc-name">Vereadora</div>
@@ -689,6 +693,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
             <div class="mc-count-label">pautas hoje</div>
             <div class="mc-prio prio-sem" id="mc-marilda-prio">Sem briefing</div>
           </div>
+
+          <!-- Alê -->
           <div class="mandato-card mc-ale" onclick="showTab('ale')">
             <div class="mc-tag ale"><span class="mi" style="font-size:12px">gavel</span> Alê Portela</div>
             <div class="mc-name">Deputada Estadual</div>
@@ -697,128 +703,92 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
             <div class="mc-count-label">em configuração</div>
             <div class="mc-prio prio-sem">Monitoramento em breve</div>
           </div>
+
+          <!-- Quick Actions -->
           <div class="quick-action">
             <div class="qa-label">Ações Rápidas</div>
-            <button class="qa-btn qa-primary" onclick="showTab('briefing')"><span class="mi" style="font-size:14px">add</span> Novo Briefing</button>
-            <button class="qa-btn qa-secondary" onclick="window.open('/hub.html','_blank')"><span class="mi" style="font-size:14px">open_in_new</span> Abrir HUB</button>
-            <button class="qa-btn qa-secondary" onclick="carregarNoticias(true)"><span class="mi" style="font-size:14px">refresh</span> Atualizar Feed</button>
+            <button class="qa-btn qa-primary" onclick="showTab('briefing')">
+              <span class="mi" style="font-size:14px">add</span> Novo Briefing
+            </button>
+            <button class="qa-btn qa-secondary" onclick="window.open('/hub.html','_blank')">
+              <span class="mi" style="font-size:14px">open_in_new</span> Abrir HUB
+            </button>
+            <button class="qa-btn qa-secondary" onclick="showTab('historico')">
+              <span class="mi" style="font-size:14px">history</span> Histórico
+            </button>
           </div>
         </div>
 
-        <!-- ZONA 2: FEED DE NOTÍCIAS -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
-
-          <!-- Google Alerts dos parlamentares -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Google Alerts</div>
-                <div style="font-size:12px;font-weight:600;color:#fff;margin-top:2px">Notícias dos Parlamentares</div>
-              </div>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(16,185,129,.1);color:var(--ale);border:1px solid rgba(16,185,129,.2)">Gmail</span>
-            </div>
-            <div id="feed-parlamentares" style="padding:12px;max-height:280px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Carregando...</div>
-            </div>
+        <!-- Último briefing -->
+        <div class="ultimo-briefing" id="dash-briefing-summary">
+          <div class="ub-header">
+            <div class="ub-label">Último Briefing Publicado</div>
+            <div class="ub-date" id="dash-briefing-date"></div>
           </div>
+          <div class="ub-resumo" id="dash-briefing-resumo"></div>
+          <div class="ub-tags" id="dash-mandato-tags"></div>
+        </div>
 
-          <!-- Sites das Câmaras via Grok -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Grok · Tempo Real</div>
-                <div style="font-size:12px;font-weight:600;color:#fff;margin-top:2px">Câmaras e Assembleia</div>
-              </div>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(244,63,94,.1);color:var(--grok);border:1px solid rgba(244,63,94,.2)">Grok</span>
+        <!-- ZONA 2: FERRAMENTAS -->
+        <div class="zona-title">Ferramentas de IA</div>
+        <div class="tools-grid">
+          <!-- Gemini -->
+          <div class="tool-chip tc-gem">
+            <div class="tc-icon" style="background:rgba(99,102,241,.15)">🤖</div>
+            <div class="tc-info">
+              <div class="tc-name">Gemini</div>
+              <div class="tc-status mono" id="g-last">Verificando...</div>
+              <div class="tc-prog"><div class="tc-prog-fill" id="g-bar" style="width:0%;background:var(--lincoln)"></div></div>
             </div>
-            <div id="feed-camaras" style="padding:12px;max-height:280px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Carregando...</div>
+            <span class="tc-badge b-idle" id="g-badge">—</span>
+          </div>
+          <!-- Grok -->
+          <div class="tool-chip tc-grok">
+            <div class="tc-icon" style="background:rgba(244,63,94,.15)">𝕏</div>
+            <div class="tc-info">
+              <div class="tc-name">Grok</div>
+              <div class="tc-status mono" id="gk-last">Verificando...</div>
+              <div class="tc-prog"><div class="tc-prog-fill" id="gk-bar" style="width:0%;background:var(--grok)"></div></div>
             </div>
+            <span class="tc-badge b-idle" id="gk-badge">—</span>
+          </div>
+          <!-- Claude -->
+          <div class="tool-chip tc-claude">
+            <div class="tc-icon" style="background:rgba(245,158,11,.15)">✦</div>
+            <div class="tc-info">
+              <div class="tc-name">Claude</div>
+              <div class="tc-status mono">Em sessão ativa</div>
+            </div>
+            <span class="tc-badge b-session">Ativo</span>
+          </div>
+          <!-- Opal -->
+          <div class="tool-chip tc-opal">
+            <div class="tc-icon" style="background:rgba(6,182,212,.15)">◎</div>
+            <div class="tc-info">
+              <div class="tc-name">Google Opal</div>
+              <div class="tc-status mono">Entrada manual</div>
+            </div>
+            <span class="tc-badge b-manual">Manual</span>
+          </div>
+          <!-- Perplexity -->
+          <div class="tool-chip tc-perp">
+            <div class="tc-icon" style="background:rgba(249,115,22,.15)">⊕</div>
+            <div class="tc-info">
+              <div class="tc-name">Perplexity</div>
+              <div class="tc-status mono">API pendente</div>
+            </div>
+            <span class="tc-badge b-pending">Pendente</span>
+          </div>
+          <!-- Add -->
+          <div class="tool-chip" style="cursor:pointer;justify-content:center;border-style:dashed" onclick="showTab('ferramentas')">
+            <span class="mi" style="color:var(--text3)">add</span>
+            <div style="font-size:11px;color:var(--text3)">Integrar</div>
           </div>
         </div>
 
-        <!-- ZONA 3: TENDÊNCIAS GROK + EVENTOS -->
-        <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;margin-bottom:24px">
-
-          <!-- Tendências Grok -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--grok)">Grok · Live Search</div>
-                <div style="font-size:12px;font-weight:600;color:#fff;margin-top:2px">Tendências Políticas de Hoje</div>
-              </div>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(244,63,94,.1);color:var(--grok);border:1px solid rgba(244,63,94,.2)">Tempo Real</span>
-            </div>
-            <div id="feed-tendencias" style="padding:12px;max-height:260px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Carregando...</div>
-            </div>
-          </div>
-
-          <!-- Próximos Eventos -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div style="font-size:12px;font-weight:600;color:#fff">Próximos Eventos</div>
-              <button onclick="abrirModalEvento()" style="padding:3px 10px;background:var(--cyan-dim);border:1px solid rgba(61,217,245,.25);color:var(--cyan);font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px">+ Adicionar</button>
-            </div>
-            <div id="feed-eventos" style="padding:8px;max-height:260px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Nenhum evento</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ZONA 4: STATUS FERRAMENTAS + TIMELINE -->
+        <!-- TIMELINE -->
         <div class="dash-grid">
-          <div>
-            <div class="zona-title">Ferramentas de IA</div>
-            <div class="tools-grid">
-              <div class="tool-chip tc-gem">
-                <div class="tc-icon" style="background:rgba(99,102,241,.15)">🤖</div>
-                <div class="tc-info">
-                  <div class="tc-name">Gemini</div>
-                  <div class="tc-status mono" id="g-last">Verificando...</div>
-                  <div class="tc-prog"><div class="tc-prog-fill" id="g-bar" style="width:0%;background:var(--lincoln)"></div></div>
-                </div>
-                <span class="tc-badge b-idle" id="g-badge">—</span>
-              </div>
-              <div class="tool-chip tc-grok">
-                <div class="tc-icon" style="background:rgba(244,63,94,.15)">𝕏</div>
-                <div class="tc-info">
-                  <div class="tc-name">Grok</div>
-                  <div class="tc-status mono" id="gk-last">Verificando...</div>
-                  <div class="tc-prog"><div class="tc-prog-fill" id="gk-bar" style="width:0%;background:var(--grok)"></div></div>
-                </div>
-                <span class="tc-badge b-idle" id="gk-badge">—</span>
-              </div>
-              <div class="tool-chip tc-claude">
-                <div class="tc-icon" style="background:rgba(245,158,11,.15)">✦</div>
-                <div class="tc-info">
-                  <div class="tc-name">Claude</div>
-                  <div class="tc-status mono">Em sessão ativa</div>
-                </div>
-                <span class="tc-badge b-session">Ativo</span>
-              </div>
-              <div class="tool-chip tc-opal">
-                <div class="tc-icon" style="background:rgba(6,182,212,.15)">◎</div>
-                <div class="tc-info">
-                  <div class="tc-name">Google Opal</div>
-                  <div class="tc-status mono">Entrada manual</div>
-                </div>
-                <span class="tc-badge b-manual">Manual</span>
-              </div>
-              <div class="tool-chip tc-perp">
-                <div class="tc-icon" style="background:rgba(249,115,22,.15)">⊕</div>
-                <div class="tc-info">
-                  <div class="tc-name">Perplexity</div>
-                  <div class="tc-status mono">API pendente</div>
-                </div>
-                <span class="tc-badge b-pending">Pendente</span>
-              </div>
-              <div class="tool-chip" style="cursor:pointer;justify-content:center;border-style:dashed" onclick="abrirModalNovaFerramenta()">
-                <span class="mi" style="color:var(--text3)">add</span>
-                <div style="font-size:11px;color:var(--text3)">Integrar</div>
-              </div>
-            </div>
-          </div>
+          <div><!-- espaçador --></div>
           <div class="tl-panel">
             <div class="tl-head">
               <h3>Pipeline do Dia</h3>
@@ -838,7 +808,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -1012,28 +981,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
           <div id="gem-response" class="gem-resp"></div>
         </div>
 
-        <div class="tool-section-title">Ferramentas Adicionadas</div>
-        <div id="ferramentas-extras-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:8px">
-          <div style="font-size:12px;color:var(--text3);padding:12px;font-family:'IBM Plex Mono',monospace">Nenhuma ferramenta adicionada ainda. Clique em "+ Integrar" no painel.</div>
-        </div>
-
         <div class="tool-section-title">Perplexity — Espaços</div>
         <div style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:16px;text-align:center">
           <div style="font-size:12px;color:var(--text3);line-height:1.6">Espaços especializados por mandato serão adicionados<br>quando a API key do Perplexity for configurada.</div>
-        </div>
-
-        <div class="tool-section-title" style="margin-top:24px">Ferramentas Adicionadas</div>
-        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-          <button onclick="abrirModalNovaFerramenta()" style="padding:8px 16px;background:var(--cyan-dim);border:1px solid rgba(61,217,245,.3);color:var(--cyan);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:3px;display:flex;align-items:center;gap:6px">
-            <span class="mi" style="font-size:14px">add</span> Integrar Nova Ferramenta
-          </button>
-        </div>
-        <div id="ferramentas-custom" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
-          <div style="background:var(--bg4);border:1.5px dashed var(--border2);border-radius:4px;padding:24px;text-align:center;cursor:pointer" onclick="abrirModalNovaFerramenta()">
-            <span class="mi" style="font-size:28px;color:var(--text3);display:block;margin-bottom:8px">add_circle</span>
-            <div style="font-size:12px;color:var(--text3)">Adicionar ferramenta</div>
-            <div style="font-size:10px;color:var(--text3);opacity:.6;margin-top:2px">Link externo ou API própria</div>
-          </div>
         </div>
       </div>
     </div>
@@ -1097,59 +1047,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
   </main>
 </div>
 
-<!-- MODAL ANALYTICS ASSESSOR -->
-<div class="modal-ov" id="modal-assessor">
-  <div class="modal-card" style="max-width:560px;text-align:left;max-height:80vh;overflow-y:auto">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#fff" id="modal-assessor-nome">Assessor</div>
-      <button onclick="document.getElementById('modal-assessor').classList.remove('active')" style="background:var(--bg5);border:1px solid var(--border);color:var(--text2);border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:14px">✕</button>
-    </div>
-    <div id="modal-assessor-body"></div>
-  </div>
-</div>
-
-<!-- MODAL NOVA FERRAMENTA -->
-<div class="modal-ov" id="modal-ferramenta">
-  <div class="modal-card" style="max-width:480px;text-align:left">
-    <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Integrar Nova Ferramenta</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:20px">Adicione um link externo ou uma API ao painel</div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Nome da Ferramenta</div>
-        <input id="ft-nome" type="text" placeholder="Ex: Perplexity, NotebookLM, n8n..." style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'Inter',sans-serif">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">URL de Acesso</div>
-        <input id="ft-url" type="url" placeholder="https://..." style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'IBM Plex Mono',monospace">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Descrição (opcional)</div>
-        <input id="ft-desc" type="text" placeholder="Para que serve esta ferramenta?" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'Inter',sans-serif">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Tipo</div>
-        <div style="display:flex;gap:8px">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text2)">
-            <input type="radio" name="ft-tipo" value="link" checked style="accent-color:var(--cyan)"> Link externo
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text2)">
-            <input type="radio" name="ft-tipo" value="api" style="accent-color:var(--cyan)"> API (endpoint)
-          </label>
-        </div>
-      </div>
-      <div id="ft-api-key-wrap" style="display:none">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">API Key (salva no Vercel)</div>
-        <input id="ft-apikey" type="password" placeholder="sk-..." style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'IBM Plex Mono',monospace">
-        <div style="font-size:10px;color:var(--text3);margin-top:4px">⚠️ A API key precisa ser adicionada manualmente no Vercel → Environment Variables</div>
-      </div>
-    </div>
-    <div id="ft-err" style="font-size:11px;color:var(--grok);margin-top:10px;font-family:'IBM Plex Mono',monospace;display:none"></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="m-cancel" onclick="document.getElementById('modal-ferramenta').classList.remove('active')">Cancelar</button>
-      <button class="m-confirm" onclick="salvarFerramenta()">ADICIONAR</button>
-    </div>
-  </div>
-</div>
+<!-- MODAL NOVO USUÁRIO -->
 <div class="modal-ov" id="modal-usuario">
   <div class="modal-card" style="max-width:460px;text-align:left">
     <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:4px" id="modal-user-title">Novo Usuário</div>
@@ -1262,7 +1160,6 @@ async function doLogin() {
     showPage('pg-admin');
     initDash();
     initDataHoje();
-    carregarPainel();
 
     // Ativa abas e nav do master/admin imediatamente
     if (['master', 'admin'].includes(adminRole)) {
@@ -1328,8 +1225,6 @@ function initDash() {
   document.getElementById('dash-date').textContent =
     now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
   fetchStatus();
-  carregarNoticias();
-  renderFerramentasExtras();
 }
 
 async function fetchStatus() {
@@ -1731,303 +1626,7 @@ function toast(msg, type='') {
   setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-// ═══════════════════════════════════════
-//  PAINEL — FEED COMPLETO
-// ═══════════════════════════════════════
-async function carregarPainel() {
-  carregarAlertsGmail();
-  carregarGrok();
-  carregarEventos();
-}
-
-// Google Alerts via Gmail API (usa token do usuário)
-async function carregarAlertsGmail() {
-  const el = document.getElementById('feed-parlamentares');
-  const elCamaras = document.getElementById('feed-camaras');
-  if (!el) return;
-  try {
-    const r = await fetch('/api/alerts', {
-      headers: {
-        Authorization: 'Bearer ' + adminToken,
-        'x-gmail-token': '', // token OAuth do Gmail — ver nota abaixo
-      }
-    });
-    const d = await r.json();
-    if (!d.ok) throw new Error(d.error);
-
-    // Alerts dos parlamentares via Gmail
-    const alerts = d.alertsGmail || [];
-    if (alerts.length === 0) {
-      el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px;line-height:1.6">
-        Os alertas dos parlamentares ainda não chegaram.<br>
-        <span style="font-size:10px;opacity:.6">Configure os Google Alerts e eles aparecerão aqui automaticamente.</span>
-      </div>`;
-    } else {
-      el.innerHTML = alerts.map(a => `
-        <div style="padding:10px 12px;border-bottom:1px solid var(--border);last-child:border-0">
-          <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">${a.termo}</div>
-          <div style="font-size:11px;color:var(--text3);line-height:1.4">${a.snippet.replace(/<[^>]+>/g,'').substring(0,120)}...</div>
-          <div style="font-size:9px;color:var(--text3);margin-top:4px;font-family:'IBM Plex Mono',monospace">${new Date(a.data).toLocaleDateString('pt-BR')}</div>
-        </div>`).join('');
-    }
-
-    // Sites das câmaras via Grok
-    const camaras = d.grok?.camaras || [];
-    if (elCamaras) {
-      if (camaras.length === 0) {
-        elCamaras.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Sem dados das câmaras. Clique em "Atualizar Feed".</div>`;
-      } else {
-        const siglas = { federal:'🏛', municipal:'🌸', estadual:'⚖️' };
-        elCamaras.innerHTML = camaras.map(c => `
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
-              <span style="font-size:10px">${siglas[c.sigla]||'🏛'}</span>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);font-family:'IBM Plex Mono',monospace">${c.casa}</span>
-            </div>
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">${c.titulo}</div>
-            <div style="font-size:11px;color:var(--text3);line-height:1.4">${c.resumo}</div>
-          </div>`).join('');
-      }
-    }
-
-    // Tendências
-    const tendencias = d.grok?.tendencias || [];
-    const elTend = document.getElementById('feed-tendencias');
-    if (elTend) {
-      if (tendencias.length === 0) {
-        elTend.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Buscando tendências...</div>`;
-      } else {
-        elTend.innerHTML = tendencias.map((t, i) => `
-          <div style="display:flex;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);align-items:flex-start">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:${t.relevancia==='alta'?'var(--grok)':'var(--text3)'};width:24px;text-align:center;flex-shrink:0">${i+1}</div>
-            <div>
-              <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">${t.assunto}</div>
-              <div style="font-size:11px;color:var(--text3);line-height:1.4">${t.contexto}</div>
-            </div>
-            <span style="flex-shrink:0;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:${t.relevancia==='alta'?'rgba(244,63,94,.1)':'rgba(255,255,255,.05)'};color:${t.relevancia==='alta'?'var(--grok)':'var(--text3)'}">${t.relevancia}</span>
-          </div>`).join('');
-      }
-    }
-
-    // Parlamentares no Grok
-    const parlamentares = d.grok?.parlamentares || [];
-    if (parlamentares.length > 0 && alerts.length === 0) {
-      el.innerHTML = parlamentares.map(n => `
-        <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-          <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${n.nome.includes('Lincoln')?'var(--lincoln)':n.nome.includes('Marilda')?'var(--marilda)':'var(--ale)'};margin-bottom:3px;font-family:'IBM Plex Mono',monospace">${n.nome}</div>
-          <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">${n.titulo}</div>
-          <div style="font-size:11px;color:var(--text3);line-height:1.4">${n.resumo}</div>
-          ${n.url?`<a href="${n.url}" target="_blank" style="font-size:10px;color:var(--cyan);text-decoration:none;margin-top:4px;display:block">${n.fonte||'Ver fonte'} →</a>`:''}
-        </div>`).join('');
-    }
-  } catch (e) {
-    if (el) el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Erro: ${e.message}</div>`;
-  }
-}
-
-async function carregarGrok() {
-  // carregarAlertsGmail já carrega o Grok junto — aqui só força update se necessário
-}
-
-// ─── EVENTOS ──────────────────────────
-async function carregarEventos() {
-  const el = document.getElementById('feed-eventos');
-  if (!el) return;
-  try {
-    const r = await fetch('/api/events', { headers: { Authorization: 'Bearer ' + adminToken } });
-    const d = await r.json();
-    if (!d.ok || !d.events?.length) {
-      el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Nenhum evento cadastrado.<br><span style="font-size:10px;opacity:.6">Clique em + Adicionar para cadastrar.</span></div>`;
-      return;
-    }
-    const mandatoColor = { lincoln:'var(--lincoln)', marilda:'var(--marilda)', ale:'var(--ale)', geral:'var(--text3)' };
-    const hoje = new Date().toDateString();
-    el.innerHTML = d.events.map(e => {
-      const dataEvento = new Date(e.data + 'T12:00:00');
-      const isHoje = dataEvento.toDateString() === hoje;
-      const diasRestantes = Math.ceil((dataEvento - new Date()) / 86400000);
-      return `
-        <div style="display:flex;gap:8px;padding:8px 10px;border-radius:3px;margin-bottom:4px;background:${isHoje?'rgba(61,217,245,.06)':''};border:1px solid ${isHoje?'rgba(61,217,245,.15)':'var(--border)'}">
-          <div style="flex-shrink:0;text-align:center;min-width:36px">
-            <div style="font-size:16px;font-weight:800;color:${isHoje?'var(--cyan)':'#fff'};line-height:1;font-family:'IBM Plex Mono',monospace">${dataEvento.getDate()}</div>
-            <div style="font-size:8px;text-transform:uppercase;color:var(--text3);letter-spacing:.1em">${dataEvento.toLocaleDateString('pt-BR',{month:'short'})}</div>
-          </div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.titulo}</div>
-            <div style="font-size:9px;color:${mandatoColor[e.mandato]||'var(--text3)'};margin-top:1px;text-transform:uppercase;letter-spacing:.08em;font-family:'IBM Plex Mono',monospace">${e.mandato}${e.local?' · '+e.local:''}</div>
-          </div>
-          <div style="flex-shrink:0;text-align:right">
-            <div style="font-size:9px;color:${isHoje?'var(--cyan)':'var(--text3)'};font-family:'IBM Plex Mono',monospace">${isHoje?'Hoje':diasRestantes+'d'}</div>
-            <button onclick="deletarEvento('${e.id}')" style="margin-top:2px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:11px;opacity:.5;padding:0" title="Remover">✕</button>
-          </div>
-        </div>`;
-    }).join('');
-  } catch {}
-}
-
-function abrirModalEvento() {
-  document.getElementById('ev-titulo').value = '';
-  document.getElementById('ev-local').value = '';
-  document.getElementById('ev-data').value = new Date().toISOString().split('T')[0];
-  document.getElementById('modal-evento').classList.add('active');
-}
-
-async function criarEvento() {
-  const titulo = document.getElementById('ev-titulo').value.trim();
-  const data   = document.getElementById('ev-data').value;
-  const mandato = document.getElementById('ev-mandato').value;
-  const local  = document.getElementById('ev-local').value.trim();
-  if (!titulo || !data) { toast('Título e data obrigatórios', 'err'); return; }
-  try {
-    const r = await fetch('/api/events', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + adminToken },
-      body: JSON.stringify({ titulo, data, mandato, local }),
-    });
-    const d = await r.json();
-    if (d.ok) {
-      document.getElementById('modal-evento').classList.remove('active');
-      toast('✅ Evento salvo', 'ok');
-      carregarEventos();
-    } else toast(d.error, 'err');
-  } catch (e) { toast('Erro: ' + e.message, 'err'); }
-}
-
-async function deletarEvento(id) {
-  await fetch('/api/events', {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + adminToken },
-    body: JSON.stringify({ id }),
-  }).catch(() => {});
-  carregarEventos();
-}
-
-// ─── INTEGRAR NOVA FERRAMENTA ──────────
-function abrirModalNovaFerramenta() {
-  ['ft-nome','ft-url','ft-desc','ft-apikey-var'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-  const emoji = document.getElementById('ft-emoji'); if(emoji) emoji.value='⊕';
-  document.getElementById('ft-api-campos').style.display = 'none';
-  document.getElementById('ft-err').style.display = 'none';
-  document.getElementById('modal-ferramenta').classList.add('active');
-}
-
-function alternarTipoFerramenta() {
-  const tipo = document.getElementById('ft-tipo').value;
-  document.getElementById('ft-api-campos').style.display = tipo === 'api' ? 'block' : 'none';
-}
-
-async function salvarFerramenta() {
-  const nome  = document.getElementById('ft-nome').value.trim();
-  const url   = document.getElementById('ft-url').value.trim();
-  const desc  = document.getElementById('ft-desc').value.trim();
-  const tipo  = document.getElementById('ft-tipo').value;
-  const emoji = document.getElementById('ft-emoji').value.trim() || '⊕';
-  const err   = document.getElementById('ft-err');
-  err.style.display = 'none';
-  if (!nome || !url) { err.textContent = 'Nome e URL obrigatórios'; err.style.display = 'block'; return; }
-
-  // Salva no KV
-  try {
-    const ferramentas = JSON.parse(localStorage.getItem('ferramentas_custom') || '[]');
-    ferramentas.push({ id: Date.now().toString(), nome, url, desc, tipo, emoji });
-    localStorage.setItem('ferramentas_custom', JSON.stringify(ferramentas));
-    document.getElementById('modal-ferramenta').classList.remove('active');
-    toast('✅ Ferramenta adicionada! Veja na aba Ferramentas.', 'ok');
-    renderFerramentasCustom();
-
-    // Se for API, mostra instrução
-    if (tipo === 'api') {
-      const apiKeyVar = document.getElementById('ft-apikey-var').value.trim();
-      setTimeout(() => toast(`Configure ${apiKeyVar||'API_KEY'} no Vercel Environment Variables`, ''), 2000);
-    }
-  } catch (e) { err.textContent = 'Erro: ' + e.message; err.style.display = 'block'; }
-}
-
-function renderFerramentasCustom() {
-  const ferramentas = JSON.parse(localStorage.getItem('ferramentas_custom') || '[]');
-  const container = document.getElementById('ferramentas-custom');
-  if (!container || !ferramentas.length) return;
-  container.innerHTML = ferramentas.map(f => `
-    <div class="tool-card">
-      <div class="tool-card-header">
-        <div class="tool-card-name">${f.emoji} ${f.nome}</div>
-        <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:var(--bg5);color:var(--text3);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace">${f.tipo==='api'?'API':'Link'}</span>
-      </div>
-      <div class="tool-card-desc">${f.desc||f.url}</div>
-      <div class="tool-card-btns">
-        <a href="${f.url}" target="_blank" class="tool-btn-primary" style="background:var(--bg5);color:var(--text2);border:1px solid var(--border)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a>
-        <button onclick="removerFerramenta('${f.id}')" class="tool-btn-outline" style="border:1px solid rgba(244,63,94,.2);color:var(--grok)"><span class="mi" style="font-size:13px">delete</span>Remover</button>
-      </div>
-    </div>`).join('');
-}
-
-function removerFerramenta(id) {
-  let ferramentas = JSON.parse(localStorage.getItem('ferramentas_custom') || '[]');
-  ferramentas = ferramentas.filter(f => f.id !== id);
-  localStorage.setItem('ferramentas_custom', JSON.stringify(ferramentas));
-  renderFerramentasCustom();
-  toast('Ferramenta removida', '');
-}
-
-// ─── ANALYTICS — modal detalhe assessor ──
-async function verDetalheAssessor(email, nome) {
-  document.getElementById('modal-assessor').classList.add('active');
-  const c = document.getElementById('modal-assessor-content');
-  c.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text3)">Carregando...</div>`;
-  try {
-    const r = await fetch('/api/analytics?email=' + encodeURIComponent(email), {
-      headers: { Authorization: 'Bearer ' + adminToken }
-    });
-    const d = await r.json();
-    if (!d.ok) throw new Error(d.error);
-    const s = d.summary;
-    if (!s) { c.innerHTML = `<div style="color:var(--text3);padding:20px">Sem dados desta semana.</div>`; return; }
-
-    const horasLabels = Array.from({length:24}, (_,h) => h.toString().padStart(2,'0')+'h');
-    const topHora = s.accessTimes?.length
-      ? horasLabels[Math.round(s.accessTimes.reduce((a,b)=>a+b,0)/s.accessTimes.length)]
-      : '—';
-
-    c.innerHTML = `
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:4px">Assessor</div>
-      <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:20px">${nome}</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
-        ${[
-          {l:'Sessões',v:s.sessions||0,c:'var(--cyan)'},
-          {l:'Tempo total',v:(Math.round((s.totalTime||0)/60))+'min',c:'var(--lincoln)'},
-          {l:'Cards vistos',v:s.cardsViewed?.length||0,c:'var(--ale)'},
-          {l:'Copies feitas',v:s.copiesMade?.length||0,c:'var(--marilda)'},
-        ].map(x=>`<div style="background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:${x.c};font-family:'IBM Plex Mono',monospace">${x.v}</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-top:2px">${x.l}</div></div>`).join('')}
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Cards Acessados</div>
-          ${(s.cardsViewed||[]).slice(-8).reverse().map(c=>`
-            <div style="padding:7px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:2px;margin-bottom:4px">
-              <div style="font-size:11px;color:#fff">${c.title}</div>
-              <div style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${c.mandato} · ${new Date(c.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div>
-            </div>`).join('') || '<div style="font-size:11px;color:var(--text3)">Nenhum card visto</div>'}
-        </div>
-        <div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Copies Realizadas</div>
-          ${(s.copiesMade||[]).slice(-6).reverse().map(c=>`
-            <div style="padding:7px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:2px;margin-bottom:4px">
-              <div style="font-size:10px;color:var(--text2);font-family:'IBM Plex Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.preview}...</div>
-              <div style="font-size:9px;color:var(--text3);">${new Date(c.ts).toLocaleDateString('pt-BR')} ${new Date(c.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div>
-            </div>`).join('') || '<div style="font-size:11px;color:var(--text3)">Nenhuma copy</div>'}
-        </div>
-      </div>
-      <div style="margin-top:16px;padding:10px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;display:flex;gap:20px;font-size:11px;color:var(--text3)">
-        <span>Dispositivo: <strong style="color:#fff">${Object.entries(s.devices||{}).map(([k,v])=>k+' ('+v+')').join(', ')||'—'}</strong></span>
-        <span>Último acesso: <strong style="color:#fff">${s.lastSeen?new Date(s.lastSeen).toLocaleString('pt-BR'):'—'}</strong></span>
-        <span>Horário típico: <strong style="color:#fff">${topHora}</strong></span>
-      </div>`;
-  } catch (e) {
-    c.innerHTML = `<div style="color:var(--text3);padding:20px">Erro: ${e.message}</div>`;
-  }
-}
-
-// Auto-refresh status a cada 5 min
+// Auto-refresh a cada 5 min
 setInterval(() => {
   if (document.getElementById('pg-admin').classList.contains('active')) fetchStatus();
 }, 5*60*1000);
@@ -2041,37 +1640,21 @@ let adminRole = localStorage.getItem('admin_role') || '';
 function isMaster() { return adminRole === 'master'; }
 
 async function verificarAdmin() {
-  if (!adminToken) return false;
+  if (!adminToken) return;
   try {
     const r = await fetch('/api/auth?action=verify', { headers: { Authorization: 'Bearer ' + adminToken } });
     const d = await r.json();
     if (d.ok) {
       adminRole = d.user.role;
       localStorage.setItem('admin_role', adminRole);
-      // Restaura sessão sem pedir login novamente
-      isAdmin = true;
-      showPage('pg-admin');
-      initDash();
-      initDataHoje();
       if (['master','admin'].includes(adminRole)) {
-        ['nav-usuarios','nav-analytics'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.style.display = 'flex';
-        });
-        ['tab-usuarios','tab-analytics'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.style.display = 'block';
-        });
+        document.getElementById('nav-usuarios').style.display = 'flex';
+        document.getElementById('nav-analytics').style.display = 'flex';
+        document.getElementById('tab-usuarios').style.display = 'block';
+        document.getElementById('tab-analytics').style.display = 'block';
       }
-      return true;
     }
   } catch {}
-  // Token inválido — limpa e fica no login
-  adminToken = '';
-  adminRole = '';
-  localStorage.removeItem('admin_token');
-  localStorage.removeItem('admin_role');
-  return false;
 }
 
 
@@ -2158,10 +1741,10 @@ async function loadAnalytics() {
     ].map(s=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center"><div style="font-family:'Inter',sans-serif;font-size:${s.small?'14px':'28px'};font-weight:800;color:${s.color};line-height:1">${s.value||0}</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-top:4px;font-family:'IBM Plex Mono',monospace">${s.label}</div></div>`).join('');
 
     document.getElementById('analytics-assessores').innerHTML=(d.assessores||[]).map(a=>`
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .15s" onclick='abrirModalAssessor(${JSON.stringify({...a, cardsViewedList: a.cardsViewed||[], copiesPreviewList: a.copiesMade||[], accessTimes: a.accessTimes||[]})})' onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--bg5);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff">${a.name.charAt(0)}</div>
-        <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--cyan);text-decoration:underline;text-underline-offset:2px">${a.name}</div><div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${a.sessions} sess · ${a.totalTimeMin}min · ${a.copiesMade} copies</div></div>
-        <span class="mi" style="color:var(--text3);font-size:16px">chevron_right</span>
+        <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#fff">${a.name}</div><div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${a.sessions} sess · ${a.totalTimeMin}min · ${a.copiesMade} copies</div></div>
+        <div style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace;text-align:right">${a.lastSeen?new Date(a.lastSeen).toLocaleDateString('pt-BR'):'—'}</div>
       </div>`).join('')||'<div style="font-size:12px;color:var(--text3);padding:12px">Sem acessos esta semana.</div>';
 
     document.getElementById('analytics-cards').innerHTML=(d.topCards||[]).slice(0,8).map((c,i)=>`
@@ -2187,168 +1770,11 @@ async function loadAnalytics() {
   }catch(e){toast('Erro: '+e.message,'err');}
 }
 
-// ═══════════════════════════════════════
-//  FEED DE NOTÍCIAS
-// ═══════════════════════════════════════
-async function carregarNoticias(refresh = false) {
-  const url = '/api/noticias?tipo=todos' + (refresh ? '&refresh=1' : '');
-  try {
-    const r = await fetch(url, { headers: { Authorization: 'Bearer ' + adminToken } });
-    const d = await r.json();
-    if (!d.ok) return;
-    renderFeedParlamentares(d.parlamentares || [], d.alertas || []);
-    renderFeedCamaras(d.camaras || []);
-  } catch (e) {
-    document.getElementById('feed-parlamentares').innerHTML = `<div style="font-size:11px;color:var(--text3);padding:12px">Erro: ${e.message}</div>`;
-    document.getElementById('feed-camaras').innerHTML = `<div style="font-size:11px;color:var(--text3);padding:12px">Erro: ${e.message}</div>`;
-  }
-}
-
-function renderFeedParlamentares(noticias, alertas) {
-  const el = document.getElementById('feed-parlamentares');
-  const cores = { lincoln:'var(--lincoln)', marilda:'var(--marilda)', ale:'var(--ale)' };
-  const nomes = { lincoln:'Lincoln', marilda:'Marilda', ale:'Alê' };
-
-  const itens = [
-    ...alertas.filter(a => a.subject).map(a => ({
-      titulo: a.subject.replace(/Google Alert.*?-/,'').trim(),
-      resumo: 'Google Alert',
-      parlamentar: 'geral',
-      fonte: 'Google Alerts'
-    })),
-    ...noticias
-  ];
-
-  if (!itens.length) {
-    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Nenhuma notícia encontrada.<br>Configure os Google Alerts para os parlamentares.</div>';
-    return;
-  }
-
-  el.innerHTML = itens.map(n => `
-    <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start">
-      <div style="width:4px;height:36px;border-radius:100px;background:${cores[n.parlamentar]||'var(--text3)'};flex-shrink:0;margin-top:2px"></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:3px">${n.titulo||'—'}</div>
-        <div style="font-size:10px;color:var(--text3);line-height:1.4">${n.resumo||''}</div>
-        <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
-          ${n.parlamentar && n.parlamentar !== 'geral' ? `<span style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:100px;background:${cores[n.parlamentar]}22;color:${cores[n.parlamentar]}">${nomes[n.parlamentar]||n.parlamentar}</span>` : ''}
-          <span style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${n.fonte||n.url||''}</span>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function renderFeedCamaras(noticias) {
-  const el = document.getElementById('feed-camaras');
-  const cores = { federal:'var(--lincoln)', municipal:'var(--marilda)', almg:'var(--ale)' };
-  const labels = { federal:'Federal', municipal:'BH', almg:'ALMG' };
-
-  if (!noticias.length) {
-    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Buscando pautas das casas legislativas...</div>';
-    return;
-  }
-
-  el.innerHTML = noticias.map(n => `
-    <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start">
-      <div style="width:4px;height:36px;border-radius:100px;background:${cores[n.casa]||'var(--cyan)'};flex-shrink:0;margin-top:2px"></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:3px">${n.titulo||'—'}</div>
-        <div style="font-size:10px;color:var(--text3);line-height:1.4">${n.resumo||''}</div>
-        <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
-          ${n.casa ? `<span style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:100px;background:${(cores[n.casa]||'var(--cyan)')+'22'};color:${cores[n.casa]||'var(--cyan)'}">${labels[n.casa]||n.casa}</span>` : ''}
-          ${n.url ? `<a href="${n.url}" target="_blank" style="font-size:9px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;text-decoration:none">${n.url.replace(/^https?:\/\//,'').split('/')[0]}</a>` : ''}
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-// ═══════════════════════════════════════
-//  MODAL ASSESSOR (analytics detalhado)
-// ═══════════════════════════════════════
-function abrirModalAssessor(assessor) {
-  document.getElementById('modal-assessor-nome').textContent = assessor.name;
-  const body = document.getElementById('modal-assessor-body');
-
-  const horasPico = assessor.accessTimes?.length
-    ? Object.entries(assessor.accessTimes.reduce((acc, h) => { acc[h] = (acc[h]||0)+1; return acc; }, {}))
-        .sort((a,b)=>b[1]-a[1]).slice(0,3).map(([h]) => h+'h').join(', ')
-    : '—';
-
-  body.innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
-      ${[
-        {label:'Sessões', value: assessor.sessions||0, color:'var(--cyan)'},
-        {label:'Tempo total', value: (assessor.totalTimeMin||0)+'min', color:'var(--ale)'},
-        {label:'Copies feitas', value: assessor.copiesMade||0, color:'var(--marilda)'},
-      ].map(s=>`
-        <div style="background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:12px;text-align:center">
-          <div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:${s.color}">${s.value}</div>
-          <div style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace">${s.label}</div>
-        </div>`).join('')}
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Cards acessados</div>
-        ${(assessor.cardsViewedList||[]).slice(0,5).map(c=>`
-          <div style="background:var(--bg4);border:1px solid var(--border);border-radius:2px;padding:7px 10px;margin-bottom:4px;font-size:11px;color:var(--text2)">${c.title||c}</div>
-        `).join('') || '<div style="font-size:11px;color:var(--text3)">Nenhum card registrado</div>'}
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Copies copiadas</div>
-        ${(assessor.copiesPreviewList||[]).slice(0,5).map(c=>`
-          <div style="background:var(--bg4);border:1px solid var(--border);border-radius:2px;padding:7px 10px;margin-bottom:4px;font-size:10px;color:var(--text2);font-family:'IBM Plex Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.preview||c}</div>
-        `).join('') || '<div style="font-size:11px;color:var(--text3)">Nenhuma copy registrada</div>'}
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <div style="font-size:11px;color:var(--text3)">📱 Dispositivos: <span style="color:var(--text2)">${Object.entries(assessor.devices||{}).map(([k,v])=>`${k}(${v})`).join(' ')||'—'}</span></div>
-      <div style="font-size:11px;color:var(--text3)">⏰ Picos: <span style="color:var(--text2)">${horasPico}</span></div>
-      <div style="font-size:11px;color:var(--text3)">📅 Último acesso: <span style="color:var(--text2)">${assessor.lastSeen ? new Date(assessor.lastSeen).toLocaleString('pt-BR') : '—'}</span></div>
-    </div>`;
-
-  document.getElementById('modal-assessor').classList.add('active');
-}
-
 // Init admin auth
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
+  // Cria seed do master se necessário
   fetch('/api/auth?action=seed').catch(() => {});
-
-  // Sessão persistente — verifica token salvo
-  if (adminToken) {
-    try {
-      const r = await fetch('/api/auth?action=verify', {
-        headers: { Authorization: 'Bearer ' + adminToken }
-      });
-      const d = await r.json();
-      if (d.ok) {
-        adminRole = d.user.role;
-        localStorage.setItem('admin_role', adminRole);
-        isAdmin = true;
-        showPage('pg-admin');
-        initDash();
-        initDataHoje();
-        if (['master', 'admin'].includes(adminRole)) {
-          ['nav-usuarios','nav-analytics'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'flex';
-          });
-          ['tab-usuarios','tab-analytics'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'block';
-          });
-        }
-        carregarPainel();
-        return;
-      }
-    } catch {}
-    // Token inválido — limpa
-    adminToken = '';
-    adminRole = '';
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin_role');
-  }
-  // Sem sessão — mostra login
-  showPage('pg-login');
+  verificarAdmin();
 });
 </script>
 </body>
