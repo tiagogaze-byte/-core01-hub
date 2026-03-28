@@ -60,25 +60,27 @@ module.exports = async function handler(req, res) {
 
   const { action } = req.query || {};
 
-  // ── SEED: cria master se não existir ──────────────────
+  // ── SEED: cria/recria master com as variáveis do Vercel ──
   if (action === 'seed') {
-    const existing = await kvGet('user:' + MASTER_EMAIL);
-    if (!existing) {
-      await kvSet('user:' + MASTER_EMAIL, {
-        email: MASTER_EMAIL, name: 'Master',
-        role: 'master', active: true,
-        passHash: hashPass(MASTER_PASS),
-        createdAt: new Date().toISOString(),
-      });
-      // Index de usuários
-      const idx = (await kvGet('users:index')) || [];
-      if (!idx.includes(MASTER_EMAIL)) {
-        idx.unshift(MASTER_EMAIL);
-        await kvSet('users:index', idx);
-      }
-      return res.status(200).json({ ok: true, msg: 'Master criado' });
+    // Remove master antigo (qualquer email) do índice
+    const idx = (await kvGet('users:index')) || [];
+    // Recria sempre com as variáveis atuais
+    const masterUser = {
+      email: MASTER_EMAIL,
+      name: 'Master',
+      role: 'master',
+      active: true,
+      passHash: hashPass(MASTER_PASS),
+      createdAt: new Date().toISOString(),
+    };
+    await kvSet('user:' + MASTER_EMAIL, masterUser);
+
+    // Garante que está no índice
+    if (!idx.includes(MASTER_EMAIL)) {
+      idx.unshift(MASTER_EMAIL);
+      await kvSet('users:index', idx);
     }
-    return res.status(200).json({ ok: true, msg: 'Master já existe' });
+    return res.status(200).json({ ok: true, msg: 'Master criado/atualizado: ' + MASTER_EMAIL });
   }
 
   // ── LOGIN ─────────────────────────────────────────────
