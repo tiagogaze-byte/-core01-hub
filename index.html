@@ -8,637 +8,341 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080c18;--bg2:#0d1120;--bg3:#131828;--bg4:#1a2035;--bg5:#242940;
-  --border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);
-  --text:#e8ecf4;--text2:#9ba3b8;--text3:#5a6278;
-  --cyan:#3dd9f5;--cyan-dim:rgba(61,217,245,.12);
-  --lincoln:#6366f1;--lincoln-dim:rgba(99,102,241,.12);
-  --marilda:#ec4899;--marilda-dim:rgba(236,72,153,.12);
-  --ale:#10b981;--ale-dim:rgba(16,185,129,.12);
-  --grok:#f43f5e;--grok-dim:rgba(244,63,94,.12);
-  --opal:#06b6d4;--perp:#f97316;--claude:#f59e0b;
-  --accent:#3dd9f5;
+  --bg:#f5f6f8;--bg2:#ffffff;--bg3:#f0f2f5;--bg4:#e8eaed;--bg5:#d8dbe0;
+  --border:rgba(0,0,0,.08);--border2:rgba(0,0,0,.14);
+  --text:#111318;--text2:#3c4150;--text3:#6b7280;
+  --cyan:#0891b2;--cyan-dim:rgba(8,145,178,.1);
+  --lincoln:#4338ca;--lincoln-dim:rgba(67,56,202,.1);
+  --marilda:#be185d;--marilda-dim:rgba(190,24,93,.1);
+  --ale:#047857;--ale-dim:rgba(4,120,87,.1);
+  --grok:#e11d48;--grok-dim:rgba(225,29,72,.1);
+  --opal:#0891b2;--perp:#ea580c;--claude:#d97706;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px}
+html{font-size:15px}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}
-.syne{font-family:'Inter',sans-serif}
 .mono{font-family:'IBM Plex Mono',monospace}
-.mi{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;vertical-align:middle;font-size:18px;font-family:'Material Symbols Outlined'}
-
-/* PAGES */
+.mi{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;font-size:18px;font-family:'Material Symbols Outlined'}
 .page{display:none;min-height:100vh}
 .page.active{display:flex}
 
-/* ══════════════════════════════════════
-   LOGIN
-══════════════════════════════════════ */
-#pg-login{
-  align-items:center;justify-content:center;
-  background:#f0f2f5;position:relative;overflow:hidden;
-}
-.login-mesh{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 60% 50% at 80% 20%,rgba(61,217,245,.08) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 50% at 20% 80%,rgba(99,102,241,.06) 0%,transparent 60%);
-}
-.login-grid{
-  position:absolute;inset:0;
-  background-image:linear-gradient(rgba(0,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.04) 1px,transparent 1px);
-  background-size:48px 48px;
-}
-.lcard{
-  position:relative;z-index:10;
-  background:#fff;
-  border:1px solid rgba(0,0,0,.1);
-  box-shadow:0 8px 40px rgba(0,0,0,.12);
-  backdrop-filter:blur(24px);
-  border-radius:6px;
-  padding:48px;
-  width:100%;max-width:400px;
-}
-.l-eyebrow{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  color:#0891b2;margin-bottom:32px;
-  display:flex;align-items:center;gap:8px;
-}
-.l-eyebrow::before{content:'';width:20px;height:1px;background:#0891b2}
-.ltitle{
-  font-family:'Inter',sans-serif;
-  font-size:36px;font-weight:800;
-  letter-spacing:-.04em;color:#111318;
-  line-height:.95;margin-bottom:8px;
-}
-.lsub{font-size:13px;color:#6b7280;margin-bottom:40px}
-.role-sel{display:flex;gap:6px;margin-bottom:28px;background:#f3f4f6;border-radius:4px;padding:4px}
-.rbtn{
-  flex:1;padding:8px;border:none;background:transparent;
-  color:#9ca3af;font-family:'Inter',sans-serif;
-  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  cursor:pointer;border-radius:2px;transition:all .2s;
-}
-.rbtn.active{background:#fff;color:#111318;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.linput{
-  width:100%;padding:12px 16px;
-  background:#f9fafb;border:1px solid #e5e7eb;
-  border-radius:3px;color:#111318;font-size:13px;
-  outline:none;margin-bottom:10px;
-  font-family:'IBM Plex Mono',monospace;
-  transition:border-color .2s;
-}
-.linput:focus{border-color:#0891b2;background:#fff}
+/* LOGIN */
+#pg-login{align-items:center;justify-content:center;background:#f0f2f5;position:relative;overflow:hidden}
+.login-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.04) 1px,transparent 1px);background-size:48px 48px}
+.lcard{position:relative;z-index:10;background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 8px 40px rgba(0,0,0,.12);border-radius:8px;padding:48px;width:100%;max-width:420px}
+.l-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:28px;display:flex;align-items:center;gap:8px}
+.l-eyebrow::before{content:'';width:20px;height:1px;background:var(--cyan)}
+.ltitle{font-size:38px;font-weight:800;letter-spacing:-.04em;color:#111318;line-height:.95;margin-bottom:8px}
+.lsub{font-size:14px;color:#6b7280;margin-bottom:36px;line-height:1.5}
+.role-sel{display:flex;gap:4px;margin-bottom:24px;background:#f3f4f6;border-radius:6px;padding:4px}
+.rbtn{flex:1;padding:9px;border:none;background:transparent;color:#9ca3af;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all .2s}
+.rbtn.active{background:#fff;color:#111318;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.linput{width:100%;padding:13px 16px;background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:6px;color:#111318;font-size:14px;outline:none;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;transition:border-color .2s}
+.linput:focus{border-color:var(--cyan);background:#fff}
 .linput::placeholder{color:#9ca3af}
-.lbtn{
-  width:100%;padding:13px;
-  background:#111318;color:#fff;
-  font-family:'Inter',sans-serif;font-size:12px;font-weight:800;
-  letter-spacing:.15em;text-transform:uppercase;
-  border:none;border-radius:3px;cursor:pointer;
-  margin-top:6px;transition:all .2s;
-}
+.lbtn{width:100%;padding:14px;background:#111318;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:6px;cursor:pointer;margin-top:4px;transition:all .2s}
 .lbtn:hover{background:#1f2937}
 .lbtn:disabled{opacity:.5;cursor:not-allowed}
-.lhint{margin-top:20px;font-size:11px;color:#9ca3af;text-align:center;font-family:'IBM Plex Mono',monospace}
-.lhint span{color:#0891b2}
+.lhint{margin-top:18px;font-size:12px;color:#9ca3af;text-align:center;font-family:'IBM Plex Mono',monospace}
+.lhint span{color:var(--cyan)}
 
-/* ══════════════════════════════════════
-   ADMIN LAYOUT
-══════════════════════════════════════ */
+/* ADMIN */
 #pg-admin{flex-direction:row;background:var(--bg)}
-
-.sidebar{
-  width:200px;min-width:200px;height:100vh;
-  position:sticky;top:0;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  padding:20px 0;z-index:50;
-  overflow-y:auto;
-}
-.s-logo{
-  padding:0 16px 20px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:12px;
-}
-.s-logo-mark{
-  font-family:'Inter',sans-serif;
-  font-size:14px;font-weight:800;
-  letter-spacing:.05em;text-transform:uppercase;color:#fff;
-}
-.s-logo-sub{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;letter-spacing:.15em;color:var(--cyan);margin-top:2px;
-}
-.s-section{
-  padding:8px 12px 4px;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--text3);
-}
-.nitem{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 16px;
-  font-size:12px;font-weight:500;color:var(--text2);
-  cursor:pointer;transition:all .15s;
-  border-right:2px solid transparent;text-decoration:none;
-  letter-spacing:.01em;
-}
+.sidebar{width:210px;min-width:210px;height:100vh;position:sticky;top:0;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0;z-index:50;overflow-y:auto}
+.s-logo{padding:0 18px 20px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-logo-mark{font-size:15px;font-weight:800;letter-spacing:-.01em;color:#111318}
+.s-logo-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--cyan);margin-top:2px}
+.s-section{padding:8px 18px 4px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#9ca3af}
+.nitem{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;transition:all .15s;border-right:2px solid transparent;text-decoration:none}
 .nitem:hover{color:var(--text);background:var(--bg3)}
-.nitem.active{color:#fff;background:var(--bg4);border-right-color:var(--cyan)}
-.nitem .mi{font-size:16px;color:inherit;opacity:.7}
+.nitem.active{color:var(--cyan);background:var(--cyan-dim);border-right-color:var(--cyan);font-weight:600}
+.nitem .mi{font-size:17px;opacity:.7}
 .s-divider{height:1px;background:var(--border);margin:8px 0}
-.s-bot{margin-top:auto;padding:12px}
-.flow-btn{
-  width:100%;padding:9px;
-  background:rgba(61,217,245,.1);
-  border:1px solid rgba(61,217,245,.3);
-  color:var(--cyan);
-  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:.15em;text-transform:uppercase;
-  cursor:pointer;border-radius:3px;transition:all .2s;margin-bottom:8px;
-}
-.flow-btn:hover{background:rgba(61,217,245,.18)}
-.hub-link-btn{
-  width:100%;padding:9px;
-  background:transparent;
-  border:1px solid var(--border2);
-  color:var(--text2);
-  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:.12em;text-transform:uppercase;
-  cursor:pointer;border-radius:3px;transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  text-decoration:none;
-}
-.hub-link-btn:hover{border-color:var(--border2);color:#fff;background:var(--bg4)}
+.s-bot{margin-top:auto;padding:14px}
+.flow-btn{width:100%;padding:10px;background:var(--cyan-dim);border:1px solid rgba(8,145,178,.25);color:var(--cyan);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:5px;transition:all .2s;margin-bottom:8px}
+.hub-link-btn{width:100%;padding:10px;background:transparent;border:1px solid var(--border2);color:var(--text3);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:5px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.hub-link-btn:hover{color:var(--text);background:var(--bg3)}
 
 /* MAIN */
-.amain{flex:1;overflow-y:auto;display:flex;flex-direction:column}
-.ahead{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 24px;
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:40;
-}
-.ahead-title{
-  font-family:'Inter',sans-serif;
-  font-size:14px;font-weight:700;
-  letter-spacing:.02em;text-transform:uppercase;color:#fff;
-}
+.amain{flex:1;overflow-y:auto;display:flex;flex-direction:column;background:var(--bg)}
+.ahead{display:flex;align-items:center;justify-content:space-between;padding:13px 28px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+.ahead-title{font-size:15px;font-weight:700;letter-spacing:-.01em;color:#111318}
 .ahead-right{display:flex;align-items:center;gap:10px}
-.status-pill{
-  display:flex;align-items:center;gap:6px;
-  padding:4px 10px;border-radius:100px;
-  background:var(--bg4);border:1px solid var(--border);
-}
-.status-dot{width:5px;height:5px;border-radius:50%;background:var(--ale);animation:pulse 2s infinite}
+.status-pill{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;background:var(--bg3);border:1px solid var(--border)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--ale);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.4}}
-.status-pill span{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);font-family:'IBM Plex Mono',monospace}
-.ibtn{
-  width:28px;height:28px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  color:var(--text2);cursor:pointer;transition:background .2s;
-  background:transparent;border:none;position:relative;
-}
-.ibtn:hover{background:var(--bg4);color:var(--text)}
-.ndot{position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--grok)}
-
-/* TABS */
-.tabs{
-  display:flex;gap:0;
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  padding:0 24px;position:sticky;top:49px;z-index:39;
-  overflow-x:auto;
-}
-.tab{
-  padding:10px 16px;
-  font-size:11px;font-weight:600;letter-spacing:.05em;
-  color:var(--text3);cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:all .2s;white-space:nowrap;font-family:'Inter',sans-serif;
-}
+.status-pill span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);font-family:'IBM Plex Mono',monospace}
+.ibtn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text3);cursor:pointer;transition:background .2s;background:transparent;border:none;position:relative}
+.ibtn:hover{background:var(--bg3);color:var(--text)}
+.ndot{position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--grok)}
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--border);padding:0 28px;position:sticky;top:50px;z-index:39;overflow-x:auto}
+.tab{padding:11px 16px;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
 .tab:hover{color:var(--text)}
-.tab.active{color:#fff;border-bottom-color:var(--cyan)}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan);font-weight:600}
 .tab.t-lincoln.active{color:var(--lincoln);border-bottom-color:var(--lincoln)}
 .tab.t-marilda.active{color:var(--marilda);border-bottom-color:var(--marilda)}
 .tab.t-ale.active{color:var(--ale);border-bottom-color:var(--ale)}
-
-/* SECTIONS */
-.section{display:none;flex:1}
+.section{display:none;flex:1;background:var(--bg)}
 .section.active{display:block}
-.sec-body{padding:24px}
+.sec-body{padding:28px}
+.zona-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.zona-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* ══════════════════════════════════════
-   DASHBOARD — ZONA 1: COMANDO DO DIA
-══════════════════════════════════════ */
-.comando-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr auto;
-  gap:12px;margin-bottom:24px;align-items:stretch;
-}
-.mandato-card{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:4px;padding:18px;position:relative;overflow:hidden;
-  transition:all .2s;cursor:pointer;
-}
-.mandato-card:hover{border-color:var(--border2);transform:translateY(-1px)}
-.mandato-card::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-}
+/* MANDATOS CARDS */
+.comando-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:14px;margin-bottom:28px;align-items:stretch}
+.mandato-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden;transition:all .2s;cursor:pointer}
+.mandato-card:hover{border-color:var(--border2);box-shadow:0 2px 12px rgba(0,0,0,.06);transform:translateY(-1px)}
+.mandato-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
 .mc-lincoln::after{background:var(--lincoln)}
 .mc-marilda::after{background:var(--marilda)}
 .mc-ale::after{background:var(--ale)}
-.mc-tag{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;letter-spacing:.15em;text-transform:uppercase;
-  margin-bottom:10px;display:flex;align-items:center;gap:6px;
-}
+.mc-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px}
 .mc-tag.lincoln{color:var(--lincoln)}
 .mc-tag.marilda{color:var(--marilda)}
 .mc-tag.ale{color:var(--ale)}
-.mc-name{
-  font-family:'Inter',sans-serif;
-  font-size:16px;font-weight:800;
-  letter-spacing:-.02em;color:#fff;margin-bottom:4px;
-}
-.mc-cargo{font-size:11px;color:var(--text3);margin-bottom:14px}
-.mc-count{
-  font-family:'Inter',sans-serif;
-  font-size:32px;font-weight:800;
-  letter-spacing:-.04em;color:#fff;line-height:1;
-}
-.mc-count-label{font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:.05em;text-transform:uppercase}
-.mc-prio{
-  margin-top:12px;padding:6px 10px;border-radius:3px;
-  font-size:10px;font-weight:600;letter-spacing:.05em;
-  display:flex;align-items:center;gap:6px;
-}
-.prio-alta{background:rgba(244,63,94,.1);color:#f43f5e}
-.prio-media{background:rgba(245,158,11,.1);color:#f59e0b}
-.prio-baixa{background:rgba(16,185,129,.1);color:#10b981}
-.prio-sem{background:var(--bg4);color:var(--text3)}
+.mc-name{font-size:17px;font-weight:700;letter-spacing:-.02em;color:#111318;margin-bottom:3px}
+.mc-cargo{font-size:12px;color:var(--text3);margin-bottom:14px}
+.mc-count{font-size:36px;font-weight:800;letter-spacing:-.04em;color:#111318;line-height:1}
+.mc-count-label{font-size:11px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+.mc-prio{margin-top:12px;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:5px}
+.prio-alta{background:#fef2f2;color:#dc2626}
+.prio-media{background:#fffbeb;color:#d97706}
+.prio-baixa{background:#f0fdf4;color:#16a34a}
+.prio-sem{background:var(--bg3);color:var(--text3)}
+.quick-action{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:170px}
+.qa-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.qa-btn{width:100%;padding:10px;border-radius:6px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:all .2s;border:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.qa-primary{background:#111318;color:#fff}
+.qa-primary:hover{background:#1f2937}
+.qa-secondary{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.qa-secondary:hover{background:var(--bg4)}
 
-.quick-action{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:4px;padding:18px;
-  display:flex;flex-direction:column;gap:8px;min-width:180px;
-}
-.qa-label{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:4px;
-}
-.qa-btn{
-  width:100%;padding:10px;border-radius:3px;
-  font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  cursor:pointer;transition:all .2s;border:none;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.qa-primary{background:var(--cyan);color:var(--bg)}
-.qa-primary:hover{filter:brightness(1.08)}
-.qa-secondary{background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}
-.qa-secondary:hover{color:#fff;border-color:var(--text3)}
-
-/* ULTIMO BRIEFING */
-.ultimo-briefing{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:4px;padding:18px;margin-bottom:24px;
-  display:none;
-}
+/* ÚLTIMO BRIEFING */
+.ultimo-briefing{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:24px;display:none}
 .ub-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.ub-label{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);
-}
-.ub-date{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan)}
-.ub-resumo{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.ub-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.ub-date{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--cyan)}
+.ub-resumo{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
 .ub-tags{display:flex;gap:8px;flex-wrap:wrap}
-.ub-tag{
-  font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-  padding:3px 10px;border-radius:100px;
-}
+.ub-tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px}
 
-/* ── ZONA 2: FERRAMENTAS ── */
-.zona-title{
-  font-family:'Inter',sans-serif;
-  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:12px;
-  display:flex;align-items:center;gap:8px;
-}
-.zona-title::after{content:'';flex:1;height:1px;background:var(--border)}
+/* FEED */
+.feed-card{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px}
+.feed-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.feed-title{font-size:14px;font-weight:700;color:#111318}
+.feed-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:2px}
+.feed-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px}
+.feed-body{max-height:320px;overflow-y:auto}
+.feed-item{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;transition:background .15s}
+.feed-item:last-child{border-bottom:none}
+.feed-item:hover{background:var(--bg3)}
+.feed-item-bar{width:3px;min-height:40px;border-radius:100px;flex-shrink:0;margin-top:2px}
+.feed-item-body{flex:1;min-width:0}
+.feed-item-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.feed-item-title{font-size:13px;font-weight:600;color:#111318;line-height:1.35;margin-bottom:3px}
+.feed-item-desc{font-size:12px;color:var(--text3);line-height:1.5}
+.feed-item-meta{font-size:10px;color:var(--text3);margin-top:4px;font-family:'IBM Plex Mono',monospace}
+.feed-empty{text-align:center;padding:32px 20px;color:var(--text3);font-size:13px;line-height:1.6}
+
+/* FERRAMENTAS */
 .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
-.tool-chip{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:3px;padding:12px 14px;
-  display:flex;align-items:center;gap:10px;
-  transition:all .2s;position:relative;overflow:hidden;
-}
-.tool-chip::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
-}
+.tool-chip{background:#fff;border:1px solid var(--border);border-radius:6px;padding:13px 14px;display:flex;align-items:center;gap:10px;transition:all .2s;position:relative;overflow:hidden}
+.tool-chip::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
 .tc-gem::before{background:var(--lincoln)}
 .tc-grok::before{background:var(--grok)}
 .tc-opal::before{background:var(--opal)}
 .tc-perp::before{background:var(--perp)}
 .tc-claude::before{background:var(--claude)}
-.tool-chip:hover{border-color:var(--border2)}
-.tc-icon{width:28px;height:28px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.tool-chip:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tc-icon{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .tc-info{flex:1;min-width:0}
-.tc-name{font-size:12px;font-weight:600;color:#fff;letter-spacing:.01em}
-.tc-status{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:1px}
-.tc-badge{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:100px}
-.b-active{background:rgba(16,185,129,.12);color:var(--ale);border:1px solid rgba(16,185,129,.2)}
-.b-idle{background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
-.b-session{background:rgba(245,158,11,.12);color:var(--claude);border:1px solid rgba(245,158,11,.2);animation:pulse 2s infinite}
-.b-manual{background:rgba(6,182,212,.1);color:var(--opal);border:1px solid rgba(6,182,212,.2)}
-.b-pending{background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
-.tc-prog{height:2px;background:var(--bg5);border-radius:100px;overflow:hidden;margin-top:6px}
+.tc-name{font-size:13px;font-weight:600;color:#111318}
+.tc-status{font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:2px}
+.tc-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px}
+.b-active{background:#f0fdf4;color:var(--ale);border:1px solid rgba(4,120,87,.2)}
+.b-idle{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.b-session{background:#fffbeb;color:var(--claude);border:1px solid rgba(217,119,6,.2)}
+.b-manual{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(8,145,178,.2)}
+.b-pending{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.tc-prog{height:3px;background:var(--bg4);border-radius:100px;overflow:hidden;margin-top:6px}
 .tc-prog-fill{height:100%;border-radius:100px;transition:width .8s ease}
 
 /* TIMELINE */
 .dash-grid{display:grid;grid-template-columns:1fr 260px;gap:20px}
-.tl-panel{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:4px;padding:20px;height:fit-content;position:sticky;top:88px;
-}
-.tl-head{margin-bottom:20px}
-.tl-head h3{font-family:'Inter',sans-serif;font-size:14px;font-weight:800;color:#fff;letter-spacing:.01em}
-.tl-head p{font-size:10px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
-.timeline{position:relative;display:flex;flex-direction:column;gap:20px}
-.tspine{position:absolute;left:7px;top:6px;bottom:6px;width:1px;background:linear-gradient(to bottom,var(--cyan),rgba(36,41,64,.3))}
-.titem{position:relative;padding-left:28px}
-.tdot{position:absolute;left:0;top:4px;width:15px;height:15px;border-radius:50%;z-index:10;outline:3px solid var(--bg3)}
+.tl-panel{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;height:fit-content;position:sticky;top:100px}
+.tl-head{margin-bottom:18px}
+.tl-head h3{font-size:15px;font-weight:700;color:#111318}
+.tl-head p{font-size:10px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+.timeline{position:relative;display:flex;flex-direction:column;gap:18px}
+.tspine{position:absolute;left:7px;top:6px;bottom:6px;width:1px;background:linear-gradient(to bottom,var(--cyan),rgba(0,0,0,.08))}
+.titem{position:relative;padding-left:26px}
+.tdot{position:absolute;left:0;top:4px;width:15px;height:15px;border-radius:50%;z-index:10;outline:3px solid #fff}
 .ttime{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:var(--cyan);margin-bottom:2px}
-.ttag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:2px;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-.tdesc{font-size:11px;font-weight:500;color:var(--text2);line-height:1.3}
-.titem.pend{opacity:.35}
-.titem.pend .ttime{color:var(--text3)}
-.net-card{margin-top:16px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:12px}
+.ttag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:3px;font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.tdesc{font-size:12px;font-weight:500;color:var(--text2);line-height:1.3}
+.titem.pend{opacity:.3}
+.net-card{margin-top:16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px}
 .net-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.net-row span{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:'IBM Plex Mono',monospace}
-.net-row strong{font-size:13px;font-weight:700;color:var(--cyan);font-family:'IBM Plex Mono',monospace}
-.net-bar{width:100%;height:3px;border-radius:100px;background:var(--bg5);overflow:hidden}
+.net-row span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-family:'IBM Plex Mono',monospace}
+.net-row strong{font-size:14px;font-weight:700;color:var(--cyan);font-family:'IBM Plex Mono',monospace}
+.net-bar{width:100%;height:4px;border-radius:100px;background:var(--bg4);overflow:hidden}
 .net-fill{height:100%;background:var(--cyan);border-radius:100px;transition:width .8s ease}
 
-/* ══════════════════════════════════════
-   MANDATO SECTIONS
-══════════════════════════════════════ */
-.mandato-hero{
-  padding:20px 24px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:16px;
-  background:var(--bg2);position:sticky;top:88px;z-index:30;
-}
-.mandato-avatar{
-  width:40px;height:40px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Inter',sans-serif;font-size:16px;font-weight:900;color:#fff;flex-shrink:0;
-}
-.mandato-nome{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;color:#fff}
-.mandato-cargo{font-size:11px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em}
-.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
-.pcard{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:4px;padding:18px;
-  position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:10px;
-}
-.pcard-acento{position:absolute;top:0;left:0;right:0;height:2px}
+/* MANDATOS SECTION */
+.mandato-hero{padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;background:#fff;position:sticky;top:88px;z-index:30}
+.mandato-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#fff;flex-shrink:0}
+.mandato-nome{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#111318}
+.mandato-cargo{font-size:12px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace}
+.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.pcard{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+.pcard-acento{position:absolute;top:0;left:0;right:0;height:3px}
 .pcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.pcard-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;line-height:1.25;letter-spacing:-.01em}
-.pcard-prio{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:100px;flex-shrink:0}
-.pcard-desc{font-size:12px;color:var(--text2);line-height:1.6}
-.pcard-acao{
-  font-size:11px;color:var(--cyan);font-weight:500;
-  padding:7px 10px;background:var(--cyan-dim);
-  border-left:2px solid var(--cyan);border-radius:1px;
-  line-height:1.4;
-}
+.pcard-title{font-size:15px;font-weight:700;color:#111318;line-height:1.25;letter-spacing:-.01em}
+.pcard-prio{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:100px;flex-shrink:0}
+.pcard-desc{font-size:13px;color:var(--text2);line-height:1.6}
+.pcard-acao{font-size:12px;color:var(--cyan);font-weight:500;padding:8px 10px;background:var(--cyan-dim);border-left:2px solid var(--cyan);border-radius:2px;line-height:1.4}
 .pcard-copy-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
-.pcard-copy{
-  font-size:11px;color:var(--text2);background:var(--bg4);
-  border:1px solid var(--border);border-radius:2px;
-  padding:10px;line-height:1.6;position:relative;
-  font-family:'IBM Plex Mono',monospace;
-}
-.copy-btn{
-  position:absolute;top:6px;right:6px;
-  background:var(--bg5);border:1px solid var(--border2);
-  color:var(--text2);border-radius:2px;
-  padding:2px 8px;font-size:9px;cursor:pointer;
-  font-family:'Inter',sans-serif;font-weight:600;
-  transition:all .2s;
-}
-.copy-btn:hover{background:var(--border2);color:#fff}
-.pcard-trend{font-size:11px;color:#fb923c;background:rgba(249,115,22,.08);border-left:2px solid #f97316;border-radius:1px;padding:7px 10px;line-height:1.5}
-.pcard-insight{font-size:11px;color:#e879f9;background:rgba(236,72,153,.08);border-left:2px solid #ec4899;border-radius:1px;padding:7px 10px;line-height:1.5}
-.trend-label,.insight-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:4px;opacity:.7}
+.pcard-copy{font-size:12px;color:var(--text2);background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:10px;line-height:1.6;position:relative;font-family:'IBM Plex Mono',monospace}
+.copy-btn{position:absolute;top:6px;right:6px;background:#fff;border:1px solid var(--border2);color:var(--text3);border-radius:4px;padding:3px 9px;font-size:10px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;transition:all .2s}
+.copy-btn:hover{background:var(--bg3)}
+.pcard-trend{font-size:12px;color:#9a3412;background:#fff7ed;border-left:2px solid #f97316;border-radius:2px;padding:7px 10px;line-height:1.5}
+.pcard-insight{font-size:12px;color:#7e22ce;background:#fdf4ff;border-left:2px solid #a855f7;border-radius:2px;padding:7px 10px;line-height:1.5}
+.trend-label,.insight-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:3px;opacity:.7}
 .mandato-empty{text-align:center;padding:60px 20px;color:var(--text3)}
-.mandato-empty .mi{font-size:40px;display:block;margin-bottom:12px;color:var(--bg5)}
-.mandato-empty p{font-size:13px;line-height:1.7}
+.mandato-empty .mi{font-size:42px;display:block;margin-bottom:12px;color:var(--bg5)}
+.mandato-empty p{font-size:14px;line-height:1.7}
 .insights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:20px}
-.insight-chip{background:var(--bg4);border:1px solid rgba(61,217,245,.15);border-radius:3px;padding:12px;transition:all .2s}
-.insight-chip h4{font-size:12px;font-weight:600;color:#fff;margin-bottom:4px;letter-spacing:.01em}
-.insight-chip p{font-size:11px;color:var(--text2);line-height:1.5}
+.insight-chip{background:var(--cyan-dim);border:1px solid rgba(8,145,178,.15);border-radius:6px;padding:14px}
+.insight-chip h4{font-size:13px;font-weight:600;color:#111318;margin-bottom:4px}
+.insight-chip p{font-size:12px;color:var(--text2);line-height:1.5}
 
-/* ══════════════════════════════════════
-   BRIEFING PANEL
-══════════════════════════════════════ */
-.bp-panel{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:24px}
-.bp-title{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:4px}
-.bp-sub{font-size:12px;color:var(--text3);margin-bottom:20px;line-height:1.5}
+/* BRIEFING */
+.bp-panel{background:#fff;border:1px solid var(--border);border-radius:8px;padding:26px}
+.bp-title{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#111318;margin-bottom:4px}
+.bp-sub{font-size:13px;color:var(--text3);margin-bottom:20px;line-height:1.5}
 .bp-date-row{display:flex;gap:12px;margin-bottom:14px;align-items:flex-end;flex-wrap:wrap}
 .bp-field{display:flex;flex-direction:column;gap:5px}
-.bp-field-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
-.bp-date-input{
-  padding:9px 12px;background:var(--bg4);border:1px solid var(--border2);
-  border-radius:3px;color:var(--text);font-size:12px;
-  font-family:'IBM Plex Mono',monospace;outline:none;transition:border-color .2s;color-scheme:dark;
-}
-.bp-date-input:focus{border-color:var(--cyan)}
-.bp-title-input{
-  padding:9px 12px;background:var(--bg4);border:1px solid var(--border2);
-  border-radius:3px;color:var(--text);font-size:12px;
-  font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;
-  min-width:280px;
-}
-.bp-title-input:focus{border-color:var(--cyan)}
+.bp-field-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+.bp-date-input,.bp-title-input{padding:10px 13px;background:var(--bg3);border:1.5px solid var(--border);border-radius:6px;color:#111318;font-size:13px;outline:none;transition:border-color .2s}
+.bp-date-input{font-family:'IBM Plex Mono',monospace}
+.bp-title-input{font-family:'Inter',sans-serif;min-width:260px}
+.bp-date-input:focus,.bp-title-input:focus{border-color:var(--cyan)}
 .bp-title-input::placeholder{color:var(--text3)}
-.bp-data-label{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan);
-  padding:9px 12px;background:var(--cyan-dim);border:1px solid rgba(61,217,245,.2);
-  border-radius:3px;white-space:nowrap;
-}
-.bp-textarea{
-  width:100%;height:260px;background:var(--bg4);border:1px solid var(--border2);
-  border-radius:3px;color:var(--text);font-size:12px;padding:14px;
-  font-family:'IBM Plex Mono',monospace;resize:vertical;outline:none;
-  line-height:1.7;transition:border-color .2s;
-}
+.bp-data-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--cyan);padding:10px 13px;background:var(--cyan-dim);border:1px solid rgba(8,145,178,.25);border-radius:6px;white-space:nowrap}
+.bp-textarea{width:100%;height:260px;background:var(--bg3);border:1.5px solid var(--border);border-radius:6px;color:#111318;font-size:13px;padding:14px;font-family:'IBM Plex Mono',monospace;resize:vertical;outline:none;line-height:1.7;transition:border-color .2s}
 .bp-textarea:focus{border-color:var(--claude)}
 .bp-textarea::placeholder{color:var(--text3)}
 .bp-actions{display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap}
-.bp-submit{
-  padding:10px 24px;background:var(--claude);color:var(--bg);
-  font-family:'Inter',sans-serif;font-size:11px;font-weight:800;
-  letter-spacing:.15em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;transition:all .2s;
-}
-.bp-submit:hover{filter:brightness(1.08)}
+.bp-submit{padding:11px 26px;background:#111318;color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:6px;cursor:pointer;transition:all .2s}
+.bp-submit:hover{background:#1f2937}
 .bp-submit:disabled{opacity:.5;cursor:not-allowed}
-.bp-clear{
-  padding:10px 18px;background:transparent;border:1px solid var(--border2);
-  color:var(--text2);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
-  letter-spacing:.12em;text-transform:uppercase;border-radius:3px;cursor:pointer;transition:all .2s;
-}
-.bp-clear:hover{background:var(--bg4)}
-.bp-hint{font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace}
+.bp-clear{padding:11px 18px;background:transparent;border:1.5px solid var(--border2);color:var(--text2);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;cursor:pointer}
+.bp-hint{font-size:12px;color:var(--text3);font-family:'IBM Plex Mono',monospace}
 
-/* ══════════════════════════════════════
-   HISTÓRICO
-══════════════════════════════════════ */
-.hist-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.hist-stats{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.hist-stat{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:3px;padding:12px 16px;text-align:center;min-width:100px;
-}
-.hist-stat-n{font-family:'Inter',sans-serif;font-size:28px;font-weight:800;color:#fff}
-.hist-stat-l{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:2px}
-.hist-row{
-  background:var(--bg3);border:1px solid var(--border);border-radius:3px;
-  padding:14px 16px;cursor:pointer;transition:all .15s;
-  display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;
-}
-.hist-row:hover{border-color:var(--border2);background:var(--bg4)}
-.hist-data{font-size:13px;font-weight:600;color:#fff;letter-spacing:.01em}
-.hist-resumo{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.4}
-.hist-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+/* HISTÓRICO */
+.hist-stat{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 18px;text-align:center;min-width:100px}
+.hist-stat-n{font-size:30px;font-weight:800;color:#111318}
+.hist-stat-l{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:2px}
+.hist-row{background:#fff;border:1px solid var(--border);border-radius:8px;padding:15px 18px;cursor:pointer;transition:all .15s;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.hist-row:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.hist-data{font-size:14px;font-weight:600;color:#111318}
+.hist-resumo{font-size:12px;color:var(--text3);margin-top:3px;line-height:1.4}
 
-/* ══════════════════════════════════════
-   FERRAMENTAS
-══════════════════════════════════════ */
-.tool-section-title{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:10px;margin-top:20px;
-  display:flex;align-items:center;gap:8px;
-}
+/* FERRAMENTAS SECTION */
+.tool-section-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;margin-top:20px;display:flex;align-items:center;gap:8px}
 .tool-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.tool-card{
-  background:var(--bg3);border:1px solid var(--border);border-radius:4px;
-  padding:16px;transition:all .2s;
-}
-.tool-card:hover{border-color:var(--border2)}
+.tool-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;transition:all .2s}
+.tool-card:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .tool-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.tool-card-name{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#fff}
-.tool-card-desc{font-size:12px;color:var(--text3);line-height:1.5;margin-bottom:12px}
+.tool-card-name{font-size:14px;font-weight:700;color:#111318}
+.tool-card-desc{font-size:13px;color:var(--text3);line-height:1.5;margin-bottom:14px}
 .tool-card-btns{display:flex;gap:8px;flex-wrap:wrap}
-.tool-btn-primary{
-  padding:7px 14px;border-radius:3px;
-  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;
-  text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:none;
-}
-.tool-btn-outline{
-  padding:7px 14px;border-radius:3px;
-  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;
-  text-decoration:none;display:inline-flex;align-items:center;gap:5px;
-  background:transparent;
-}
-.gem-box{
-  background:var(--bg4);border:1px solid var(--border);border-radius:3px;
-  padding:16px;margin-top:10px;display:none;
-}
-.gem-textarea{
-  width:100%;height:80px;background:var(--bg3);border:1px solid var(--border2);
-  border-radius:2px;color:var(--text);font-size:12px;padding:10px;
-  font-family:'IBM Plex Mono',monospace;resize:none;outline:none;line-height:1.6;
-}
-.gem-resp{
-  margin-top:10px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:2px;padding:12px;font-size:12px;color:var(--text2);
-  line-height:1.7;font-family:'IBM Plex Mono',monospace;white-space:pre-wrap;display:none;
-}
+.tool-btn-primary{padding:8px 16px;border-radius:6px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:none}
+.tool-btn-outline{padding:8px 16px;border-radius:6px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;background:transparent}
+.gem-box{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:16px;margin-top:10px;display:none}
+.gem-textarea{width:100%;height:80px;background:#fff;border:1.5px solid var(--border);border-radius:5px;color:#111318;font-size:13px;padding:10px;font-family:'IBM Plex Mono',monospace;resize:none;outline:none;line-height:1.6}
+.gem-resp{margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:5px;padding:13px;font-size:13px;color:var(--text2);line-height:1.7;font-family:'IBM Plex Mono',monospace;white-space:pre-wrap;display:none}
 
-/* MODAL */
-.modal-ov{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.85);backdrop-filter:blur(8px)}
+/* SEC */
+.sec-title{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#111318}
+.sec-sub{font-size:12px;color:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+
+/* MODAIS */
+.modal-ov{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.45);backdrop-filter:blur(4px)}
 .modal-ov.active{display:flex}
-.modal-card{
-  background:var(--bg3);border:1px solid var(--border2);
-  border-radius:6px;padding:32px;max-width:400px;width:100%;text-align:center;
-}
-.m-icon-w{width:52px;height:52px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.modal-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:28px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.m-icon-w{width:52px;height:52px;border-radius:50%;background:#fffbeb;border:1px solid rgba(217,119,6,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .m-icon-w .mi{font-size:26px;color:var(--claude)}
-.m-title{font-family:'Inter',sans-serif;font-size:17px;font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:8px}
-.m-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:24px}
+.m-title{font-size:17px;font-weight:800;letter-spacing:-.02em;color:#111318;margin-bottom:8px}
+.m-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:24px}
 .m-btns{display:flex;gap:10px}
-.m-cancel{flex:1;padding:10px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .2s}
-.m-cancel:hover{background:var(--bg4)}
-.m-confirm{flex:1;padding:10px;background:var(--claude);color:var(--bg);font-family:'Inter',sans-serif;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border:none;border-radius:3px;transition:all .2s}
-.m-confirm:hover{filter:brightness(1.1)}
+.m-cancel{flex:1;padding:11px;border:1.5px solid var(--border2);background:transparent;color:var(--text2);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:6px}
+.m-confirm{flex:1;padding:11px;background:#111318;color:#fff;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:none;border-radius:6px}
+.m-confirm:hover{background:#1f2937}
+
+/* INPUTS INTERNOS DOS MODAIS */
+.modal-input{width:100%;padding:10px 13px;background:var(--bg3);border:1.5px solid var(--border);border-radius:6px;color:#111318;font-size:13px;outline:none;font-family:'Inter',sans-serif;transition:border-color .2s}
+.modal-input:focus{border-color:var(--cyan)}
+.modal-input-mono{font-family:'IBM Plex Mono',monospace}
+.modal-select{width:100%;padding:10px 13px;background:var(--bg3);border:1.5px solid var(--border);border-radius:6px;color:#111318;font-size:13px;outline:none}
+.modal-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;display:block}
+
+/* ANALYTICS ITEMS */
+.analytics-row{background:#fff;border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s}
+.analytics-row:hover{border-color:var(--border2);box-shadow:0 2px 6px rgba(0,0,0,.06)}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--border2);border-radius:4px;padding:10px 18px;font-size:12px;color:var(--text);z-index:999;transition:transform .3s;white-space:nowrap;max-width:90vw;text-align:center}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 8px 24px rgba(0,0,0,.12);border-radius:8px;padding:11px 20px;font-size:13px;color:#111318;z-index:999;transition:transform .3s;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.ok{border-color:rgba(16,185,129,.4);color:var(--ale)}
-.toast.err{border-color:rgba(244,63,94,.4);color:var(--grok)}
+.toast.ok{border-color:rgba(4,120,87,.3);color:var(--ale)}
+.toast.err{border-color:rgba(225,29,72,.3);color:var(--grok)}
 
-@media(max-width:1100px){.comando-grid{grid-template-columns:1fr 1fr;}.dash-grid{grid-template-columns:1fr}.tl-panel{position:static}.tools-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1100px){.comando-grid{grid-template-columns:1fr 1fr}.dash-grid{grid-template-columns:1fr}.tl-panel{position:static}.tools-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.sidebar{display:none}#pg-admin{flex-direction:column}.sec-body{padding:16px}.comando-grid{grid-template-columns:1fr}.tools-grid{grid-template-columns:1fr}.pcards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN ═══════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="pg-login" class="page active">
-  <div class="login-mesh"></div>
   <div class="login-grid"></div>
   <div class="lcard">
     <div class="l-eyebrow">Sistema de Comando</div>
-    <div class="ltitle">CORE-01<br>Portela</div>
+    <div class="ltitle">CORE-01</div>
     <div class="lsub">Inteligência política para os mandatos</div>
     <div class="role-sel">
       <button class="rbtn active" id="r-admin" onclick="selRole('admin')">Gestor</button>
       <button class="rbtn" id="r-visitor" onclick="selRole('visitor')">Assessor →</button>
     </div>
-    <input class="linput" type="text" placeholder="email ou usuário" id="l-user" autocomplete="email">
+    <input class="linput" type="text" placeholder="email" id="l-user" autocomplete="email">
     <input class="linput" type="password" placeholder="senha" id="l-pass">
     <button class="lbtn" onclick="doLogin()">ENTRAR NO SISTEMA</button>
-    <div class="lhint">gestor: <span>admin</span> · assessor: <span>hub</span></div>
+    <div class="lhint" id="l-hint">gestor: <span>admin</span> · assessor: <span>hub</span></div>
   </div>
 </div>
 
-<!-- ═══ ADMIN ════════════════════════════════════════ -->
+<!-- ADMIN -->
 <div id="pg-admin" class="page">
-
   <nav class="sidebar">
     <div class="s-logo">
       <div class="s-logo-mark">CORE-01</div>
       <div class="s-logo-sub">Sistema Ativo</div>
     </div>
-
     <div class="s-section">Comando</div>
     <a class="nitem active" onclick="showTab('dashboard')" href="#"><span class="mi">dashboard</span> Painel</a>
     <a class="nitem" onclick="showTab('briefing')" href="#"><span class="mi">edit_note</span> Briefing</a>
-
     <div class="s-section" style="margin-top:8px">Mandatos</div>
     <a class="nitem" onclick="showTab('lincoln')" href="#"><span class="mi">account_balance</span> Lincoln</a>
     <a class="nitem" onclick="showTab('marilda')" href="#"><span class="mi">location_city</span> Marilda</a>
     <a class="nitem" onclick="showTab('ale')" href="#"><span class="mi">gavel</span> Alê</a>
-
     <div class="s-section" style="margin-top:8px">Arquivo</div>
     <a class="nitem" onclick="showTab('historico')" href="#"><span class="mi">history</span> Histórico</a>
     <a class="nitem" onclick="showTab('ferramentas')" href="#"><span class="mi">build</span> Ferramentas</a>
     <a class="nitem" onclick="showTab('usuarios')" href="#" id="nav-usuarios" style="display:none"><span class="mi">group</span> Usuários</a>
     <a class="nitem" onclick="showTab('analytics')" href="#" id="nav-analytics" style="display:none"><span class="mi">bar_chart</span> Analytics</a>
-
     <div class="s-divider"></div>
     <div class="s-bot">
-      <button class="hub-link-btn" onclick="window.open('/hub.html','_blank')">
-        <span class="mi" style="font-size:14px">open_in_new</span> Ver HUB
-      </button>
+      <a class="hub-link-btn" href="/hub.html" target="_blank"><span class="mi" style="font-size:15px">open_in_new</span> Ver HUB</a>
       <div style="height:8px"></div>
       <button class="flow-btn" onclick="openModal()">⚡ Inicializar Fluxo</button>
     </div>
@@ -649,8 +353,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
       <div class="ahead-title" id="page-title">Painel de Controle</div>
       <div class="ahead-right">
         <div class="status-pill"><div class="status-dot"></div><span id="sys-status">Verificando</span></div>
-        <button class="ibtn"><span class="mi">settings</span></button>
-        <button class="ibtn"><span class="mi">notifications</span><div class="ndot"></div></button>
         <button class="ibtn" onclick="logout()" title="Sair"><span class="mi">logout</span></button>
       </div>
     </header>
@@ -663,16 +365,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
       <div class="tab t-ale" id="tab-ale" onclick="showTab('ale')">⚖️ Alê</div>
       <div class="tab" id="tab-historico" onclick="showTab('historico')">Histórico</div>
       <div class="tab" id="tab-ferramentas" onclick="showTab('ferramentas')">Ferramentas</div>
-      <div class="tab" id="tab-usuarios" onclick="showTab('usuarios')" style="display:none">👥 Usuários</div>
-      <div class="tab" id="tab-analytics" onclick="showTab('analytics')" style="display:none">📊 Analytics</div>
+      <div class="tab" id="tab-usuarios" onclick="showTab('usuarios')" style="display:none">Usuários</div>
+      <div class="tab" id="tab-analytics" onclick="showTab('analytics')" style="display:none">Analytics</div>
     </div>
 
-    <!-- ── DASHBOARD ── -->
+    <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="sec-body">
-
-        <!-- ZONA 1: MANDATOS -->
-        <div class="zona-title">Mandatos</div>
+        <div class="zona-title">Mandatos do Dia</div>
         <div class="comando-grid">
           <div class="mandato-card mc-lincoln" onclick="showTab('lincoln')">
             <div class="mc-tag lincoln"><span class="mi" style="font-size:12px">account_balance</span> Lincoln Portela</div>
@@ -696,138 +396,78 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
             <div class="mc-cargo">ALMG · Minas Gerais</div>
             <div class="mc-count">—</div>
             <div class="mc-count-label">em configuração</div>
-            <div class="mc-prio prio-sem">Monitoramento em breve</div>
+            <div class="mc-prio prio-sem">Em breve</div>
           </div>
           <div class="quick-action">
             <div class="qa-label">Ações Rápidas</div>
-            <button class="qa-btn qa-primary" onclick="showTab('briefing')"><span class="mi" style="font-size:14px">add</span> Novo Briefing</button>
-            <button class="qa-btn qa-secondary" onclick="window.open('/hub.html','_blank')"><span class="mi" style="font-size:14px">open_in_new</span> Abrir HUB</button>
-            <button class="qa-btn qa-secondary" onclick="carregarPainel()"><span class="mi" style="font-size:14px">refresh</span> Atualizar Feed</button>
+            <button class="qa-btn qa-primary" onclick="showTab('briefing')"><span class="mi" style="font-size:15px">add</span> Novo Briefing</button>
+            <button class="qa-btn qa-secondary" onclick="window.open('/hub.html','_blank')"><span class="mi" style="font-size:15px">open_in_new</span> Abrir HUB</button>
+            <button class="qa-btn qa-secondary" onclick="carregarPainel()"><span class="mi" style="font-size:15px">refresh</span> Atualizar Feed</button>
           </div>
         </div>
 
-        <!-- ZONA 2: FEED DE NOTÍCIAS -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
-
-          <!-- Google Alerts dos parlamentares -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Google Alerts</div>
-                <div style="font-size:12px;font-weight:600;color:#fff;margin-top:2px">Notícias dos Parlamentares</div>
-              </div>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(16,185,129,.1);color:var(--ale);border:1px solid rgba(16,185,129,.2)">Gmail</span>
-            </div>
-            <div id="feed-parlamentares" style="padding:12px;max-height:280px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Carregando...</div>
-            </div>
+        <div class="ultimo-briefing" id="dash-briefing-summary">
+          <div class="ub-header">
+            <div class="ub-label">Último Briefing</div>
+            <div class="ub-date" id="dash-briefing-date"></div>
           </div>
+          <div class="ub-resumo" id="dash-briefing-resumo"></div>
+          <div class="ub-tags" id="dash-mandato-tags"></div>
+        </div>
 
-          <!-- Sites das Câmaras via Grok -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Grok · Tempo Real</div>
-                <div style="font-size:12px;font-weight:600;color:#fff;margin-top:2px">Câmaras e Assembleia</div>
-              </div>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(244,63,94,.1);color:var(--grok);border:1px solid rgba(244,63,94,.2)">Grok</span>
+        <!-- FEEDS 2 colunas -->
+        <div class="zona-title">Inteligência em Tempo Real</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+          <div class="feed-card">
+            <div class="feed-header">
+              <div><div class="feed-sub">Google Alerts · Gmail</div><div class="feed-title">Notícias dos Parlamentares</div></div>
+              <span class="feed-badge" style="background:#f0fdf4;color:var(--ale);border:1px solid rgba(4,120,87,.2)">Gmail</span>
             </div>
-            <div id="feed-camaras" style="padding:12px;max-height:280px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Carregando...</div>
+            <div class="feed-body" id="feed-parlamentares"><div class="feed-empty">Carregando alertas...</div></div>
+          </div>
+          <div class="feed-card">
+            <div class="feed-header">
+              <div><div class="feed-sub">Grok · Câmaras</div><div class="feed-title">Câmaras e Assembleia</div></div>
+              <span class="feed-badge" style="background:var(--grok-dim);color:var(--grok);border:1px solid rgba(225,29,72,.2)">Grok</span>
             </div>
+            <div class="feed-body" id="feed-camaras"><div class="feed-empty">Carregando pautas legislativas...</div></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;margin-bottom:28px">
+          <div class="feed-card">
+            <div class="feed-header">
+              <div><div class="feed-sub">Grok · Live Search</div><div class="feed-title">Tendências Políticas de Hoje</div></div>
+              <span class="feed-badge" style="background:var(--grok-dim);color:var(--grok);border:1px solid rgba(225,29,72,.2)">Tempo Real</span>
+            </div>
+            <div class="feed-body" id="feed-tendencias"><div class="feed-empty">Carregando tendências...</div></div>
+          </div>
+          <div class="feed-card">
+            <div class="feed-header" style="gap:8px">
+              <div style="flex:1"><div class="feed-sub">Agenda</div><div class="feed-title">Próximos Eventos</div></div>
+              <button onclick="abrirModalEvento()" style="flex-shrink:0;padding:5px 12px;background:var(--cyan-dim);border:1px solid rgba(8,145,178,.25);color:var(--cyan);font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:5px">+ Novo</button>
+            </div>
+            <div class="feed-body" id="feed-eventos"><div class="feed-empty">Nenhum evento.<br>Clique em + Novo para adicionar.</div></div>
           </div>
         </div>
 
-        <!-- ZONA 3: TENDÊNCIAS GROK + EVENTOS -->
-        <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;margin-bottom:24px">
-
-          <!-- Tendências Grok -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--grok)">Grok · Live Search</div>
-                <div style="font-size:12px;font-weight:600;color:#fff;margin-top:2px">Tendências Políticas de Hoje</div>
-              </div>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(244,63,94,.1);color:var(--grok);border:1px solid rgba(244,63,94,.2)">Tempo Real</span>
-            </div>
-            <div id="feed-tendencias" style="padding:12px;max-height:260px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Carregando...</div>
-            </div>
-          </div>
-
-          <!-- Próximos Eventos -->
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden">
-            <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-              <div style="font-size:12px;font-weight:600;color:#fff">Próximos Eventos</div>
-              <button onclick="abrirModalEvento()" style="padding:3px 10px;background:var(--cyan-dim);border:1px solid rgba(61,217,245,.25);color:var(--cyan);font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px">+ Adicionar</button>
-            </div>
-            <div id="feed-eventos" style="padding:8px;max-height:260px;overflow-y:auto">
-              <div style="text-align:center;padding:24px;color:var(--text3);font-size:12px">Nenhum evento</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ZONA 4: STATUS FERRAMENTAS + TIMELINE -->
+        <!-- FERRAMENTAS + TIMELINE -->
         <div class="dash-grid">
           <div>
             <div class="zona-title">Ferramentas de IA</div>
             <div class="tools-grid">
-              <div class="tool-chip tc-gem">
-                <div class="tc-icon" style="background:rgba(99,102,241,.15)">🤖</div>
-                <div class="tc-info">
-                  <div class="tc-name">Gemini</div>
-                  <div class="tc-status mono" id="g-last">Verificando...</div>
-                  <div class="tc-prog"><div class="tc-prog-fill" id="g-bar" style="width:0%;background:var(--lincoln)"></div></div>
-                </div>
-                <span class="tc-badge b-idle" id="g-badge">—</span>
-              </div>
-              <div class="tool-chip tc-grok">
-                <div class="tc-icon" style="background:rgba(244,63,94,.15)">𝕏</div>
-                <div class="tc-info">
-                  <div class="tc-name">Grok</div>
-                  <div class="tc-status mono" id="gk-last">Verificando...</div>
-                  <div class="tc-prog"><div class="tc-prog-fill" id="gk-bar" style="width:0%;background:var(--grok)"></div></div>
-                </div>
-                <span class="tc-badge b-idle" id="gk-badge">—</span>
-              </div>
-              <div class="tool-chip tc-claude">
-                <div class="tc-icon" style="background:rgba(245,158,11,.15)">✦</div>
-                <div class="tc-info">
-                  <div class="tc-name">Claude</div>
-                  <div class="tc-status mono">Em sessão ativa</div>
-                </div>
-                <span class="tc-badge b-session">Ativo</span>
-              </div>
-              <div class="tool-chip tc-opal">
-                <div class="tc-icon" style="background:rgba(6,182,212,.15)">◎</div>
-                <div class="tc-info">
-                  <div class="tc-name">Google Opal</div>
-                  <div class="tc-status mono">Entrada manual</div>
-                </div>
-                <span class="tc-badge b-manual">Manual</span>
-              </div>
-              <div class="tool-chip tc-perp">
-                <div class="tc-icon" style="background:rgba(249,115,22,.15)">⊕</div>
-                <div class="tc-info">
-                  <div class="tc-name">Perplexity</div>
-                  <div class="tc-status mono">API pendente</div>
-                </div>
-                <span class="tc-badge b-pending">Pendente</span>
-              </div>
-              <div class="tool-chip" style="cursor:pointer;justify-content:center;border-style:dashed" onclick="abrirModalNovaFerramenta()">
-                <span class="mi" style="color:var(--text3)">add</span>
-                <div style="font-size:11px;color:var(--text3)">Integrar</div>
-              </div>
+              <div class="tool-chip tc-gem"><div class="tc-icon" style="background:var(--lincoln-dim)">🤖</div><div class="tc-info"><div class="tc-name">Gemini</div><div class="tc-status" id="g-last">Verificando...</div><div class="tc-prog"><div class="tc-prog-fill" id="g-bar" style="width:0%;background:var(--lincoln)"></div></div></div><span class="tc-badge b-idle" id="g-badge">—</span></div>
+              <div class="tool-chip tc-grok"><div class="tc-icon" style="background:var(--grok-dim)">𝕏</div><div class="tc-info"><div class="tc-name">Grok</div><div class="tc-status" id="gk-last">Verificando...</div><div class="tc-prog"><div class="tc-prog-fill" id="gk-bar" style="width:0%;background:var(--grok)"></div></div></div><span class="tc-badge b-idle" id="gk-badge">—</span></div>
+              <div class="tool-chip tc-claude"><div class="tc-icon" style="background:#fffbeb">✦</div><div class="tc-info"><div class="tc-name">Claude</div><div class="tc-status">Em sessão ativa</div></div><span class="tc-badge b-session">Ativo</span></div>
+              <div class="tool-chip tc-opal"><div class="tc-icon" style="background:var(--cyan-dim)">◎</div><div class="tc-info"><div class="tc-name">Google Opal</div><div class="tc-status">Entrada manual</div></div><span class="tc-badge b-manual">Manual</span></div>
+              <div class="tool-chip tc-perp"><div class="tc-icon" style="background:#fff7ed">⊕</div><div class="tc-info"><div class="tc-name">Perplexity</div><div class="tc-status">API pendente</div></div><span class="tc-badge b-pending">Pendente</span></div>
+              <div class="tool-chip" style="cursor:pointer;justify-content:center;border-style:dashed" onclick="abrirModalNovaFerramenta()"><span class="mi" style="color:var(--text3)">add</span><div style="font-size:12px;color:var(--text3)">Integrar</div></div>
             </div>
           </div>
           <div class="tl-panel">
-            <div class="tl-head">
-              <h3>Pipeline do Dia</h3>
-              <p id="dash-date">Carregando...</p>
-            </div>
+            <div class="tl-head"><h3>Pipeline do Dia</h3><p id="dash-date">Carregando...</p></div>
             <div class="timeline">
               <div class="tspine"></div>
-              <div class="titem"><div class="tdot" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)"></div><div class="ttime">— <span class="ttag" style="background:linear-gradient(90deg,#4F46E5,#7C3AED);color:#fff">Gemini</span></div><div class="tdesc" id="tl-gem">Aguardando...</div></div>
+              <div class="titem"><div class="tdot" style="background:var(--lincoln)"></div><div class="ttime">— <span class="ttag" style="background:var(--lincoln-dim);color:var(--lincoln)">Gemini</span></div><div class="tdesc" id="tl-gem">Aguardando...</div></div>
               <div class="titem pend"><div class="tdot" style="background:var(--opal)"></div><div class="ttime">— <span class="ttag" style="border:1px solid var(--opal);color:var(--opal)">Opal</span></div><div class="tdesc">Manual</div></div>
               <div class="titem pend"><div class="tdot" style="background:var(--perp)"></div><div class="ttime">— <span class="ttag" style="border:1px solid var(--perp);color:var(--perp)">Perplexity</span></div><div class="tdesc">Pendente</div></div>
               <div class="titem"><div class="tdot" style="background:var(--grok)"></div><div class="ttime">— <span class="ttag" style="border:1px solid var(--grok);color:var(--grok)">Grok</span></div><div class="tdesc" id="tl-grok">Aguardando...</div></div>
@@ -839,31 +479,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- ── BRIEFING ── -->
+    <!-- BRIEFING -->
     <div class="section" id="sec-briefing">
       <div class="sec-body">
         <div class="bp-panel">
           <div class="bp-title">Publicar Briefing da Geni</div>
-          <div class="bp-sub">Cole o briefing gerado pelo Gemini. O Claude processa, classifica por mandato e publica no HUB.</div>
+          <div class="bp-sub">Cole o briefing do Gemini. O Claude processa, classifica por mandato e publica no HUB.</div>
           <div class="bp-date-row">
-            <div class="bp-field">
-              <div class="bp-field-label">Data do Briefing</div>
-              <input type="date" id="bp-data" class="bp-date-input" onchange="atualizarDataLabel()">
-            </div>
-            <div class="bp-field" style="flex:1">
-              <div class="bp-field-label">Título / Contexto</div>
-              <input type="text" id="bp-titulo" class="bp-title-input" placeholder="Ex: Semana de votações — Seg 23/03">
-            </div>
-            <div class="bp-field">
-              <div class="bp-field-label">Selecionado</div>
-              <div class="bp-data-label" id="bp-data-label">—</div>
-            </div>
+            <div class="bp-field"><div class="bp-field-label">Data do Briefing</div><input type="date" id="bp-data" class="bp-date-input" onchange="atualizarDataLabel()"></div>
+            <div class="bp-field" style="flex:1"><div class="bp-field-label">Título / Contexto</div><input type="text" id="bp-titulo" class="bp-title-input" placeholder="Ex: Votações da semana"></div>
+            <div class="bp-field"><div class="bp-field-label">Selecionado</div><div class="bp-data-label" id="bp-data-label">—</div></div>
           </div>
-          <textarea class="bp-textarea" id="bp-text" placeholder="Cole aqui o briefing completo da Geni...&#10;&#10;Bom dia, comandante! 🚀 O radar DeepSearch..."></textarea>
+          <textarea class="bp-textarea" id="bp-text" placeholder="Cole aqui o briefing completo da Geni..."></textarea>
           <div class="bp-actions">
             <button class="bp-submit" id="bp-btn" onclick="processarBriefing()">PROCESSAR E PUBLICAR</button>
             <button class="bp-clear" onclick="limparBriefing()">Limpar</button>
@@ -874,335 +504,202 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
       </div>
     </div>
 
-    <!-- ── LINCOLN ── -->
+    <!-- LINCOLN -->
     <div class="section" id="sec-lincoln">
       <div class="mandato-hero">
-        <div class="mandato-avatar" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)">L</div>
-        <div>
-          <div class="mandato-nome">Lincoln Portela</div>
-          <div class="mandato-cargo">Deputado Federal · Câmara dos Deputados · Brasília</div>
-        </div>
+        <div class="mandato-avatar" style="background:linear-gradient(135deg,#4338ca,#6366f1)">L</div>
+        <div><div class="mandato-nome">Lincoln Portela</div><div class="mandato-cargo">Deputado Federal · Câmara dos Deputados · Brasília</div></div>
       </div>
-      <div class="sec-body">
-        <div id="lincoln-cards"><div class="mandato-empty"><span class="mi">edit_note</span><p>Publique um briefing para ver as pautas do Lincoln aqui.</p></div></div>
-      </div>
+      <div class="sec-body"><div id="lincoln-cards"><div class="mandato-empty"><span class="mi">edit_note</span><p>Publique um briefing para ver as pautas do Lincoln aqui.</p></div></div></div>
     </div>
 
-    <!-- ── MARILDA ── -->
+    <!-- MARILDA -->
     <div class="section" id="sec-marilda">
       <div class="mandato-hero">
-        <div class="mandato-avatar" style="background:linear-gradient(135deg,#EC4899,#F472B6)">M</div>
-        <div>
-          <div class="mandato-nome">Marilda Portela</div>
-          <div class="mandato-cargo">Vereadora · Câmara Municipal · Belo Horizonte</div>
-        </div>
+        <div class="mandato-avatar" style="background:linear-gradient(135deg,#be185d,#ec4899)">M</div>
+        <div><div class="mandato-nome">Marilda Portela</div><div class="mandato-cargo">Vereadora · Câmara Municipal · Belo Horizonte</div></div>
       </div>
-      <div class="sec-body">
-        <div id="marilda-cards"><div class="mandato-empty"><span class="mi">edit_note</span><p>Publique um briefing para ver as pautas da Marilda aqui.</p></div></div>
-      </div>
+      <div class="sec-body"><div id="marilda-cards"><div class="mandato-empty"><span class="mi">edit_note</span><p>Publique um briefing para ver as pautas da Marilda aqui.</p></div></div></div>
     </div>
 
-    <!-- ── ALÊ ── -->
+    <!-- ALÊ -->
     <div class="section" id="sec-ale">
       <div class="mandato-hero">
-        <div class="mandato-avatar" style="background:linear-gradient(135deg,#10B981,#34D399)">A</div>
-        <div>
-          <div class="mandato-nome">Alê Portela</div>
-          <div class="mandato-cargo">Deputada Estadual · Assembleia Legislativa · Minas Gerais</div>
-        </div>
+        <div class="mandato-avatar" style="background:linear-gradient(135deg,#047857,#10b981)">A</div>
+        <div><div class="mandato-nome">Alê Portela</div><div class="mandato-cargo">Deputada Estadual · ALMG · Minas Gerais</div></div>
       </div>
-      <div class="sec-body">
-        <div id="ale-cards"><div class="mandato-empty"><span class="mi">pending</span><p>Alê Portela em configuração.<br>Monitoramento da Geni para o mandato estadual será ativado em breve.</p></div></div>
-      </div>
+      <div class="sec-body"><div id="ale-cards"><div class="mandato-empty"><span class="mi">pending</span><p>Monitoramento estadual será ativado em breve.</p></div></div></div>
     </div>
 
-    <!-- ── HISTÓRICO ── -->
+    <!-- HISTÓRICO -->
     <div class="section" id="sec-historico">
       <div class="sec-body">
-        <div class="hist-header">
-          <div>
-            <div style="font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em">Arquivo de Briefings</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase">Histórico completo por data</div>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <div><div class="sec-title">Arquivo de Briefings</div><div class="sec-sub" style="margin-top:4px">Histórico completo por data</div></div>
           <div style="display:flex;gap:8px;align-items:center">
-            <select id="filtro-mes" onchange="loadHistorico()" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:7px 12px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;outline:none">
-              <option value="">Todos os meses</option>
-            </select>
-            <button onclick="loadHistorico()" style="padding:7px 14px;border:1px solid rgba(61,217,245,.3);background:rgba(61,217,245,.08);color:var(--cyan);font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:3px">Atualizar</button>
+            <select id="filtro-mes" onchange="loadHistorico()" style="background:#fff;border:1.5px solid var(--border2);color:#111318;padding:8px 13px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;outline:none"><option value="">Todos os meses</option></select>
+            <button onclick="loadHistorico()" style="padding:8px 16px;border:1.5px solid rgba(8,145,178,.3);background:var(--cyan-dim);color:var(--cyan);font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:6px">Atualizar</button>
           </div>
         </div>
-        <div class="hist-stats" id="historico-stats"></div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap" id="historico-stats"></div>
         <div id="historico-list"><div class="mandato-empty"><span class="mi">hourglass_empty</span><p>Carregando...</p></div></div>
       </div>
     </div>
 
-    <!-- ── FERRAMENTAS ── -->
+    <!-- FERRAMENTAS -->
     <div class="section" id="sec-ferramentas">
       <div class="sec-body">
-        <div style="font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px">Ferramentas Integradas</div>
-        <div style="font-size:12px;color:var(--text3);margin-bottom:24px">Acesso direto às ferramentas do ecossistema Portela</div>
-
+        <div style="margin-bottom:24px"><div class="sec-title">Ferramentas Integradas</div><div class="sec-sub" style="margin-top:4px">Acesso direto ao ecossistema Portela</div></div>
         <div class="tool-section-title">Google Opal</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:8px">
-          <div class="tool-card">
-            <div class="tool-card-header">
-              <div class="tool-card-name">Emendas Lincoln</div>
-              <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:var(--opal-dim,rgba(6,182,212,.1));color:var(--opal);border:1px solid rgba(6,182,212,.2);font-family:'IBM Plex Mono',monospace">Opal</span>
-            </div>
-            <div class="tool-card-desc">Monitoramento de emendas parlamentares federais do Deputado Lincoln Portela.</div>
-            <div class="tool-card-btns">
-              <a href="https://opal.google/app/1Ceo3fDrNOzSkN3PZrjIUMn0MxL8CTTiT" target="_blank" class="tool-btn-primary" style="background:rgba(6,182,212,.12);color:var(--opal);border:1px solid rgba(6,182,212,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a>
-            </div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-card-header">
-              <div class="tool-card-name">Geral Lincoln</div>
-              <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(6,182,212,.1);color:var(--opal);border:1px solid rgba(6,182,212,.2);font-family:'IBM Plex Mono',monospace">Opal</span>
-            </div>
-            <div class="tool-card-desc">Painel geral de inteligência do mandato federal Lincoln Portela.</div>
-            <div class="tool-card-btns">
-              <a href="https://opal.google/app/12VLpXQjDENmdIL0FEBeK87FQhKqAA6F3" target="_blank" class="tool-btn-primary" style="background:rgba(6,182,212,.12);color:var(--opal);border:1px solid rgba(6,182,212,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a>
-            </div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-card-header">
-              <div class="tool-card-name">Geral Marilda</div>
-              <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(6,182,212,.1);color:var(--opal);border:1px solid rgba(6,182,212,.2);font-family:'IBM Plex Mono',monospace">Opal</span>
-            </div>
-            <div class="tool-card-desc">Painel geral de inteligência do mandato municipal Marilda Portela em BH.</div>
-            <div class="tool-card-btns">
-              <a href="https://opal.google/app/15pIgCT3CMNCkHDo4VdG6C6uEeG_tbQ7u" target="_blank" class="tool-btn-primary" style="background:rgba(6,182,212,.12);color:var(--opal);border:1px solid rgba(6,182,212,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a>
-            </div>
-          </div>
+          <div class="tool-card"><div class="tool-card-header"><div class="tool-card-name">Emendas Lincoln</div><span style="font-size:9px;padding:2px 8px;border-radius:100px;background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(8,145,178,.2)">Opal</span></div><div class="tool-card-desc">Monitoramento de emendas parlamentares federais.</div><div class="tool-card-btns"><a href="https://opal.google/app/1Ceo3fDrNOzSkN3PZrjIUMn0MxL8CTTiT" target="_blank" class="tool-btn-primary" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(8,145,178,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a></div></div>
+          <div class="tool-card"><div class="tool-card-header"><div class="tool-card-name">Geral Lincoln</div><span style="font-size:9px;padding:2px 8px;border-radius:100px;background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(8,145,178,.2)">Opal</span></div><div class="tool-card-desc">Painel geral do mandato federal Lincoln Portela.</div><div class="tool-card-btns"><a href="https://opal.google/app/12VLpXQjDENmdIL0FEBeK87FQhKqAA6F3" target="_blank" class="tool-btn-primary" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(8,145,178,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a></div></div>
+          <div class="tool-card"><div class="tool-card-header"><div class="tool-card-name">Geral Marilda</div><span style="font-size:9px;padding:2px 8px;border-radius:100px;background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(8,145,178,.2)">Opal</span></div><div class="tool-card-desc">Painel geral do mandato municipal Marilda Portela.</div><div class="tool-card-btns"><a href="https://opal.google/app/15pIgCT3CMNCkHDo4VdG6C6uEeG_tbQ7u" target="_blank" class="tool-btn-primary" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(8,145,178,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a></div></div>
         </div>
-
-        <div class="tool-section-title">Gems Gemini — Especialistas</div>
+        <div class="tool-section-title">Gems Gemini</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:8px">
-          <div class="tool-card">
-            <div class="tool-card-header">
-              <div class="tool-card-name">Especialista Lincoln</div>
-              <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:var(--lincoln-dim);color:var(--lincoln);border:1px solid rgba(99,102,241,.2);font-family:'IBM Plex Mono',monospace">Gem</span>
-            </div>
-            <div class="tool-card-desc">IA especializada no mandato federal. Consulte pautas, estratégias e posicionamentos.</div>
-            <div class="tool-card-btns">
-              <a href="https://gemini.google.com/gem/12Nt13LHCDPPwqE1KDri7wodiYVNNx26L" target="_blank" class="tool-btn-primary" style="background:var(--lincoln-dim);color:var(--lincoln);border:1px solid rgba(99,102,241,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir Gem</a>
-              <button onclick="usarGem('lincoln')" class="tool-btn-outline" style="border:1px solid var(--border2);color:var(--text2)"><span class="mi" style="font-size:13px">psychology</span>Via Claude</button>
-            </div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-card-header">
-              <div class="tool-card-name">Especialista Marilda</div>
-              <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:var(--marilda-dim);color:var(--marilda);border:1px solid rgba(236,72,153,.2);font-family:'IBM Plex Mono',monospace">Gem</span>
-            </div>
-            <div class="tool-card-desc">IA especializada no mandato municipal. Consulte pautas, estratégias e posicionamentos.</div>
-            <div class="tool-card-btns">
-              <a href="https://gemini.google.com/gem/1vYAwoaM2dv7CK_vfLZUnBNkIVne_NpHa" target="_blank" class="tool-btn-primary" style="background:var(--marilda-dim);color:var(--marilda);border:1px solid rgba(236,72,153,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir Gem</a>
-              <button onclick="usarGem('marilda')" class="tool-btn-outline" style="border:1px solid var(--border2);color:var(--text2)"><span class="mi" style="font-size:13px">psychology</span>Via Claude</button>
-            </div>
-          </div>
+          <div class="tool-card"><div class="tool-card-header"><div class="tool-card-name">Especialista Lincoln</div><span style="font-size:9px;padding:2px 8px;border-radius:100px;background:var(--lincoln-dim);color:var(--lincoln);border:1px solid rgba(67,56,202,.2)">Gem</span></div><div class="tool-card-desc">IA especializada no mandato federal.</div><div class="tool-card-btns"><a href="https://gemini.google.com/gem/12Nt13LHCDPPwqE1KDri7wodiYVNNx26L" target="_blank" class="tool-btn-primary" style="background:var(--lincoln-dim);color:var(--lincoln);border:1px solid rgba(67,56,202,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a><button onclick="usarGem('lincoln')" class="tool-btn-outline" style="border:1.5px solid var(--border2);color:var(--text2)"><span class="mi" style="font-size:13px">psychology</span>Via Claude</button></div></div>
+          <div class="tool-card"><div class="tool-card-header"><div class="tool-card-name">Especialista Marilda</div><span style="font-size:9px;padding:2px 8px;border-radius:100px;background:var(--marilda-dim);color:var(--marilda);border:1px solid rgba(190,24,93,.2)">Gem</span></div><div class="tool-card-desc">IA especializada no mandato municipal.</div><div class="tool-card-btns"><a href="https://gemini.google.com/gem/1vYAwoaM2dv7CK_vfLZUnBNkIVne_NpHa" target="_blank" class="tool-btn-primary" style="background:var(--marilda-dim);color:var(--marilda);border:1px solid rgba(190,24,93,.2)"><span class="mi" style="font-size:13px">open_in_new</span>Abrir</a><button onclick="usarGem('marilda')" class="tool-btn-outline" style="border:1.5px solid var(--border2);color:var(--text2)"><span class="mi" style="font-size:13px">psychology</span>Via Claude</button></div></div>
         </div>
-
-        <!-- Gem via Claude -->
         <div id="gem-box" class="gem-box">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px" id="gem-box-title">Consultar via Claude</div>
-          <textarea id="gem-prompt" class="gem-textarea" placeholder="Digite sua pergunta para o especialista..."></textarea>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px" id="gem-box-title">Consultar via Claude</div>
+          <textarea id="gem-prompt" class="gem-textarea" placeholder="Digite sua pergunta..."></textarea>
           <div style="display:flex;gap:8px;margin-top:8px">
-            <button onclick="consultarGem()" class="tool-btn-primary" style="background:var(--claude);color:var(--bg);border:none;padding:8px 18px">CONSULTAR</button>
-            <button onclick="document.getElementById('gem-box').style.display='none'" class="tool-btn-outline" style="border:1px solid var(--border2);color:var(--text2);padding:8px 14px">Fechar</button>
+            <button onclick="consultarGem()" class="tool-btn-primary" style="background:#111318;color:#fff;border:none;padding:9px 18px">CONSULTAR</button>
+            <button onclick="document.getElementById('gem-box').style.display='none'" class="tool-btn-outline" style="border:1.5px solid var(--border2);color:var(--text2);padding:9px 14px">Fechar</button>
           </div>
           <div id="gem-response" class="gem-resp"></div>
         </div>
-
-        <div class="tool-section-title">Ferramentas Adicionadas</div>
-        <div id="ferramentas-extras-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:8px">
-          <div style="font-size:12px;color:var(--text3);padding:12px;font-family:'IBM Plex Mono',monospace">Nenhuma ferramenta adicionada ainda. Clique em "+ Integrar" no painel.</div>
-        </div>
-
-        <div class="tool-section-title">Perplexity — Espaços</div>
-        <div style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:16px;text-align:center">
-          <div style="font-size:12px;color:var(--text3);line-height:1.6">Espaços especializados por mandato serão adicionados<br>quando a API key do Perplexity for configurada.</div>
-        </div>
-
         <div class="tool-section-title" style="margin-top:24px">Ferramentas Adicionadas</div>
         <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-          <button onclick="abrirModalNovaFerramenta()" style="padding:8px 16px;background:var(--cyan-dim);border:1px solid rgba(61,217,245,.3);color:var(--cyan);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:3px;display:flex;align-items:center;gap:6px">
-            <span class="mi" style="font-size:14px">add</span> Integrar Nova Ferramenta
-          </button>
+          <button onclick="abrirModalNovaFerramenta()" style="padding:9px 18px;background:var(--cyan-dim);border:1px solid rgba(8,145,178,.3);color:var(--cyan);font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:6px"><span class="mi" style="font-size:15px">add</span> Integrar Nova</button>
         </div>
         <div id="ferramentas-custom" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
-          <div style="background:var(--bg4);border:1.5px dashed var(--border2);border-radius:4px;padding:24px;text-align:center;cursor:pointer" onclick="abrirModalNovaFerramenta()">
-            <span class="mi" style="font-size:28px;color:var(--text3);display:block;margin-bottom:8px">add_circle</span>
-            <div style="font-size:12px;color:var(--text3)">Adicionar ferramenta</div>
-            <div style="font-size:10px;color:var(--text3);opacity:.6;margin-top:2px">Link externo ou API própria</div>
+          <div style="background:var(--bg3);border:1.5px dashed var(--border2);border-radius:8px;padding:24px;text-align:center;cursor:pointer" onclick="abrirModalNovaFerramenta()">
+            <span class="mi" style="font-size:30px;color:var(--text3);display:block;margin-bottom:8px">add_circle</span>
+            <div style="font-size:13px;color:var(--text3)">Adicionar ferramenta</div>
+            <div style="font-size:11px;color:var(--text3);opacity:.6;margin-top:2px">Link externo ou API própria</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ── USUÁRIOS (master only) ── -->
+    <!-- USUÁRIOS -->
     <div class="section" id="sec-usuarios">
       <div class="sec-body">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-          <div>
-            <div style="font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em">Gerenciar Usuários</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase">Apenas o Master pode criar e deletar perfis</div>
-          </div>
-          <button onclick="abrirModalNovoUsuario()" style="padding:9px 18px;background:var(--cyan);color:#fff;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;display:flex;align-items:center;gap:6px"><span class="mi" style="font-size:14px">add</span>Novo Usuário</button>
+          <div><div class="sec-title">Gerenciar Usuários</div><div class="sec-sub" style="margin-top:4px">Apenas o Master pode criar e deletar perfis</div></div>
+          <button onclick="abrirModalNovoUsuario()" style="padding:10px 20px;background:#111318;color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px"><span class="mi" style="font-size:15px">add</span>Novo Usuário</button>
         </div>
         <div id="users-list"><div class="mandato-empty"><span class="mi">hourglass_empty</span><p>Carregando...</p></div></div>
       </div>
     </div>
 
-    <!-- ── ANALYTICS (master only) ── -->
+    <!-- ANALYTICS -->
     <div class="section" id="sec-analytics">
       <div class="sec-body">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-          <div>
-            <div style="font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em">Dashboard Analytics</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase">Comportamento dos assessores no HUB</div>
-          </div>
+          <div><div class="sec-title">Dashboard Analytics</div><div class="sec-sub" style="margin-top:4px">Comportamento dos assessores no HUB</div></div>
           <div style="display:flex;gap:8px;align-items:center">
-            <select id="analytics-week" onchange="loadAnalytics()" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:7px 12px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;outline:none">
-              <option value="">Esta semana</option>
-            </select>
-            <button onclick="loadAnalytics()" style="padding:7px 14px;border:1px solid rgba(61,217,245,.3);background:rgba(61,217,245,.08);color:var(--cyan);font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:3px">Atualizar</button>
+            <select id="analytics-week" onchange="loadAnalytics()" style="background:#fff;border:1.5px solid var(--border2);color:#111318;padding:8px 13px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;outline:none"><option value="">Esta semana</option></select>
+            <button onclick="loadAnalytics()" style="padding:8px 16px;border:1.5px solid rgba(8,145,178,.3);background:var(--cyan-dim);color:var(--cyan);font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:6px">Atualizar</button>
           </div>
         </div>
-        <!-- Stats gerais -->
         <div id="analytics-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px"></div>
-        <!-- Assessores -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
-          <div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Assessores Ativos</div>
-            <div id="analytics-assessores"></div>
-          </div>
-          <div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Top Pautas Acessadas</div>
-            <div id="analytics-cards"></div>
-          </div>
+          <div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Assessores Ativos</div><div id="analytics-assessores"></div></div>
+          <div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Top Pautas</div><div id="analytics-cards"></div></div>
         </div>
-        <!-- Copies e horários -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-          <div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Copies Mais Copiadas</div>
-            <div id="analytics-copies"></div>
-          </div>
-          <div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">Horários de Pico</div>
-            <div id="analytics-hours"></div>
-          </div>
+          <div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Copies Mais Copiadas</div><div id="analytics-copies"></div></div>
+          <div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Horários de Pico</div><div id="analytics-hours"></div></div>
         </div>
       </div>
     </div>
-
   </main>
 </div>
 
-<!-- MODAL ANALYTICS ASSESSOR -->
-<div class="modal-ov" id="modal-assessor">
-  <div class="modal-card" style="max-width:560px;text-align:left;max-height:80vh;overflow-y:auto">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#fff" id="modal-assessor-nome">Assessor</div>
-      <button onclick="document.getElementById('modal-assessor').classList.remove('active')" style="background:var(--bg5);border:1px solid var(--border);color:var(--text2);border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:14px">✕</button>
-    </div>
-    <div id="modal-assessor-body"></div>
-  </div>
-</div>
-
-<!-- MODAL NOVA FERRAMENTA -->
-<div class="modal-ov" id="modal-ferramenta">
-  <div class="modal-card" style="max-width:480px;text-align:left">
-    <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Integrar Nova Ferramenta</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:20px">Adicione um link externo ou uma API ao painel</div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Nome da Ferramenta</div>
-        <input id="ft-nome" type="text" placeholder="Ex: Perplexity, NotebookLM, n8n..." style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'Inter',sans-serif">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">URL de Acesso</div>
-        <input id="ft-url" type="url" placeholder="https://..." style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'IBM Plex Mono',monospace">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Descrição (opcional)</div>
-        <input id="ft-desc" type="text" placeholder="Para que serve esta ferramenta?" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'Inter',sans-serif">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Tipo</div>
-        <div style="display:flex;gap:8px">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text2)">
-            <input type="radio" name="ft-tipo" value="link" checked style="accent-color:var(--cyan)"> Link externo
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text2)">
-            <input type="radio" name="ft-tipo" value="api" style="accent-color:var(--cyan)"> API (endpoint)
-          </label>
-        </div>
-      </div>
-      <div id="ft-api-key-wrap" style="display:none">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">API Key (salva no Vercel)</div>
-        <input id="ft-apikey" type="password" placeholder="sk-..." style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'IBM Plex Mono',monospace">
-        <div style="font-size:10px;color:var(--text3);margin-top:4px">⚠️ A API key precisa ser adicionada manualmente no Vercel → Environment Variables</div>
-      </div>
-    </div>
-    <div id="ft-err" style="font-size:11px;color:var(--grok);margin-top:10px;font-family:'IBM Plex Mono',monospace;display:none"></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="m-cancel" onclick="document.getElementById('modal-ferramenta').classList.remove('active')">Cancelar</button>
-      <button class="m-confirm" onclick="salvarFerramenta()">ADICIONAR</button>
-    </div>
-  </div>
-</div>
-<div class="modal-ov" id="modal-usuario">
-  <div class="modal-card" style="max-width:460px;text-align:left">
-    <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:4px" id="modal-user-title">Novo Usuário</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:20px">Preencha os dados do novo membro da equipe.</div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Nome</div>
-        <input id="u-name" type="text" placeholder="Nome completo" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'Inter',sans-serif">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Email</div>
-        <input id="u-email" type="email" placeholder="email@dominio.com" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'IBM Plex Mono',monospace">
-      </div>
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Telefone (opcional)</div>
-        <input id="u-phone" type="tel" placeholder="(31) 9 9999-9999" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'IBM Plex Mono',monospace">
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Perfil</div>
-          <select id="u-role" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'Inter',sans-serif">
-            <option value="assessor">Assessor (HUB)</option>
-            <option value="admin">Admin (sem gerenciar usuários)</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:5px">Senha inicial</div>
-          <input id="u-pass" type="password" placeholder="Min. 8 caracteres" style="width:100%;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;color:var(--text);font-size:13px;outline:none;font-family:'IBM Plex Mono',monospace">
-        </div>
-      </div>
-    </div>
-    <div id="u-err" style="font-size:11px;color:var(--grok);margin-top:10px;font-family:'IBM Plex Mono',monospace;display:none"></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="m-cancel" onclick="fecharModalUsuario()">Cancelar</button>
-      <button class="m-confirm" onclick="criarUsuario()">CRIAR USUÁRIO</button>
-    </div>
-  </div>
-</div>
+<!-- MODAIS -->
 <div class="modal-ov" id="modal">
   <div class="modal-card">
     <div class="m-icon-w"><span class="mi">electric_bolt</span></div>
     <div class="m-title">Inicializar Fluxo</div>
-    <p class="m-desc">Dispara Gemini → Grok → Claude em sequência. Resultados aparecem nos cards em tempo real.</p>
-    <div class="m-btns">
-      <button class="m-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="m-confirm" onclick="runFlow()">Confirmar</button>
-    </div>
+    <p class="m-desc">Dispara Gemini → Grok → Claude em sequência.</p>
+    <div class="m-btns"><button class="m-cancel" onclick="closeModal()">Cancelar</button><button class="m-confirm" onclick="runFlow()">Confirmar</button></div>
   </div>
 </div>
+
+<div class="modal-ov" id="modal-evento">
+  <div class="modal-card" style="max-width:440px;text-align:left">
+    <div style="font-size:17px;font-weight:800;color:#111318;margin-bottom:16px">Novo Evento</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div><label class="modal-label">Título</label><input id="ev-titulo" type="text" placeholder="Ex: Votação PL 1234" class="modal-input"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="modal-label">Data</label><input id="ev-data" type="date" class="modal-input modal-input-mono"></div>
+        <div><label class="modal-label">Mandato</label><select id="ev-mandato" class="modal-select"><option value="geral">Geral</option><option value="lincoln">Lincoln</option><option value="marilda">Marilda</option><option value="ale">Alê</option></select></div>
+      </div>
+      <div><label class="modal-label">Local (opcional)</label><input id="ev-local" type="text" placeholder="Ex: Plenário da Câmara" class="modal-input"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px"><button class="m-cancel" onclick="document.getElementById('modal-evento').classList.remove('active')">Cancelar</button><button class="m-confirm" onclick="criarEvento()">SALVAR</button></div>
+  </div>
+</div>
+
+<div class="modal-ov" id="modal-ferramenta">
+  <div class="modal-card" style="max-width:480px;text-align:left">
+    <div style="font-size:17px;font-weight:800;color:#111318;margin-bottom:4px">Integrar Nova Ferramenta</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:18px">Adiciona link externo ou API ao painel.</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="modal-label">Nome</label><input id="ft-nome" type="text" placeholder="Ex: Perplexity" class="modal-input"></div>
+        <div><label class="modal-label">Tipo</label><select id="ft-tipo" onchange="alternarTipoFerramenta()" class="modal-select"><option value="link">Link Externo</option><option value="api">API (endpoint)</option></select></div>
+      </div>
+      <div><label class="modal-label">URL</label><input id="ft-url" type="text" placeholder="https://..." class="modal-input modal-input-mono"></div>
+      <div><label class="modal-label">Descrição</label><input id="ft-desc" type="text" placeholder="Para que serve?" class="modal-input"></div>
+      <div id="ft-api-campos" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px">Configuração da API</div>
+        <input id="ft-apikey-var" type="text" placeholder="Ex: PERPLEXITY_API_KEY" class="modal-input modal-input-mono" style="margin-bottom:6px">
+        <div style="font-size:11px;color:var(--text3)">Configure a chave como variável de ambiente no Vercel.</div>
+      </div>
+      <div><label class="modal-label">Emoji</label><input id="ft-emoji" type="text" placeholder="⊕" maxlength="2" style="width:60px;padding:10px;background:var(--bg3);border:1.5px solid var(--border);border-radius:6px;color:#111318;font-size:20px;outline:none;text-align:center"></div>
+    </div>
+    <div id="ft-err" style="font-size:12px;color:var(--grok);margin-top:8px;font-family:'IBM Plex Mono',monospace;display:none"></div>
+    <div style="display:flex;gap:10px;margin-top:18px"><button class="m-cancel" onclick="document.getElementById('modal-ferramenta').classList.remove('active')">Cancelar</button><button class="m-confirm" onclick="salvarFerramenta()">ADICIONAR</button></div>
+  </div>
+</div>
+
+<div class="modal-ov" id="modal-usuario">
+  <div class="modal-card" style="max-width:460px;text-align:left">
+    <div style="font-size:17px;font-weight:800;color:#111318;margin-bottom:4px">Novo Usuário</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:18px">Preencha os dados do novo membro.</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div><label class="modal-label">Nome</label><input id="u-name" type="text" placeholder="Nome completo" class="modal-input"></div>
+      <div><label class="modal-label">Email</label><input id="u-email" type="email" placeholder="email@dominio.com" class="modal-input modal-input-mono"></div>
+      <div><label class="modal-label">Telefone (opcional)</label><input id="u-phone" type="tel" placeholder="(31) 9 9999-9999" class="modal-input modal-input-mono"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="modal-label">Perfil</label><select id="u-role" class="modal-select"><option value="assessor">Assessor (HUB)</option><option value="admin">Admin</option></select></div>
+        <div><label class="modal-label">Senha inicial</label><input id="u-pass" type="password" placeholder="Min. 6 caracteres" class="modal-input modal-input-mono"></div>
+      </div>
+    </div>
+    <div id="u-err" style="font-size:12px;color:var(--grok);margin-top:10px;font-family:'IBM Plex Mono',monospace;display:none"></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="m-cancel" onclick="fecharModalUsuario()">Cancelar</button><button class="m-confirm" onclick="criarUsuario()">CRIAR</button></div>
+  </div>
+</div>
+
+<div class="modal-ov" id="modal-assessor">
+  <div style="background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:28px;width:100%;max-width:620px;position:relative;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)">
+    <button onclick="document.getElementById('modal-assessor').classList.remove('active')" style="position:absolute;top:14px;right:14px;background:var(--bg3);border:1px solid var(--border);color:var(--text3);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">✕</button>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-bottom:4px">Assessor</div>
+    <div style="font-size:20px;font-weight:800;color:#111318;margin-bottom:20px;letter-spacing:-.02em" id="modal-assessor-nome">—</div>
+    <div id="modal-assessor-body"></div>
+  </div>
+</div>
+
+<div style="display:none;position:fixed;inset:0;z-index:300;align-items:flex-start;justify-content:center;padding:40px 20px;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);overflow-y:auto" id="modal-briefing" onclick="if(event.target===this)this.style.display='none'"></div>
+
 <div class="toast" id="toast"></div>
 
 <script>
+
 // ═══════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════
@@ -1771,34 +1268,37 @@ async function carregarAlertsGmail() {
     // Alerts dos parlamentares via Gmail
     const alerts = d.alertsGmail || [];
     if (alerts.length === 0) {
-      el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px;line-height:1.6">
-        Os alertas dos parlamentares ainda não chegaram.<br>
-        <span style="font-size:10px;opacity:.6">Configure os Google Alerts e eles aparecerão aqui automaticamente.</span>
-      </div>`;
+      el.innerHTML = `<div class="feed-empty">Os alertas dos parlamentares ainda não chegaram.<br><span style="font-size:11px;opacity:.7">Configure Google Alerts para Lincoln, Marilda e Alê Portela.</span></div>`;
     } else {
       el.innerHTML = alerts.map(a => `
-        <div style="padding:10px 12px;border-bottom:1px solid var(--border);last-child:border-0">
-          <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">${a.termo}</div>
-          <div style="font-size:11px;color:var(--text3);line-height:1.4">${a.snippet.replace(/<[^>]+>/g,'').substring(0,120)}...</div>
-          <div style="font-size:9px;color:var(--text3);margin-top:4px;font-family:'IBM Plex Mono',monospace">${new Date(a.data).toLocaleDateString('pt-BR')}</div>
+        <div class="feed-item">
+          <div class="feed-item-bar" style="background:var(--ale)"></div>
+          <div class="feed-item-body">
+            <div class="feed-item-tag" style="color:var(--ale)">${a.termo || 'Google Alert'}</div>
+            <div class="feed-item-title">${a.assunto?.replace('Alerta do Google - ','') || '—'}</div>
+            <div class="feed-item-desc">${(a.snippet||'').replace(/<[^>]+>/g,'').substring(0,120)}...</div>
+            <div class="feed-item-meta">${a.data ? new Date(a.data).toLocaleDateString('pt-BR') : ''}</div>
+          </div>
         </div>`).join('');
     }
 
     // Sites das câmaras via Grok
     const camaras = d.grok?.camaras || [];
     if (elCamaras) {
+      const siglaColor = { federal:'var(--lincoln)', municipal:'var(--marilda)', estadual:'var(--ale)' };
+      const siglaLabel = { federal:'🏛 Federal', municipal:'🌸 BH', estadual:'⚖️ ALMG' };
       if (camaras.length === 0) {
-        elCamaras.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Sem dados das câmaras. Clique em "Atualizar Feed".</div>`;
+        elCamaras.innerHTML = `<div class="feed-empty">Buscando pautas das casas legislativas...</div>`;
       } else {
-        const siglas = { federal:'🏛', municipal:'🌸', estadual:'⚖️' };
         elCamaras.innerHTML = camaras.map(c => `
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
-              <span style="font-size:10px">${siglas[c.sigla]||'🏛'}</span>
-              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);font-family:'IBM Plex Mono',monospace">${c.casa}</span>
+          <div class="feed-item">
+            <div class="feed-item-bar" style="background:${siglaColor[c.sigla]||'var(--cyan)'}"></div>
+            <div class="feed-item-body">
+              <div class="feed-item-tag" style="color:${siglaColor[c.sigla]||'var(--cyan)'}">${siglaLabel[c.sigla]||c.casa}</div>
+              <div class="feed-item-title">${c.titulo||'—'}</div>
+              <div class="feed-item-desc">${c.resumo||''}</div>
+              ${c.data?`<div class="feed-item-meta">${c.data}</div>`:''}
             </div>
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">${c.titulo}</div>
-            <div style="font-size:11px;color:var(--text3);line-height:1.4">${c.resumo}</div>
           </div>`).join('');
       }
     }
@@ -1808,29 +1308,33 @@ async function carregarAlertsGmail() {
     const elTend = document.getElementById('feed-tendencias');
     if (elTend) {
       if (tendencias.length === 0) {
-        elTend.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">Buscando tendências...</div>`;
+        elTend.innerHTML = `<div class="feed-empty">Buscando tendências políticas...</div>`;
       } else {
         elTend.innerHTML = tendencias.map((t, i) => `
-          <div style="display:flex;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);align-items:flex-start">
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:${t.relevancia==='alta'?'var(--grok)':'var(--text3)'};width:24px;text-align:center;flex-shrink:0">${i+1}</div>
-            <div>
-              <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">${t.assunto}</div>
-              <div style="font-size:11px;color:var(--text3);line-height:1.4">${t.contexto}</div>
+          <div class="feed-item" style="align-items:center">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:800;color:${t.relevancia==='alta'?'var(--grok)':'var(--text3)'};width:28px;text-align:center;flex-shrink:0">${i+1}</div>
+            <div class="feed-item-body">
+              <div class="feed-item-title">${t.assunto||'—'}</div>
+              <div class="feed-item-desc">${t.contexto||''}</div>
             </div>
-            <span style="flex-shrink:0;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:${t.relevancia==='alta'?'rgba(244,63,94,.1)':'rgba(255,255,255,.05)'};color:${t.relevancia==='alta'?'var(--grok)':'var(--text3)'}">${t.relevancia}</span>
+            <span style="flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:${t.relevancia==='alta'?'var(--grok-dim)':'var(--bg3)'};color:${t.relevancia==='alta'?'var(--grok)':'var(--text3)'};border:1px solid ${t.relevancia==='alta'?'rgba(225,29,72,.2)':'var(--border)'}">${t.relevancia||'média'}</span>
           </div>`).join('');
       }
     }
 
-    // Parlamentares no Grok
+    // Parlamentares via Grok (quando não tem Gmail)
     const parlamentares = d.grok?.parlamentares || [];
     if (parlamentares.length > 0 && alerts.length === 0) {
+      const pColor = (n) => n.includes('Lincoln') ? 'var(--lincoln)' : n.includes('Marilda') ? 'var(--marilda)' : 'var(--ale)';
       el.innerHTML = parlamentares.map(n => `
-        <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-          <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${n.nome.includes('Lincoln')?'var(--lincoln)':n.nome.includes('Marilda')?'var(--marilda)':'var(--ale)'};margin-bottom:3px;font-family:'IBM Plex Mono',monospace">${n.nome}</div>
-          <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">${n.titulo}</div>
-          <div style="font-size:11px;color:var(--text3);line-height:1.4">${n.resumo}</div>
-          ${n.url?`<a href="${n.url}" target="_blank" style="font-size:10px;color:var(--cyan);text-decoration:none;margin-top:4px;display:block">${n.fonte||'Ver fonte'} →</a>`:''}
+        <div class="feed-item">
+          <div class="feed-item-bar" style="background:${pColor(n.nome)}"></div>
+          <div class="feed-item-body">
+            <div class="feed-item-tag" style="color:${pColor(n.nome)}">${n.nome}</div>
+            <div class="feed-item-title">${n.titulo||'—'}</div>
+            <div class="feed-item-desc">${n.resumo||''}</div>
+            ${n.url?`<a href="${n.url}" target="_blank" style="font-size:11px;color:var(--cyan);text-decoration:none;margin-top:4px;display:block">${n.fonte||'Ver fonte'} →</a>`:''}
+          </div>
         </div>`).join('');
     }
   } catch (e) {
@@ -1860,18 +1364,18 @@ async function carregarEventos() {
       const isHoje = dataEvento.toDateString() === hoje;
       const diasRestantes = Math.ceil((dataEvento - new Date()) / 86400000);
       return `
-        <div style="display:flex;gap:8px;padding:8px 10px;border-radius:3px;margin-bottom:4px;background:${isHoje?'rgba(61,217,245,.06)':''};border:1px solid ${isHoje?'rgba(61,217,245,.15)':'var(--border)'}">
-          <div style="flex-shrink:0;text-align:center;min-width:36px">
-            <div style="font-size:16px;font-weight:800;color:${isHoje?'var(--cyan)':'#fff'};line-height:1;font-family:'IBM Plex Mono',monospace">${dataEvento.getDate()}</div>
-            <div style="font-size:8px;text-transform:uppercase;color:var(--text3);letter-spacing:.1em">${dataEvento.toLocaleDateString('pt-BR',{month:'short'})}</div>
+        <div class="feed-item" style="align-items:center">
+          <div style="flex-shrink:0;text-align:center;min-width:44px;height:44px;border-radius:8px;background:${isHoje?'#111318':' var(--bg3)'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div style="font-size:18px;font-weight:800;color:${isHoje?'#fff':'#111318'};line-height:1;font-family:'IBM Plex Mono',monospace">${dataEvento.getDate()}</div>
+            <div style="font-size:8px;text-transform:uppercase;color:${isHoje?'rgba(255,255,255,.7)':'var(--text3)'};letter-spacing:.08em">${dataEvento.toLocaleDateString('pt-BR',{month:'short'})}</div>
           </div>
           <div style="flex:1;min-width:0">
-            <div style="font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.titulo}</div>
-            <div style="font-size:9px;color:${mandatoColor[e.mandato]||'var(--text3)'};margin-top:1px;text-transform:uppercase;letter-spacing:.08em;font-family:'IBM Plex Mono',monospace">${e.mandato}${e.local?' · '+e.local:''}</div>
+            <div style="font-size:13px;font-weight:600;color:#111318">${e.titulo}</div>
+            <div style="font-size:11px;color:${mandatoColor[e.mandato]||'var(--text3)'};margin-top:2px;text-transform:uppercase;letter-spacing:.06em;font-family:'IBM Plex Mono',monospace">${e.mandato}${e.local?' · '+e.local:''}</div>
           </div>
-          <div style="flex-shrink:0;text-align:right">
-            <div style="font-size:9px;color:${isHoje?'var(--cyan)':'var(--text3)'};font-family:'IBM Plex Mono',monospace">${isHoje?'Hoje':diasRestantes+'d'}</div>
-            <button onclick="deletarEvento('${e.id}')" style="margin-top:2px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:11px;opacity:.5;padding:0" title="Remover">✕</button>
+          <div style="flex-shrink:0;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div style="font-size:11px;font-weight:600;color:${isHoje?'var(--ale)':'var(--text3)'};font-family:'IBM Plex Mono',monospace">${isHoje?'Hoje':diasRestantes+'d'}</div>
+            <button onclick="deletarEvento('${e.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;opacity:.5;padding:0" title="Remover">✕</button>
           </div>
         </div>`;
     }).join('');
