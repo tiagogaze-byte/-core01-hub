@@ -1230,29 +1230,41 @@ async function doLogin() {
 
   const email = document.getElementById('l-user').value.trim();
   const pass  = document.getElementById('l-pass').value;
+  const btn   = document.querySelector('.lbtn');
+  const hint  = document.querySelector('.lhint');
 
-  // Se não preencheu email/senha, entra em modo demo (sem auth)
-  if (!email && !pass) {
-    isAdmin = true;
-    showPage('pg-admin');
-    initDash();
-    initDataHoje();
+  if (!email || !pass) {
+    hint.innerHTML = '<span style="color:#f87171">Preencha email e senha</span>';
     return;
   }
 
-  // Login real via API
+  btn.disabled = true;
+  btn.textContent = 'ENTRANDO...';
+  hint.innerHTML = '<span style="color:var(--cyan)">Verificando credenciais...</span>';
+
   try {
     const r = await fetch('/api/auth?action=login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password: pass }),
     });
-    const d = await r.json();
-    if (!d.ok) {
-      alert('Erro: ' + (d.error || 'Credenciais inválidas'));
+
+    // Verifica se a resposta é JSON válido
+    const text = await r.text();
+    let d;
+    try { d = JSON.parse(text); }
+    catch {
+      hint.innerHTML = '<span style="color:#f87171">API indisponível — rode /api/auth?action=seed primeiro</span>';
+      btn.disabled = false; btn.textContent = 'ENTRAR NO SISTEMA';
       return;
     }
-    // Salva token do admin
+
+    if (!d.ok) {
+      hint.innerHTML = `<span style="color:#f87171">${d.error || 'Credenciais inválidas'}</span>`;
+      btn.disabled = false; btn.textContent = 'ENTRAR NO SISTEMA';
+      return;
+    }
+
     adminToken = d.token;
     adminRole  = d.user.role;
     localStorage.setItem('admin_token', adminToken);
@@ -1264,7 +1276,6 @@ async function doLogin() {
     initDataHoje();
     carregarPainel();
 
-    // Ativa abas e nav do master/admin imediatamente
     if (['master', 'admin'].includes(adminRole)) {
       ['nav-usuarios','nav-analytics'].forEach(id => {
         const el = document.getElementById(id);
@@ -1276,7 +1287,9 @@ async function doLogin() {
       });
     }
   } catch (e) {
-    alert('Erro de conexão: ' + e.message);
+    hint.innerHTML = `<span style="color:#f87171">Erro de conexão: ${e.message}</span>`;
+    btn.disabled = false;
+    btn.textContent = 'ENTRAR NO SISTEMA';
   }
 }
 
