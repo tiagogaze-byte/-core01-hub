@@ -2031,58 +2031,6 @@ async function verDetalheAssessor(email, nome) {
     body.innerHTML = `<div style="color:var(--text3);padding:20px;font-size:12px">Erro: ${e.message}</div>`;
   }
 }
-  try {
-    const r = await fetch('/api/analytics?email=' + encodeURIComponent(email), {
-      headers: { Authorization: 'Bearer ' + adminToken }
-    });
-    const d = await r.json();
-    if (!d.ok) throw new Error(d.error);
-    const s = d.summary;
-    if (!s) { c.innerHTML = `<div style="color:var(--text3);padding:20px">Sem dados desta semana.</div>`; return; }
-
-    const horasLabels = Array.from({length:24}, (_,h) => h.toString().padStart(2,'0')+'h');
-    const topHora = s.accessTimes?.length
-      ? horasLabels[Math.round(s.accessTimes.reduce((a,b)=>a+b,0)/s.accessTimes.length)]
-      : '—';
-
-    c.innerHTML = `
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:4px">Assessor</div>
-      <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:20px">${nome}</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
-        ${[
-          {l:'Sessões',v:s.sessions||0,c:'var(--cyan)'},
-          {l:'Tempo total',v:(Math.round((s.totalTime||0)/60))+'min',c:'var(--lincoln)'},
-          {l:'Cards vistos',v:s.cardsViewed?.length||0,c:'var(--ale)'},
-          {l:'Copies feitas',v:s.copiesMade?.length||0,c:'var(--marilda)'},
-        ].map(x=>`<div style="background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:${x.c};font-family:'IBM Plex Mono',monospace">${x.v}</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-top:2px">${x.l}</div></div>`).join('')}
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Cards Acessados</div>
-          ${(s.cardsViewed||[]).slice(-8).reverse().map(c=>`
-            <div style="padding:7px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:2px;margin-bottom:4px">
-              <div style="font-size:11px;color:#fff">${c.title}</div>
-              <div style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${c.mandato} · ${new Date(c.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div>
-            </div>`).join('') || '<div style="font-size:11px;color:var(--text3)">Nenhum card visto</div>'}
-        </div>
-        <div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Copies Realizadas</div>
-          ${(s.copiesMade||[]).slice(-6).reverse().map(c=>`
-            <div style="padding:7px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:2px;margin-bottom:4px">
-              <div style="font-size:10px;color:var(--text2);font-family:'IBM Plex Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.preview}...</div>
-              <div style="font-size:9px;color:var(--text3);">${new Date(c.ts).toLocaleDateString('pt-BR')} ${new Date(c.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div>
-            </div>`).join('') || '<div style="font-size:11px;color:var(--text3)">Nenhuma copy</div>'}
-        </div>
-      </div>
-      <div style="margin-top:16px;padding:10px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;display:flex;gap:20px;font-size:11px;color:var(--text3)">
-        <span>Dispositivo: <strong style="color:#fff">${Object.entries(s.devices||{}).map(([k,v])=>k+' ('+v+')').join(', ')||'—'}</strong></span>
-        <span>Último acesso: <strong style="color:#fff">${s.lastSeen?new Date(s.lastSeen).toLocaleString('pt-BR'):'—'}</strong></span>
-        <span>Horário típico: <strong style="color:#fff">${topHora}</strong></span>
-      </div>`;
-  } catch (e) {
-    c.innerHTML = `<div style="color:var(--text3);padding:20px">Erro: ${e.message}</div>`;
-  }
-}
 
 // Auto-refresh status a cada 5 min
 setInterval(() => {
