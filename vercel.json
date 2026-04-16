@@ -9,11 +9,13 @@
     "api/events.js":    { "maxDuration": 15 },
     "api/status.js":    { "maxDuration": 15 },
     "api/flow.js":      { "maxDuration": 30 },
-    "api/gem.js":       { "maxDuration": 20 }
+    "api/gem.js":       { "maxDuration": 20 },
+    "api/insight.js":   { "maxDuration": 20 },
+    "api/debug.js":     { "maxDuration": 10 }
   },
   "rewrites": [
-    { "source": "/hub.html", "destination": "/hub.html" },
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)",     "destination": "/index.html" }
+    { "source": "/hub.html",   "destination": "/hub.html" },
+    { "source": "/api/(.*)",   "destination": "/api/$1" },
+    { "source": "/(.*)",       "destination": "/index.html" }
   ]
 }
