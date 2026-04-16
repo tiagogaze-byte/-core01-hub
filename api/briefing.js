@@ -59,21 +59,13 @@ module.exports = async function handler(req, res) {
   // ── GET — lista briefings ──────────────────────────────
   if (req.method === 'GET') {
     const mes = req.query?.mes || '';
-    const limit = parseInt(req.query?.limit || '10');
     try {
       if (hasKV) {
         const rawIndex = await kvGet('briefing:index');
-        let index = toArray(rawIndex);
-
-        // Ordena por data real do briefing (campo iso), não por timestamp de cadastro
-        index = index.sort((a, b) => {
-          const da = a.iso || a.timestamp || '';
-          const db = b.iso || b.timestamp || '';
-          return db.localeCompare(da); // mais recente primeiro
-        });
-
+        const index = toArray(rawIndex);
         const filtered = mes ? index.filter(b => b.mes === mes) : index;
-        const top = filtered.slice(0, limit);
+        // Carrega os 10 mais recentes completos
+        const top = filtered.slice(0, 10);
         const full = await Promise.all(top.map(b => kvGet('briefing:' + b.id).catch(() => null)));
         const meses = [...new Set(index.map(b => b.mes).filter(Boolean))].sort().reverse();
         return res.status(200).json({
@@ -215,7 +207,7 @@ Retorne APENAS este JSON (sem nada antes ou depois):
       }
 
       const id = Date.now().toString();
-      const entry = { ...parsed, id, timestamp: new Date().toISOString(), textoOriginal: texto.substring(0, 8000), iso: dataManual?.iso || new Date().toISOString().split('T')[0] };
+      const entry = { ...parsed, id, timestamp: new Date().toISOString(), textoOriginal: texto.substring(0, 8000) };
 
       // Salva no KV ou memória
       if (hasKV) {
@@ -230,8 +222,7 @@ Retorne APENAS este JSON (sem nada antes ou depois):
           mes:        parsed.mes,
           titulo:     parsed.titulo || '',
           resumo:     parsed.resumo || '',
-          timestamp:  entry.timestamp,          // quando foi cadastrado
-          iso:        dataManual?.iso || entry.timestamp.split('T')[0], // data real do briefing
+          timestamp:  entry.timestamp,
           totalCards: countCards(parsed),
         });
         index = index.slice(0, 500);
